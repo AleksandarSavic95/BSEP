@@ -1,0 +1,30 @@
+DEBUG 2018-03-30 18:52:42,497 - this is a harmless debug message.
+DEBUG 2018-03-30 19:10:44,277 - this is a second harmless debug message.
+DEBUG 2018-03-30 19:14:01,096 - this is a harmless debug message.
+DEBUG 2018-03-31 01:09:16,290 - this is a harmless debug message.
+[DEBUG] - 2018-03-31 11:27:30,397 - this is a harmless debug message.
+[INFO] - 2018-03-31 11:27:30,397 - this is an info message
+[WARNING] - 2018-03-31 11:27:30,397 - this is a warning message
+[ERROR] - 2018-03-31 11:27:30,397 - this is an error message
+[CRITICAL] - 2018-03-31 11:27:30,397 - this is a critical message
+[ DEBUG ] - 31-03-2018 12:24:44 - this is a harmless debug message.
+[ INFO ] - 31-03-2018 12:24:44 - this is an info message
+[ WARNING ] - 31-03-2018 12:24:44 - this is a warning message
+[ERROR] - 31-03-2018 12:24:44 - this is an error message
+[CRITICAL] - 31-03-2018 12:24:44 - this is a critical message
+31-03-2018 13:20:22: DEBUG - this is a harmless debug message.
+31-03-2018 13:20:22: INFO - this is an info message
+31-03-2018 13:20:22: WARNING - this is a warning message
+31-03-2018 13:20:22: ERROR - this is an error message
+31-03-2018 13:20:22: CRITICAL - this is a critical message
+31-03-2018 13:20:35    : DEBUG - this is a harmless debug message.
+31-03-2018 13:20:35    : INFO - this is an info message
+31-03-2018 13:20:35    : WARNING - this is a warning message
+31-03-2018 13:20:35    : ERROR - this is an error message
+31-03-2018 13:20:35    : CRITICAL - this is a critical message
+31-03-2018 13:36:44    :    DEBUG  -  this is a harmless debug message.
+31-03-2018 13:36:44    :    INFO  -  this is an info message
+31-03-2018 13:36:44    :    WARNING  -  this is a warning message
+31-03-2018 13:36:44    :    ERROR  -  this is an error message
+31-03-2018 13:36:44    :    CRITICAL  -  this is a critical message
+INFO
