@@ -1,30 +1,69 @@
-DEBUG 2018-03-30 18:52:42,497 - this is a harmless debug message.
-DEBUG 2018-03-30 19:10:44,277 - this is a second harmless debug message.
-DEBUG 2018-03-30 19:14:01,096 - this is a harmless debug message.
-DEBUG 2018-03-31 01:09:16,290 - this is a harmless debug message.
-[DEBUG] - 2018-03-31 11:27:30,397 - this is a harmless debug message.
-[INFO] - 2018-03-31 11:27:30,397 - this is an info message
-[WARNING] - 2018-03-31 11:27:30,397 - this is a warning message
-[ERROR] - 2018-03-31 11:27:30,397 - this is an error message
-[CRITICAL] - 2018-03-31 11:27:30,397 - this is a critical message
-[ DEBUG ] - 31-03-2018 12:24:44 - this is a harmless debug message.
-[ INFO ] - 31-03-2018 12:24:44 - this is an info message
-[ WARNING ] - 31-03-2018 12:24:44 - this is a warning message
-[ERROR] - 31-03-2018 12:24:44 - this is an error message
-[CRITICAL] - 31-03-2018 12:24:44 - this is a critical message
-31-03-2018 13:20:22: DEBUG - this is a harmless debug message.
-31-03-2018 13:20:22: INFO - this is an info message
-31-03-2018 13:20:22: WARNING - this is a warning message
-31-03-2018 13:20:22: ERROR - this is an error message
-31-03-2018 13:20:22: CRITICAL - this is a critical message
-31-03-2018 13:20:35    : DEBUG - this is a harmless debug message.
-31-03-2018 13:20:35    : INFO - this is an info message
-31-03-2018 13:20:35    : WARNING - this is a warning message
-31-03-2018 13:20:35    : ERROR - this is an error message
-31-03-2018 13:20:35    : CRITICAL - this is a critical message
-31-03-2018 13:36:44    :    DEBUG  -  this is a harmless debug message.
-31-03-2018 13:36:44    :    INFO  -  this is an info message
-31-03-2018 13:36:44    :    WARNING  -  this is a warning message
-31-03-2018 13:36:44    :    ERROR  -  this is an error message
-31-03-2018 13:36:44    :    CRITICAL  -  this is a critical message
-INFO
+03-04-2018 03:21:16 34:23:87:02:53:AE referent-service :  DEBUG - this is a harmless debug message.
+03-04-2018 03:21:16 34:23:87:02:53:AE referent-service :  INFO - this is a informing message
+03-04-2018 03:21:16 34:23:87:02:53:AE referent-service :  WARNING - this is a warning message
+03-04-2018 03:21:16 34:23:87:02:53:AE referent-service :  ERROR - this is an error message
+03-04-2018 03:21:16 34:23:87:02:53:AE referent-service :  CRITICAL - this is a critical message
+03-04-2018 03:22:26 	34:23:87:02:53:AE professor-service :  DEBUG - this is a harmless debug message.
+03-04-2018 03:22:26 	34:23:87:02:53:AE professor-service :  INFO - this is a informing message
+03-04-2018 03:22:26 	34:23:87:02:53:AE professor-service :  WARNING - this is a warning message
+03-04-2018 03:22:26 	34:23:87:02:53:AE professor-service :  ERROR - this is an error message
+03-04-2018 03:22:26 	34:23:87:02:53:AE professor-service :  CRITICAL - this is a critical message
+03-04-2018 03:23:01 	34:23:87:02:53:AE referent-service : 	DEBUG - this is a harmless debug message.
+03-04-2018 03:23:01 	34:23:87:02:53:AE referent-service : 	INFO - this is a informing message
+03-04-2018 03:23:01 	34:23:87:02:53:AE referent-service : 	WARNING - this is a warning message
+03-04-2018 03:23:01 	34:23:87:02:53:AE referent-service : 	ERROR - this is an error message
+03-04-2018 03:23:01 	34:23:87:02:53:AE referent-service : 	CRITICAL - this is a critical message
+03-04-2018 03:48:40 	34:23:87:02:53:AE professor-service : 	DEBUG - this is a harmless debug message.
+03-04-2018 03:48:40 	34:23:87:02:53:AE professor-service : 	INFO - this is a informing message
+03-04-2018 03:48:40 	34:23:87:02:53:AE professor-service : 	WARNING - this is a warning message
+03-04-2018 03:48:40 	34:23:87:02:53:AE professor-service : 	ERROR - this is an error message
+03-04-2018 03:48:40 	34:23:87:02:53:AE professor-service : 	CRITICAL - this is a critical message
+03-04-2018 04:17:29 	34:23:87:02:53:AE professor-service : 	INFO - User with username: drstevanovic has logged in.
+03-04-2018 04:17:37 	34:23:87:02:53:AE student-service : 	INFO - User with username: coa995 failed to log in.
+03-04-2018 04:17:41 	34:23:87:02:53:AE referent-service : 	INFO - User with username: drstevanovic has logged out.
+03-04-2018 04:19:49 	34:23:87:02:53:AE referent-service : 	INFO - User with username: drstevanovic failed to log in.
+03-04-2018 04:19:51 	34:23:87:02:53:AE referent-service : 	INFO - User with username: drstevanovic has logged in.
+03-04-2018 04:19:53 	34:23:87:02:53:AE referent-service : 	INFO - User with username: coa995 has logged in.
+03-04-2018 04:19:55 	34:23:87:02:53:AE referent-service : 	INFO - User with username: filip.savic has logged in.
+03-04-2018 04:19:57 	34:23:87:02:53:AE referent-service : 	INFO - User with username: filip.savic failed to log in.
+03-04-2018 04:19:59 	34:23:87:02:53:AE referent-service : 	INFO - User with username: username1 has logged in.
+03-04-2018 04:20:01 	34:23:87:02:53:AE referent-service : 	INFO - User with username: coa995 has logged in.
+03-04-2018 04:20:03 	34:23:87:02:53:AE referent-service : 	INFO - User with username: username1 has logged out.
+03-04-2018 04:20:05 	34:23:87:02:53:AE referent-service : 	INFO - User with username: drstevanovic has logged in.
+03-04-2018 04:20:07 	34:23:87:02:53:AE referent-service : 	INFO - User with username: filip.savic has logged in.
+03-04-2018 04:20:09 	34:23:87:02:53:AE referent-service : 	INFO - User with username: filip.savic has logged in.
+03-04-2018 04:20:11 	34:23:87:02:53:AE referent-service : 	INFO - User with username: username1 has logged out.
+03-04-2018 04:20:13 	34:23:87:02:53:AE referent-service : 	INFO - User with username: coa995 has logged out.
+03-04-2018 04:20:15 	34:23:87:02:53:AE referent-service : 	INFO - User with username: drstevanovic failed to log in.
+03-04-2018 04:20:17 	34:23:87:02:53:AE referent-service : 	INFO - User with username: drstevanovic has logged in.
+03-04-2018 04:20:19 	34:23:87:02:53:AE referent-service : 	INFO - User with username: filip.savic has logged out.
+03-04-2018 04:20:21 	34:23:87:02:53:AE referent-service : 	INFO - User with username: drstevanovic has logged in.
+03-04-2018 04:20:23 	34:23:87:02:53:AE referent-service : 	INFO - User with username: drstevanovic has logged in.
+03-04-2018 04:20:25 	34:23:87:02:53:AE referent-service : 	INFO - User with username: username1 has logged out.
+03-04-2018 04:20:27 	34:23:87:02:53:AE referent-service : 	INFO - User with username: filip.savic has logged out.
+03-04-2018 04:20:29 	34:23:87:02:53:AE referent-service : 	INFO - User with username: drstevanovic has logged out.
+03-04-2018 04:20:31 	34:23:87:02:53:AE referent-service : 	INFO - User with username: drstevanovic has logged out.
+03-04-2018 04:20:33 	34:23:87:02:53:AE referent-service : 	INFO - User with username: drstevanovic failed to log in.
+03-04-2018 04:20:35 	34:23:87:02:53:AE referent-service : 	INFO - User with username: username1 failed to log in.
+03-04-2018 04:31:22 	34:23:87:02:53:AE referent-service : 	INFO - [1522722682073] User with username: username1 failed to log in.
+03-04-2018 04:31:24 	34:23:87:02:53:AE referent-service : 	INFO - [1522722684074] User with username: username1 has logged in.
+03-04-2018 04:31:26 	34:23:87:02:53:AE referent-service : 	INFO - [1522722686074] User with username: username1 failed to log in.
+03-04-2018 04:31:28 	34:23:87:02:53:AE referent-service : 	INFO - [1522722688074] User with username: filip.savic failed to log in.
+03-04-2018 04:31:30 	34:23:87:02:53:AE referent-service : 	INFO - [1522722690074] User with username: username1 has logged out.
+03-04-2018 04:31:32 	34:23:87:02:53:AE referent-service : 	INFO - [1522722692075] User with username: username1 has logged in.
+03-04-2018 04:31:34 	34:23:87:02:53:AE referent-service : 	INFO - [1522722694076] User with username: filip.savic has logged out.
+03-04-2018 04:31:36 	34:23:87:02:53:AE referent-service : 	INFO - [1522722696077] User with username: filip.savic has logged in.
+03-04-2018 04:31:38 	34:23:87:02:53:AE referent-service : 	INFO - [1522722698077] User with username: drstevanovic has logged in.
+03-04-2018 04:31:40 	34:23:87:02:53:AE referent-service : 	INFO - [1522722700077] User with username: username1 has logged in.
+03-04-2018 04:31:42 	34:23:87:02:53:AE referent-service : 	INFO - [1522722702078] User with username: username1 failed to log in.
+03-04-2018 04:31:44 	34:23:87:02:53:AE referent-service : 	INFO - [1522722704079] User with username: username1 has logged out.
+03-04-2018 04:31:46 	34:23:87:02:53:AE referent-service : 	INFO - [1522722706079] User with username: username1 failed to log in.
+03-04-2018 04:31:48 	34:23:87:02:53:AE referent-service : 	INFO - [1522722708080] User with username: username1 failed to log in.
+03-04-2018 04:31:50 	34:23:87:02:53:AE referent-service : 	INFO - [1522722710080] User with username: username1 failed to log in.
+03-04-2018 04:31:52 	34:23:87:02:53:AE referent-service : 	INFO - [1522722712081] User with username: username1 has logged in.
+03-04-2018 04:31:54 	34:23:87:02:53:AE referent-service : 	INFO - [1522722714081] User with username: filip.savic has logged in.
+03-04-2018 04:31:56 	34:23:87:02:53:AE referent-service : 	INFO - [1522722716081] User with username: filip.savic failed to log in.
+03-04-2018 04:31:58 	34:23:87:02:53:AE referent-service : 	INFO - [1522722718081] User with username: username1 has logged in.
+03-04-2018 04:32:00 	34:23:87:02:53:AE referent-service : 	INFO - [1522722720082] User with username: username1 failed to log in.
+03-04-2018 04:32:02 	34:23:87:02:53:AE referent-service : 	INFO - [1522722722082] User with username: coa995 has logged in.
+03-04-2018 04:32:04 	34:23:87:02:53:AE referent-service : 	INFO - [1522722724083] User with username: filip.savic has logged out.
