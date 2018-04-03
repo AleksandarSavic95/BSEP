@@ -6,16 +6,24 @@ from uuid import getnode as get_mac
 
 
 def get_app():
+    """
+    Returns a string representing the app which generated the log (random)."""
     app_list = ['student-service', 'professor-service', 'referent-service']
-    return app_list[randint(0, 2)]
+    return app_list[randint(0, len(app_list) - 1)]
 
 
 def get_mac_address():
+    """
+    Returns a string representing the MAC address of the device"""
     mac = get_mac()
     return ':'.join(("%012X" % mac)[i:i + 2] for i in range(0, 12, 2))
 
 
 def get_message():
+    """
+    Returns a string representing a log message with randomly generated
+    text and user's username.
+    """
     username_list = ['username1', 'drstevanovic', 'filip.savic', 'coa995']
     messages = [
         '[{}] User with username: {} has logged in.',
@@ -27,12 +35,8 @@ def get_message():
 
 
 def main():
-    #     timestamp
-    #     mac address
-    #     app
-    #     severity
-
-    log_format = "%(asctime)s \t" + get_mac_address() + " " + get_app() + " : \t%(levelname)s - %(message)s"
+    # Syslog format: timestamp, mac address, app, severity, message
+    log_format = "%(asctime)s \t" + get_mac_address() + " \t%(app)s : \t%(levelname)s - %(message)s"
     logging.basicConfig(
         filename="generated-logs/socratica-log.log",
         datefmt='%d-%m-%Y %H:%M:%S',
@@ -42,8 +46,11 @@ def main():
 
     logger = logging.getLogger()  # docs  : > :  https://docs.python.org/3/library/logging.html
 
+    severity_func_list = [logger.debug, logger.info, logger.warning, logger.error, logger.critical]
+
     while True:
-        logger.info(get_message())
+        severity_func = severity_func_list[randint(0,4)]  # random logger severity level
+        severity_func(get_message(), extra = {'app': get_app() } )  # adding a custom variable to logging format (through extra param)  : > :  https://stackoverflow.com/a/17558757/4345461
         time.sleep(2)
 
 

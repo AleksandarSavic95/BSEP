@@ -67,3 +67,10 @@
 03-04-2018 04:32:00 	34:23:87:02:53:AE referent-service : 	INFO - [1522722720082] User with username: username1 failed to log in.
 03-04-2018 04:32:02 	34:23:87:02:53:AE referent-service : 	INFO - [1522722722082] User with username: coa995 has logged in.
 03-04-2018 04:32:04 	34:23:87:02:53:AE referent-service : 	INFO - [1522722724083] User with username: filip.savic has logged out.
+03-04-2018 12:58:35 	8B:35:C3:6E:10:6C 	referent-service : 	INFO - [1522753115101] User with username: coa995 has logged out.
+03-04-2018 12:58:37 	8B:35:C3:6E:10:6C 	professor-service : 	INFO - [1522753117101] User with username: drstevanovic has logged out.
+03-04-2018 12:58:39 	8B:35:C3:6E:10:6C 	student-service : 	INFO - [1522753119102] User with username: filip.savic has logged out.
+03-04-2018 12:58:41 	8B:35:C3:6E:10:6C 	professor-service : 	DEBUG - [1522753121102] User with username: username1 has logged in.
+03-04-2018 12:58:43 	8B:35:C3:6E:10:6C 	professor-service : 	CRITICAL - [1522753123102] User with username: drstevanovic has logged in.
+03-04-2018 12:58:45 	8B:35:C3:6E:10:6C 	referent-service : 	WARNING - [1522753125102] User with username: coa995 has logged out.
+03-04-2018 12:58:47 	8B:35:C3:6E:10:6C 	referent-service : 	WARNING - [1522753127102] User with username: filip.savic has logged out.
