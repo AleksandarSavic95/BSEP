@@ -50,3 +50,72 @@
 03-04-2018 14:21:29 	54:BE:F7:5B:33:39 	professor-service : 	WARNING - [1522758089583] User with username: username1 has logged out.
 03-04-2018 14:21:29 	54:BE:F7:5B:33:39 	professor-service : 	WARNING - [1522758089583] User with username: username1 has logged out.
 03-04-2018 14:21:29 	54:BE:F7:5B:33:39 	professor-service : 	WARNING - [1522758089583] User with username: username1 has logged out.
+03-04-2018 14:21:27 	54:BE:F7:5B:33:39 	referent-service : 	CRITICAL - [1522758087582] User with username: coa995 has logged in.
+03-04-2018 14:21:27 	54:BE:F7:5B:33:39 	referent-service : 	CRITICAL - [1522758087582] User with username: coa995 has logged in.
+03-04-2018 14:21:29 	54:BE:F7:5B:33:39 	professor-service : 	WARNING - [1522758089583] User with username: username1 has logged out.03-04-2018 15:36:47 	34:23:87:02:53:AE 	student-service : 	ERROR - [1522762607788] User with username: filip.savic has logged out.
+03-04-2018 15:36:49 	34:23:87:02:53:AE 	referent-service : 	DEBUG - [1522762609790] User with username: drstevanovic failed to log in.
+03-04-2018 15:36:51 	34:23:87:02:53:AE 	professor-service : 	CRITICAL - [1522762611790] User with username: coa995 has logged out.
+03-04-2018 15:36:53 	34:23:87:02:53:AE 	professor-service : 	CRITICAL - [1522762613791] User with username: username1 has logged in.
+03-04-2018 15:36:55 	34:23:87:02:53:AE 	referent-service : 	ERROR - [1522762615791] User with username: filip.savic has logged out.
+03-04-2018 15:36:57 	34:23:87:02:53:AE 	referent-service : 	CRITICAL - [1522762617791] User with username: coa995 has logged in.
+03-04-2018 15:36:59 	34:23:87:02:53:AE 	professor-service : 	DEBUG - [1522762619792] User with username: filip.savic failed to log in.
+03-04-2018 15:37:01 	34:23:87:02:53:AE 	professor-service : 	DEBUG - [1522762621792] User with username: filip.savic has logged in.
+03-04-2018 15:37:03 	34:23:87:02:53:AE 	professor-service : 	ERROR - [1522762623792] User with username: drstevanovic failed to log in.
+03-04-2018 15:37:05 	34:23:87:02:53:AE 	professor-service : 	ERROR - [1522762625793] User with username: filip.savic has logged out.
+03-04-2018 15:37:07 	34:23:87:02:53:AE 	referent-service : 	WARNING - [1522762627793] User with username: filip.savic failed to log in.
+03-04-2018 15:37:09 	34:23:87:02:53:AE 	referent-service : 	WARNING - [1522762629793] User with username: filip.savic has logged out.
+03-04-2018 15:37:11 	34:23:87:02:53:AE 	referent-service : 	ERROR - [1522762631794] User with username: filip.savic failed to log in.
+03-04-2018 15:37:13 	34:23:87:02:53:AE 	student-service : 	WARNING - [1522762633794] User with username: drstevanovic failed to log in.
+03-04-2018 15:37:15 	34:23:87:02:53:AE 	professor-service : 	WARNING - [1522762635794] User with username: filip.savic failed to log in.
+03-04-2018 15:37:17 	34:23:87:02:53:AE 	professor-service : 	INFO - [1522762637795] User with username: username1 has logged in.
+03-04-2018 15:37:19 	34:23:87:02:53:AE 	student-service : 	INFO - [1522762639795] User with username: drstevanovic has logged out.
+03-04-2018 15:37:21 	34:23:87:02:53:AE 	professor-service : 	ERROR - [1522762641795] User with username: drstevanovic failed to log in.
+03-04-2018 15:37:23 	34:23:87:02:53:AE 	student-service : 	INFO - [1522762643796] User with username: username1 has logged out.
+03-04-2018 15:37:25 	34:23:87:02:53:AE 	referent-service : 	ERROR - [1522762645796] User with username: filip.savic has logged out.
+03-04-2018 15:37:27 	34:23:87:02:53:AE 	referent-service : 	INFO - [1522762647796] User with username: username1 has logged out.
+03-04-2018 15:37:29 	34:23:87:02:53:AE 	professor-service : 	INFO - [1522762649796] User with username: coa995 has logged out.
+03-04-2018 15:37:31 	34:23:87:02:53:AE 	student-service : 	WARNING - [1522762651797] User with username: filip.savic has logged out.
+03-04-2018 15:37:33 	34:23:87:02:53:AE 	student-service : 	CRITICAL - [1522762653798] User with username: drstevanovic has logged in.
+03-04-2018 15:37:35 	34:23:87:02:53:AE 	referent-service : 	WARNING - [1522762655798] User with username: coa995 failed to log in.
+03-04-2018 15:37:37 	34:23:87:02:53:AE 	professor-service : 	DEBUG - [1522762657799] User with username: coa995 has logged in.
+03-04-2018 15:37:39 	34:23:87:02:53:AE 	professor-service : 	DEBUG - [1522762659800] User with username: drstevanovic failed to log in.
+03-04-2018 15:37:41 	34:23:87:02:53:AE 	student-service : 	DEBUG - [1522762661801] User with username: filip.savic has logged out.
+03-04-2018 15:37:43 	34:23:87:02:53:AE 	professor-service : 	INFO - [1522762663801] User with username: coa995 has logged in.
+03-04-2018 15:37:45 	34:23:87:02:53:AE 	referent-service : 	WARNING - [1522762665801] User with username: filip.savic has logged in.
+03-04-2018 15:37:47 	34:23:87:02:53:AE 	student-service : 	ERROR - [1522762667801] User with username: filip.savic has logged out.
+03-04-2018 15:37:49 	34:23:87:02:53:AE 	student-service : 	ERROR - [1522762669802] User with username: username1 has logged in.
+03-04-2018 15:37:51 	34:23:87:02:53:AE 	student-service : 	CRITICAL - [1522762671803] User with username: drstevanovic failed to log in.
+03-04-2018 15:37:53 	34:23:87:02:53:AE 	referent-service : 	DEBUG - [1522762673804] User with username: username1 has logged out.
+03-04-2018 15:37:55 	34:23:87:02:53:AE 	professor-service : 	CRITICAL - [1522762675804] User with username: drstevanovic has logged in.
+03-04-2018 15:37:57 	34:23:87:02:53:AE 	referent-service : 	WARNING - [1522762677805] User with username: filip.savic failed to log in.
+03-04-2018 15:37:59 	34:23:87:02:53:AE 	professor-service : 	ERROR - [1522762679805] User with username: coa995 failed to log in.
+03-04-2018 15:38:01 	34:23:87:02:53:AE 	professor-service : 	CRITICAL - [1522762681806] User with username: username1 has logged in.
+03-04-2018 15:38:03 	34:23:87:02:53:AE 	student-service : 	DEBUG - [1522762683807] User with username: drstevanovic has logged out.
+03-04-2018 15:38:05 	34:23:87:02:53:AE 	professor-service : 	CRITICAL - [1522762685807] User with username: filip.savic failed to log in.
+03-04-2018 15:38:07 	34:23:87:02:53:AE 	referent-service : 	CRITICAL - [1522762687808] User with username: coa995 failed to log in.
+03-04-2018 15:38:09 	34:23:87:02:53:AE 	student-service : 	CRITICAL - [1522762689808] User with username: coa995 failed to log in.
+03-04-2018 15:38:11 	34:23:87:02:53:AE 	referent-service : 	DEBUG - [1522762691809] User with username: drstevanovic has logged in.
+03-04-2018 15:38:13 	34:23:87:02:53:AE 	professor-service : 	WARNING - [1522762693810] User with username: coa995 has logged out.
+03-04-2018 15:38:15 	34:23:87:02:53:AE 	student-service : 	DEBUG - [1522762695811] User with username: drstevanovic failed to log in.
+03-04-2018 15:38:17 	34:23:87:02:53:AE 	professor-service : 	WARNING - [1522762697811] User with username: filip.savic failed to log in.
+03-04-2018 15:38:19 	34:23:87:02:53:AE 	student-service : 	INFO - [1522762699812] User with username: coa995 has logged out.
+03-04-2018 15:38:21 	34:23:87:02:53:AE 	professor-service : 	ERROR - [1522762701813] User with username: filip.savic failed to log in.
+03-04-2018 15:38:23 	34:23:87:02:53:AE 	referent-service : 	ERROR - [1522762703814] User with username: coa995 has logged out.
+03-04-2018 15:38:25 	34:23:87:02:53:AE 	student-service : 	INFO - [1522762705815] User with username: filip.savic has logged in.
+03-04-2018 15:38:27 	34:23:87:02:53:AE 	professor-service : 	CRITICAL - [1522762707815] User with username: coa995 failed to log in.
+03-04-2018 15:38:29 	34:23:87:02:53:AE 	professor-service : 	DEBUG - [1522762709816] User with username: coa995 failed to log in.
+03-04-2018 15:38:31 	34:23:87:02:53:AE 	student-service : 	CRITICAL - [1522762711817] User with username: coa995 has logged out.
+03-04-2018 15:38:33 	34:23:87:02:53:AE 	student-service : 	INFO - [1522762713818] User with username: filip.savic has logged in.
+03-04-2018 15:38:35 	34:23:87:02:53:AE 	student-service : 	WARNING - [1522762715819] User with username: filip.savic failed to log in.
+03-04-2018 15:43:05 	34:23:87:02:53:AE 	referent-service : 	DEBUG - [1522762985033] User with username: drstevanovic failed to log in.
+03-04-2018 15:43:07 	34:23:87:02:53:AE 	professor-service : 	WARNING - [1522762987034] User with username: drstevanovic has logged in.
+03-04-2018 15:43:09 	34:23:87:02:53:AE 	referent-service : 	DEBUG - [1522762989035] User with username: coa995 has logged in.
+03-04-2018 15:43:11 	34:23:87:02:53:AE 	professor-service : 	INFO - [1522762991036] User with username: drstevanovic has logged out.
+03-04-2018 15:43:15 	34:23:87:02:53:AE 	student-service : 	WARNING - [1522762995037] User with username: drstevanovic has logged in.
+03-04-2018 15:43:17 	34:23:87:02:53:AE 	student-service : 	CRITICAL - [1522762997037] User with username: coa995 has logged out.
+03-04-2018 15:43:19 	34:23:87:02:53:AE 	referent-service : 	CRITICAL - [1522762999038] User with username: coa995 has logged out.
+03-04-2018 15:43:19 	34:23:87:02:53:AE 	referent-service : 	CRITICAL - [1522762999038] User with username: coa995 has logged out.
+03-04-2018 15:43:19 	34:23:87:02:53:AE 	referent-service : 	CRITICAL - [1522762999038] User with username: coa995 has logged out.
+03-04-2018 15:43:11 	34:23:87:02:53:AE 	professor-service : 	INFO - [1522762991036] User with username: drstevanovic has logged out.
+03-04-2018 15:43:13 	34:23:87:02:53:AE 	referent-service : 	CRITICAL - [1522762993036] User with username: coa995 has logged in.
+03-04-2018 15:43:13 	34:23:87:02:53:AE 	referent-service : 	CRITICAL - [1522762993036] User with username: coa995 has logged in.
