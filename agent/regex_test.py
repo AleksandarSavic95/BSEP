@@ -21,15 +21,23 @@ if __name__ == '__main__':
     msg_id_pattern = r'([a-zA-Z0-9-_]+)'
     msg_pattern = r'(([A-Za-z0-9-._:!]+|\s)+)'
 
-    pattern = re.compile(r'\s+'.join([timestamp_pattern, mac_address_pattern, service_name_pattern]) + r'\s*:\s*' +
-                         severity_pattern + r'\s*-\s*' + msg_id_pattern + r'\s*[a-zA-Z0-9     .!?:_,]*' )
+    all_combined = r'\s+'.join([timestamp_pattern, mac_address_pattern, service_name_pattern]) + r'\s*:\s*' +\
+                         severity_pattern + r'\s*-\s*' + msg_id_pattern + r'\s*[a-zA-Z0-9     .!?:_,]*'
+    print('all_combined:\n' + all_combined)
+
+    pattern = re.compile(all_combined)
+
+    # OLD
+    # pattern = re.compile(r'\s+'.join([timestamp_pattern, mac_address_pattern, service_name_pattern]) + r'\s*:\s*' +
+    #                     severity_pattern + r'\s*-\s*' + msg_id_pattern + r'\s*[a-zA-Z0-9     .!?:_,]*' )
+
     # pattern = re.compile(mac_address_pattern)
     x = 1
     for match in pattern.finditer(logs):
         print(x)
         x += 1
-        print(match)
-        (start, end) = match.span()
+        print(match, match.span())
+        start, end = match.span()
         log = logs[start:end]
         print(log)
         mac_ad_ptn = re.compile(mac_address_pattern)
