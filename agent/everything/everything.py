@@ -48,7 +48,7 @@ def follow(file):
 import requests
 
 SERVER_ADDRESS = 'localhost'
-SERVER_PORT = 8080 # 8765
+SERVER_PORT = 8765
 API_PATH = '/api/reports'
 
 url = 'http://{}:{}{}'.format(SERVER_ADDRESS, SERVER_PORT, API_PATH)
