@@ -6,21 +6,43 @@ import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 @Document
 public class Log {
 
     @Id
     private String id;
+    private LocalDateTime date;
+    private String MACAddress;
+    private String service;
+    private String severityType;
     private String text;
-    private Date date;
 
-    public Date getDate() {
+
+    /*
+    * Log{
+    * id='5af06c6955b9f037bc823efc',
+    * text='{ "log":
+    * "07-05-2018 17:10:30 C5:85:06:17:93:BF professor-service : WARNING - [1525705830814] User with username: coa995 has logged in. "}', date=null, someNumber=null}
+    * */
+    public Log(String logString) {
+        HashMap<String, Object> resultMap = parseLog(logString);
+
+        this.date = (LocalDateTime) resultMap.get("date");
+        this.MACAddress = (String) resultMap.get("MACAddress");
+        this.service = (String) resultMap.get("service");
+        this.severityType = (String) resultMap.get("severityType");
+        this.text = (String) resultMap.get("text");
+    }
+
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -61,4 +83,35 @@ public class Log {
                 ", someNumber=" + someNumber +
                 '}';
     }
+
+
+    private HashMap<String, Object> parseLog(String logString) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+
+        String[] splittedLog = logString.split(" ");
+        String dateTimeString = splittedLog[0] + " " + splittedLog[1];
+        String MACAddress = splittedLog[2];
+        String service = splittedLog[3];
+        String severityType = splittedLog[5]; // splittedLog[4] = ' : '
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 6; i < splittedLog.length; i++) {
+            String remainingText = splittedLog[i] + " ";
+            sb.append(remainingText);
+        }
+        String text = sb.toString();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy : HH:mm:ss");
+        LocalDateTime parsedDate = LocalDateTime.parse(dateTimeString, formatter);
+        System.out.println(parsedDate.format(formatter));
+
+        map.put("date", parsedDate);
+        map.put("MACAddress", MACAddress);
+        map.put("service", service);
+        map.put("severityType", severityType);
+        map.put("text", text);
+
+        return map;
+    }
+
 }
