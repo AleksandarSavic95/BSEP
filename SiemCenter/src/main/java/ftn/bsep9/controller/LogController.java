@@ -88,12 +88,13 @@ public class LogController {
     @PostMapping("/text")
     public String getByText(@RequestBody String text, Model model){
         text = text.substring(text.indexOf('=') + 1);
+        text = text.replace('+',' ');
 
         // create a query class (QLog)
         QLog qLog = new QLog("log");
 
         // using the query class we can create the filters
-        BooleanExpression filterByCountry = qLog.text.contains(text);
+        BooleanExpression filterByCountry = qLog.text.containsIgnoreCase(text);
 
         // we can then pass the filters to the findAll() method
         List<Log> logs = (List<Log>) this.logsRepository.findAll(filterByCountry);
@@ -112,8 +113,8 @@ public class LogController {
         QLog qLog = new QLog("logs");
 
         // using the query class we can create the filters
-        BooleanExpression filterByMinSomeNumber = qLog.someNumber.lt(minSomeNumber);
-        BooleanExpression filterByMaxSomeNumber = qLog.someNumber.gt(maxSomeNumber);
+        BooleanExpression filterByMinSomeNumber = qLog.someNumber.gt(minSomeNumber);
+        BooleanExpression filterByMaxSomeNumber = qLog.someNumber.lt(maxSomeNumber);
 
         // we can then pass the filters to the findAll() method
         List<Log> logs = (List<Log>) this.logsRepository.findAll(filterByMinSomeNumber.and(filterByMaxSomeNumber));
