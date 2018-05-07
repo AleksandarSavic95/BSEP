@@ -1,0 +1,33 @@
+{
+	"SIEM": {
+		"address": "http://localhost:8080",
+		"property": "value"
+	},
+	"OS": {
+		"name": "Windows",
+		"version": "10",
+		"dirs": [
+			"D:/Radim/BSEP",
+			"Another dir"
+		]
+	},
+	"Firewall": {
+		"firewall prop 1": "value of firewall prop 1"
+	},
+	"Directories": [
+		{
+			"path": "D:/work/ssluzba/logs",
+			"regexps": [
+				"regex1",
+				"regex2"
+			]
+		},
+		{
+			"path": "D:/images/PhotoApp/bin/logs",
+			"regexps": [
+				"regex1",
+				"regex2"
+			]
+		}
+	]
+}
