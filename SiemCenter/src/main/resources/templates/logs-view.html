@@ -1,110 +1,61 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>View logs</title>
 
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <head th:replace="template :: header">
+    </head>
 
-    <!-- Bootstrap CSS -->
-    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">-->
-    <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js" integrity="sha384-u/bQvRA/1bobcXlcEYpsEdFVK/vJs3+T+nXLsBYJthmdBuavHvAW6UsmqO2Gd/F9" crossorigin="anonymous"></script>-->
-
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
-    <!-- gugl fontovi -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&effect=fire-animation|3d-float" />
-
-    <!-- Font awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
-</head>
     <body>
 
-        <div class="container-fluid">
-            <nav class="navbar navbar-inverse">
+        <th:block th:replace="template :: navigation">
+        </th:block>
 
-                <!-- Header -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand font-effect-fire-animation" href="#"> H.o.m.e. p.a.g.e. </a>
-                </div>
-
-                <!-- Items -->
-                <div class="collapse navbar-collapse" id="topNavBar">
-
-                    <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a href="{% url 'music:index' %}">
-                                <span class="glyphicon glyphicon-cd" aria-hidden="true"></span>&nbsp; Albums
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'music:index' %}">
-                                <span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp; Songs
-                            </a>
-                        </li>
-                    </ul>
-
-                    <form class="navbar-form navbar-left" role="search" method="get" action="#">
-                        <div class="form-group">
-                            <input type="text" class="form-control" name="q" value="">
-                        </div>
-                        <button type="submit" class="btn btn-default"> Search </button>
-                    </form>
-
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="{% url 'music:album-add' %}">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Add Album
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/user/logout/">
-                                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp; Logout
-                            </a>
-                        </li>
-                    </ul>
-
-                </div>
-
-            </nav>
-
-        </div>
-        <div class="container" style="color:royalblue; margin-top: 10px; padding: 10px; display:flex;justify-content:center;align-items:center;">
-            <i class="far fa-file-alt fa-10x" style="padding: 10px;"></i>
-            <i class="fab fa-jedi-order fa-10x" style="color: Tomato; padding: 10px;"></i>
-        </div>
-
-        <p th:each="log:${logs}">
-            <span th:text="${log.someNumber}">broj 1</span>
-            <span th:text="${log.text}">broj 1</span>
-        </p>
-
-        <div class="container-fluid">
+        <!-- Page Content -->
+        <div class="container" id="main-container">
             <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-4" style="background: red; width: 100px; height: 100px"></div>
-                <div class="col-lg-4 col-md-4 col-sm-4" style="background: blue; width: 100px; height: 100px"></div>
-                <div class="col-lg-4 col-md-4 col-sm-4" style="background: white; width: 100px; height: 100px"></div>
+                <div class="col-lg-12 text-center">
+                    <div th:if="${searchedString}">
+                        <h1 class="mt-5">You serached for &quot;<span th:text="${searchedString}"></span>&quot; </h1>
+                        <p class="lead">Here's what we found</p>
+                    </div>
+                    <div th:unless="${searchedString}">
+                        <h2 style="margin-bottom: 30px;">All logs shown below</h2>
+                    </div>
+                    <div class="list-group">
+                        <!--/*@thymesVar id="logs" type="ftn.bsep9.model.Log"*/-->
+                        <th:block th:each="log:${logs}">
+                            <a th:href="@{/api/id/{id}(id=${log.id})}" class="list-group-item list-group-item-action" style="margin-bottom: 10px;">
+                                <p>Log text: <span th:text="${log.text}"></span></p>
+                                <p>ID: <span th:text="${log.id}"></span></p>
+                                <p th:if="${log.someNumber}">Some number: <span th:text="${log.someNumber}"></span></p>
+                            </a>
+                            <br>
+                        </th:block>
+                    </div>
+
+                    <ul class="list-unstyled">
+                        <li>Bootstrap 4.1.1</li>
+                        <li>jQuery 3.3.1</li>
+                        <!--/*@thymesVar id="log" type="ftn.bsep9.model.Log"*/-->
+                        <li th:text="${log}"></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4" style="background: red; height: 100px"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4" style="background: blue; height: 100px"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4" style="background: white; height: 100px"></div>
+            </div>
+        </div>
 
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+        <!-- Bootstrap core JavaScript -->
+        <!--<script src="../static/jquery/jquery.min.js"></script>-->
+        <!--<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>-->
 
     </body>
+
 </html>
 
 

@@ -38,7 +38,7 @@ public class LogController {
         Log insertedLog = logsRepository.insert(log);
 
         model.addAttribute("log", insertedLog);
-        return "logs-view";
+        return "log-view";
     }
 
 
@@ -57,11 +57,12 @@ public class LogController {
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public String getById(@PathVariable("id") String id, Model model){
         Log log = this.logsRepository.findById(id).get();
 
         model.addAttribute("log", log);
+        model.addAttribute("title", "Log view");
         return "log-view";
     }
 
@@ -84,18 +85,21 @@ public class LogController {
     }
 
 
-    @GetMapping("/text/{text}")
-    public String getByText(@PathVariable("text") String text, Model model){
+    @PostMapping("/text")
+    public String getByText(@RequestBody String text, Model model){
+        text = text.substring(text.indexOf('=') + 1);
+
         // create a query class (QLog)
         QLog qLog = new QLog("log");
 
         // using the query class we can create the filters
-        BooleanExpression filterByCountry = qLog.text.eq(text);
+        BooleanExpression filterByCountry = qLog.text.contains(text);
 
         // we can then pass the filters to the findAll() method
         List<Log> logs = (List<Log>) this.logsRepository.findAll(filterByCountry);
 
         model.addAttribute("logs", logs);
+        model.addAttribute("searchedString", text);
         return "logs-view";
     }
 
