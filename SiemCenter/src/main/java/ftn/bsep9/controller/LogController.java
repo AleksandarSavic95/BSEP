@@ -1,10 +1,10 @@
 package ftn.bsep9.controller;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
 import ftn.bsep9.model.Log;
-import ftn.bsep9.model.QLog;
 import ftn.bsep9.repository.LogsRepository;
 import ftn.bsep9.service.LogsService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +29,35 @@ public class LogController {
     }
 
 
-    @GetMapping("/all")
-    public String getAll(Model model){
-        List<Log> logs = this.logsRepository.findAll();
+    @GetMapping("/all/{page}")
+    public String getAll(@PathVariable("page") int page, Model model){
 
-        model.addAttribute("logs", logs);
+        if (page < 0) page = 0;
+        int size = 2;
+
+        Long count = logsRepository.count();
+        System.out.println(count);
+        if (count / size < page ) page = 0;
+        //Pageable pageable = new PageRequest(0, 2, Sort.Direction.ASC, "date");
+        //Page<Log> logsPage = this.logsRepository.findAll(pageable);
+
+//        logsPage.getSize()              2
+//        logsPage.getNumberOfElements()  2
+//        logsPage.getNumber()            0
+//        logsPage.getTotalElements()     5
+//        logsPage.getTotalPages());      3
+//        logsPage.getContent());
+//        [Log{id='5af0dfb455b9f02858a61b07', ...
+//        logsPage.getPageable());                   Page request [number: 0, size 2, sort: UNSORTED]
+//        logsPage.getPageable().getOffset());       0
+//        logsPage.getPageable().getPageNumber());   0
+//        logsPage.getPageable().getPageSize());     2
+
+        Page<Log> logsPage = logsService.findAllWithPages(page, size, Sort.Direction.ASC, "date");
+
+        model.addAttribute("logs", logsPage);
+        model.addAttribute("totalPages", logsPage.getTotalPages());
+        model.addAttribute("currentPage", page);
         return "logs-view";
     }
 

@@ -25,4 +25,8 @@ public interface LogsRepository extends MongoRepository<Log, String>, QuerydslPr
 
     @Query("{ 'text':{$regex:?0,$options:'i'} }")
     List<Log> findByTextRegexIgnoreCase(String text);
+
+
+    Page<Log> findAll(Pageable pageable);
+
 }

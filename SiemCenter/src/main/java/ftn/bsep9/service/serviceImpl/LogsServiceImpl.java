@@ -6,6 +6,9 @@ import ftn.bsep9.model.QLog;
 import ftn.bsep9.repository.LogsRepository;
 import ftn.bsep9.service.LogsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -19,6 +22,14 @@ public class LogsServiceImpl implements LogsService {
 
     @Autowired
     LogsRepository logsRepository;
+
+
+    public Page<Log> findAllWithPages(int pageStart, int pageSize,
+                                      Sort.Direction sortDirection, String sortField) {
+        PageRequest pageRequest = new PageRequest(pageStart, pageSize,
+                new Sort(sortDirection, sortField));
+        return this.logsRepository.findAll(pageRequest);
+    }
 
 
     @Override

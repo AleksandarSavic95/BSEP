@@ -11,6 +11,27 @@
 
         <!-- Page Content -->
         <div class="container" id="main-container">
+            <nav aria-label="Page navigation">
+                <ul class="pagination" style="justify-content: center;">
+                    <li th:if="${currentPage} >= 1">
+                        <a th:href="@{/api/all/{page}(page=${currentPage - 1})}" aria-label="Previous">
+                            <span aria-hidden="true" style="font-size: 30px;">&laquo;&nbsp;Previous&nbsp;&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:unless="${currentPage} >= 1">
+                        <span aria-hidden="true" style="font-size: 30px;">&laquo;&nbsp;Previous&nbsp;&laquo;</span>
+                    </li>
+                    &nbsp;&nbsp;&nbsp;&nbsp; <span style="font-size: 30px;">Page: <span th:text="${currentPage}"></span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+                    <li th:if="${currentPage} < ${totalPages - 1}">
+                        <a th:href="@{/api/all/{page}(page=${currentPage + 1})}" aria-label="Next">
+                            <span aria-hidden="true" style="font-size: 30px;">&raquo;&nbsp;Next&nbsp;&raquo;</span>
+                        </a>
+                    </li>
+                    <li th:unless="${currentPage} < ${totalPages - 1}">
+                        <span aria-hidden="true" style="font-size: 30px;">&raquo;&nbsp;Next&nbsp;&raquo;</span>
+                    </li>
+                </ul>
+            </nav>
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div th:if="${searchedString}">
@@ -22,7 +43,7 @@
                     </div>
                     <div class="list-group">
                         <!--/*@thymesVar id="logs" type="ftn.bsep9.model.Log"*/-->
-                        <th:block th:each="log:${logs}">
+                        <th:block th:each="log:${logs.content}">
                             <a th:href="@{/api/id/{id}(id=${log.id})}" class="list-group-item list-group-item-action" style="margin-bottom: 10px;">
                                 <p>Log text: <span th:text="${log.text}"></span></p>
                                 <p>ID: <span th:text="${log.id}"></span></p>
