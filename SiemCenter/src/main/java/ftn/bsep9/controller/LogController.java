@@ -4,10 +4,14 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import ftn.bsep9.model.Log;
 import ftn.bsep9.model.QLog;
 import ftn.bsep9.repository.LogsRepository;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,8 +47,8 @@ public class LogController {
 
 
     @PutMapping
-    public void update(@RequestBody Log logs){
-        this.logsRepository.save(logs);
+    public void update(@RequestBody Log log){
+        this.logsRepository.save(log);
     }
 
 
@@ -67,18 +71,20 @@ public class LogController {
     }
 
 
-    @GetMapping("/number/{someNumber}")
-    public String getBySomeNumber(@PathVariable("someNumber") int someNumber, Model model){
-        List<Log> logs = this.logsRepository.findBySomeNumber(someNumber);
-
-        model.addAttribute("logs", logs);
-        return "logs-view";
-    }
+//    @GetMapping("/number/{someNumber}")
+//    public String getBySomeNumber(@PathVariable("someNumber") int someNumber, Model model){
+//        List<Log> logs = this.logsRepository.findBySomeNumber(someNumber);
+//
+//        model.addAttribute("logs", logs);
+//        return "logs-view";
+//    }
 
 
     @GetMapping("/date/{date}")
-    public String getByDate(@PathVariable("date") Date date, Model model){
-        List<Log> logs = this.logsRepository.findByDate(date);
+    public String getByDate(@PathVariable("date") String dateString, Model model){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        LocalDateTime localDateTime = LocalDateTime.parse(dateString, dateTimeFormatter);
+        List<Log> logs = this.logsRepository.findByDate(localDateTime);
 
         model.addAttribute("logs", logs);
         return "logs-view";
@@ -90,36 +96,88 @@ public class LogController {
         text = text.substring(text.indexOf('=') + 1);
         text = text.replace('+',' ');
 
+//        Query query = new Query();
+//        query.limit(10);
+//        query.addCriteria(Criteria.where("text").regex(text));
+
         // create a query class (QLog)
         QLog qLog = new QLog("log");
 
         // using the query class we can create the filters
-        BooleanExpression filterByCountry = qLog.text.containsIgnoreCase(text);
+        BooleanExpression filterByText = qLog.text.containsIgnoreCase(text);
 
         // we can then pass the filters to the findAll() method
-        List<Log> logs = (List<Log>) this.logsRepository.findAll(filterByCountry);
+        List<Log> logs = (List<Log>) this.logsRepository.findAll(filterByText);
 
         model.addAttribute("logs", logs);
         model.addAttribute("searchedString", text);
         return "logs-view";
     }
 
-    @GetMapping("/recommended")
-    public String getBySomeNumber(Model model){
-        final int minSomeNumber = 7;
-        final int maxSomeNumber = 100;
+//    @GetMapping("/recent")
+//    public String getByDateRecent(Model model){
+//        LocalDateTime minDateTime = LocalDateTime.now().minusHours(24L);
+//        final LocalDateTime maxDateTime = LocalDateTime.now().minusSeconds(20);
+//
+//        // create a query class (QLog)
+//        QLog qLog = new QLog("logs");
+//
+//        // using the query class we can create the filters
+//        BooleanExpression filterByMinDate = qLog.date.gt(minDateTime);
+//        BooleanExpression filterByMaxDate = qLog.date.lt(maxDateTime);
+//
+//        // we can then pass the filters to the findAll() method
+//        List<Log> logs = (List<Log>) this.logsRepository.findAll(filterByMinDate.and(filterByMaxDate));
+//
+//        model.addAttribute("logs", logs);
+//        return "logs-view";
+//    }
+
+
+    @PostMapping("/search-by-date")
+    public String searchByDate(@RequestBody String text, Model model){
+        System.out.println(text);
+//      optradio=before&date-1=2018-05-08T01%3A40
+//      optradio=after&date-1=2018-05-08T01%3A10
+
+        String[] beforeAndDateList = text.split("&");
+        String beforeAfterString = beforeAndDateList[0].split("=")[1];
+        Boolean before = beforeAfterString.equals("before");
+
+        String dateTimeString = beforeAndDateList[1].split("=")[1]; // dateString = 2018-05-08T01%3A40
+        String dateString = dateTimeString.split("T")[0];  // 2018-05-08
+        String timeString = dateTimeString.split("T")[1];  // 01%3A40
+        String hoursString = timeString.split("%3A")[0];   // 01
+        String minutesString = timeString.split("%3A")[1]; // 40
+        dateTimeString = dateString + " " + hoursString + ":" + minutesString; // 2018-05-08 01:40
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
+        String prettyDateTime = dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+        System.out.println(prettyDateTime);
 
         // create a query class (QLog)
         QLog qLog = new QLog("logs");
 
+        BooleanExpression filterByDate;
+        if (before) filterByDate = qLog.date.lt(dateTime);
+        else filterByDate = qLog.date.gt(dateTime);
+
+        List<Log> logs = (List<Log>) this.logsRepository.findAll(filterByDate);
+
+//        LocalDateTime minDateTime = LocalDateTime.now().minusHours(24L);
+//        final LocalDateTime maxDateTime = LocalDateTime.now().minusSeconds(20);
+
         // using the query class we can create the filters
-        BooleanExpression filterByMinSomeNumber = qLog.someNumber.gt(minSomeNumber);
-        BooleanExpression filterByMaxSomeNumber = qLog.someNumber.lt(maxSomeNumber);
+//        BooleanExpression filterByMinDate = qLog.date.gt(minDateTime);
+//        BooleanExpression filterByMaxDate = qLog.date.lt(maxDateTime);
 
         // we can then pass the filters to the findAll() method
-        List<Log> logs = (List<Log>) this.logsRepository.findAll(filterByMinSomeNumber.and(filterByMaxSomeNumber));
+//        List<Log> logs = (List<Log>) this.logsRepository.findAll(filterByMinDate.and(filterByMaxDate));
 
         model.addAttribute("logs", logs);
+        String searchedString = "logs dating " + beforeAfterString + " " + prettyDateTime;
+        model.addAttribute("searchedString", searchedString);
         return "logs-view";
     }
 

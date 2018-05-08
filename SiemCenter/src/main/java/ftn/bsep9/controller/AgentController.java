@@ -24,12 +24,13 @@ public class AgentController {
         System.out.println("RECEIVED REPORT:\n" + report);
         return new ResponseEntity<>(HttpStatus.OK);
     } // */
-
     @PostMapping("/reports")
     public ResponseEntity<String> receiveAgentReport(@RequestBody AgentReport report) {
-        System.out.println("RECEIVED AGENT REPORT:\n" + report);
-        Log log = new Log(report.getLog());
-        logsRepository.insert(log);
+        String logString = report.getLog().substring(report.getLog().indexOf(':') + 3, report.getLog().length() - 2);
+        System.out.println("RECEIVED AGENT REPORT:\n" + logString);
+        Log log = new Log(logString);
+        System.out.println(log);
+        logsRepository.insert(log);  // CRYPTO goes here
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

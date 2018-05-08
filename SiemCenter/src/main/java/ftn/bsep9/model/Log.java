@@ -15,6 +15,7 @@ public class Log {
 
     @Id
     private String id;
+//    @Indexed(direction = IndexDirection.ASCENDING)
     private LocalDateTime date;
     private String MACAddress;
     private String service;
@@ -22,21 +23,18 @@ public class Log {
     private String text;
 
 
-    /*
-    * Log{
-    * id='5af06c6955b9f037bc823efc',
-    * text='{ "log":
-    * "07-05-2018 17:10:30 C5:85:06:17:93:BF professor-service : WARNING - [1525705830814] User with username: coa995 has logged in. "}', date=null, someNumber=null}
-    * */
+    public Log() {}
+
     public Log(String logString) {
         HashMap<String, Object> resultMap = parseLog(logString);
 
-        this.date = (LocalDateTime) resultMap.get("date");
-        this.MACAddress = (String) resultMap.get("MACAddress");
-        this.service = (String) resultMap.get("service");
+        this.date         = (LocalDateTime) resultMap.get("date");
+        this.MACAddress   = (String) resultMap.get("MACAddress");
+        this.service      = (String) resultMap.get("service");
         this.severityType = (String) resultMap.get("severityType");
-        this.text = (String) resultMap.get("text");
+        this.text         = (String) resultMap.get("text");
     }
+
 
     public LocalDateTime getDate() {
         return date;
@@ -45,17 +43,6 @@ public class Log {
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
-
-    public Integer getSomeNumber() {
-        return someNumber;
-    }
-
-    public void setSomeNumber(Integer someNumber) {
-        this.someNumber = someNumber;
-    }
-
-    @Indexed(direction = IndexDirection.ASCENDING)
-    private Integer someNumber;
 
     public String getId() {
         return id;
@@ -73,20 +60,46 @@ public class Log {
         this.text = text;
     }
 
+    public String getMACAddress() {
+        return MACAddress;
+    }
+
+    public void setMACAddress(String MACAddress) {
+        this.MACAddress = MACAddress;
+    }
+
+    public String getService() {
+        return service;
+    }
+
+    public void setService(String service) {
+        this.service = service;
+    }
+
+    public String getSeverityType() {
+        return severityType;
+    }
+
+    public void setSeverityType(String severityType) {
+        this.severityType = severityType;
+    }
+
 
     @Override
     public String toString() {
         return "Log{" +
                 "id='" + id + '\'' +
-                ", text='" + text + '\'' +
                 ", date=" + date +
-                ", someNumber=" + someNumber +
+                ", MACAddress='" + MACAddress + '\'' +
+                ", service='" + service + '\'' +
+                ", severityType='" + severityType + '\'' +
+                ", text='" + text +
                 '}';
     }
 
 
     private HashMap<String, Object> parseLog(String logString) {
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap<>();
 
         String[] splittedLog = logString.split(" ");
         String dateTimeString = splittedLog[0] + " " + splittedLog[1];
@@ -101,7 +114,7 @@ public class Log {
         }
         String text = sb.toString();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy : HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         LocalDateTime parsedDate = LocalDateTime.parse(dateTimeString, formatter);
         System.out.println(parsedDate.format(formatter));
 

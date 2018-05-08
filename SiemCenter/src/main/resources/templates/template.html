@@ -34,42 +34,58 @@
             }
         }
     </style>
+
+    <script>
+//        var myEl = document.getElementById('myelement');
+//        myEl.addEventListener('click', function() {
+//            alert('Hello world');
+//        }, false);
+//        myEl.addEventListener('click', function() {
+//            alert('Hello world again!!!');
+//        }, false);
+        $(document).ready(function(){
+            $('#radio-button-before-id').click(function(){
+                $('#date-1-id').prop('disabled', false);
+                console.log("enabled");
+            });
+            $('#radio-button-after-id').click(function(){
+                $('#date-1-id').prop('disabled', false);
+                console.log("enabled");
+        });
+});
+    </script>
 </head>
 <body>
 
 <th:block th:fragment="navigation">
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg light bg-light fixed-top">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">Search</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                <form class="form-inline my-2 my-lg-0" action="/api/search-by-date" method="post">
+                    <div class="radio" style="margin-right: 5px;">
+                        <label><input type="radio" id="radio-button-before-id" name="optradio" value="before">Before</label>
                     </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
+                    <div class="radio" style="margin-right: 5px;">
+                        <label><input type="radio" id="radio-button-after-id" name="optradio" value="after">After</label>
+                    </div>
+                    <!--<div class="radio" style="margin-right: 5px;">-->
+                    <!--<label><input type="radio" name="optradio">Between</label>-->
+                    <!--</div>-->
+                    <input id="date-1-id" class="form-control mr-sm-2" type="datetime-local"
+                           name="date-1" disabled>
+                    <!--<input id="date-2-id" class="form-control mr-sm-2" type="datetime-local"-->
+                    <!--name="date-2">-->
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
             </ul>
 
             <div style="color:royalblue; margin-top: 1px; padding: 1px; display:flex;justify-content:center;align-items:center;">
-                <i class="far fa-file-alt fa-2x" style="padding-right: 5px;"></i>
+                <i class="far fa-file-alt fa-2x" style="padding-right: 5px; font-size: 2.2em"></i>
             </div>
 
             <form class="form-inline my-2 my-lg-0" action="/api/text" method="post">

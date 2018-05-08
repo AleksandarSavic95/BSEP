@@ -26,7 +26,9 @@
                             <a th:href="@{/api/id/{id}(id=${log.id})}" class="list-group-item list-group-item-action" style="margin-bottom: 10px;">
                                 <p>Log text: <span th:text="${log.text}"></span></p>
                                 <p>ID: <span th:text="${log.id}"></span></p>
-                                <p th:if="${log.someNumber}">Some number: <span th:text="${log.someNumber}"></span></p>
+                                <p th:if="${log.date}">Date: <span th:text="${log.date}"></span></p>
+                                <p th:if="${log.MACAddress}">MAC Address: <span th:text="${log.MACAddress}"></span></p>
+                                <p th:if="${log.service}">Service: <span th:text="${log.service}"></span></p>
                             </a>
                             <br>
                         </th:block>
@@ -42,10 +44,6 @@
                 <div class="col-lg-4 col-md-4 col-sm-4" style="background: white; height: 100px"></div>
             </div>
         </div>
-
-        <!-- Bootstrap core JavaScript -->
-        <!--<script src="../static/jquery/jquery.min.js"></script>-->
-        <!--<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>-->
 
     </body>
 
