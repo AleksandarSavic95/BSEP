@@ -29,6 +29,12 @@ public class LogController {
     }
 
 
+
+    @GetMapping("/all")
+    public String getAllNoPage(Model model){
+        return getAll(0, model);
+    }
+
     @GetMapping("/all/{page}")
     public String getAll(@PathVariable("page") int page, Model model){
 
@@ -55,6 +61,7 @@ public class LogController {
 
         Page<Log> logsPage = logsService.findAllWithPages(page, size, Sort.Direction.ASC, "date");
 
+        model.addAttribute("method-url", "/api/all");
         model.addAttribute("logs", logsPage);
         model.addAttribute("totalPages", logsPage.getTotalPages());
         model.addAttribute("currentPage", page);

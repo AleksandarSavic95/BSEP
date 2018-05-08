@@ -46,11 +46,15 @@
         $(document).ready(function(){
             $('#radio-button-before-id').click(function(){
                 $('#date-1-id').prop('disabled', false);
-                console.log("enabled");
+                $('#date-2-id').css('display', 'none');
             });
             $('#radio-button-after-id').click(function(){
                 $('#date-1-id').prop('disabled', false);
-                console.log("enabled");
+                $('#date-2-id').css('display', 'none');
+            });
+            $('#radio-button-between-id').click(function(){
+                $('#date-1-id').prop('disabled', false);
+                $('#date-2-id').css('display', 'block');
             });
             $('#radio-button-regex-id').click(function(){
                 $('#text-input-id').prop('disabled', false);
@@ -81,13 +85,16 @@
                     <div class="radio" style="margin-right: 5px;">
                         <label><input type="radio" id="radio-button-after-id" name="optradio" value="after">After</label>
                     </div>
+                    <div class="radio" style="margin-right: 5px;">
+                        <label><input type="radio" id="radio-button-between-id" name="optradio" value="between">Between</label>
+                    </div>
                     <!--<div class="radio" style="margin-right: 5px;">-->
                     <!--<label><input type="radio" name="optradio">Between</label>-->
                     <!--</div>-->
                     <input id="date-1-id" class="form-control mr-sm-2" type="datetime-local"
                            name="date-1" disabled>
-                    <!--<input id="date-2-id" class="form-control mr-sm-2" type="datetime-local"-->
-                    <!--name="date-2">-->
+                    <input id="date-2-id" class="form-control mr-sm-2" type="datetime-local"
+                    name="date-2" style="display: none;">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </ul>

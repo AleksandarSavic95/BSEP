@@ -75,6 +75,7 @@ public class LogsServiceImpl implements LogsService {
 //        query.limit(10);
 //        query.addCriteria(Criteria.where("text").regex(Pattern.compile("")));
 
+            model.addAttribute("method-url", "/api/search-by-text");
             model.addAttribute("logs", logs);
             model.addAttribute("searchedString", text);
         }
@@ -131,6 +132,7 @@ public class LogsServiceImpl implements LogsService {
             // we can then pass the filters to the findAll() method
 //        List<Log> logs = (List<Log>) this.logsRepository.findAll(filterByMinDate.and(filterByMaxDate));
 
+            model.addAttribute("method-url", "/api/search-by-date");
             model.addAttribute("logs", logs);
             String searchedString = "logs dating " + beforeAfterString + " " + prettyDateTime;
             model.addAttribute("searchedString", searchedString);
