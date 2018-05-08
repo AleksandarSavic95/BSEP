@@ -15,7 +15,7 @@ public class Log {
 
     @Id
     private String id;
-//    @Indexed(direction = IndexDirection.ASCENDING)
+    @Indexed(direction = IndexDirection.ASCENDING)
     private LocalDateTime date;
     private String MACAddress;
     private String service;

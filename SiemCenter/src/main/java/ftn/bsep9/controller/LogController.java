@@ -1,5 +1,9 @@
 package ftn.bsep9.controller;
 
+import com.mongodb.DBCollection;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import ftn.bsep9.model.Log;
 import ftn.bsep9.model.QLog;
@@ -13,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 
 @Controller
@@ -93,21 +97,44 @@ public class LogController {
 
     @PostMapping("/text")
     public String getByText(@RequestBody String text, Model model){
-        text = text.substring(text.indexOf('=') + 1);
-        text = text.replace('+',' ');
+        System.out.println(text);
+//      optradio=regex&text=.*filip.*
+//      optradio=text&text=logged+in
 
+        String[] regexAndTextList = text.split("&");
+        String regexTextString = regexAndTextList[0].split("=")[1];
+        System.out.println(regexTextString);
+        Boolean regex = regexTextString.equals("regex");
+
+        List<Log> logs;
+        if (regex) {
+            System.out.println("REGEX");
+            text = regexAndTextList[1].substring(regexAndTextList[1].indexOf('=') + 1);
+            logs = logsRepository.findByTextRegexIgnoreCase(text);
+        }
+        else {
+            System.out.println("TEXT");
+            text = regexAndTextList[1].substring(regexAndTextList[1].indexOf('=') + 1);
+            text = text.replace('+', ' ');
+            logs = this.logsRepository.findAllByTextContainsIgnoreCase(text);
+        }
+
+        // Korisno za pregrage razlicitih atributa (ne samo Log.text) po regex-u ili tekstu
+        //
+//        import org.springframework.data.mongodb.core.query.*;
+//        import org.springframework.data.mongodb.core.MongoOperations;
+//
+//        public List<Movie> searchInDescription(String searchString, int limit, int offset) {
+//            Criteria criteria = Criteria.where("description").regex(searchString);
+//            Query query = Query.query(criteria);
+//            // apply pagination, sorting would also be specified here
+//            query.limit(limit);
+//            query.skip(offset);
+//            return mongoOperations.find(query, Movie.class);
+//        }
 //        Query query = new Query();
 //        query.limit(10);
-//        query.addCriteria(Criteria.where("text").regex(text));
-
-        // create a query class (QLog)
-        QLog qLog = new QLog("log");
-
-        // using the query class we can create the filters
-        BooleanExpression filterByText = qLog.text.containsIgnoreCase(text);
-
-        // we can then pass the filters to the findAll() method
-        List<Log> logs = (List<Log>) this.logsRepository.findAll(filterByText);
+//        query.addCriteria(Criteria.where("text").regex(Pattern.compile("")));
 
         model.addAttribute("logs", logs);
         model.addAttribute("searchedString", text);

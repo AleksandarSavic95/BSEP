@@ -51,7 +51,15 @@
             $('#radio-button-after-id').click(function(){
                 $('#date-1-id').prop('disabled', false);
                 console.log("enabled");
-        });
+            });
+            $('#radio-button-regex-id').click(function(){
+                $('#text-input-id').prop('disabled', false);
+                console.log("enabled");
+            });
+            $('#radio-button-text-id').click(function(){
+                $('#text-input-id').prop('disabled', false);
+                console.log("enabled");
+            });
 });
     </script>
 </head>
@@ -85,12 +93,20 @@
             </ul>
 
             <div style="color:royalblue; margin-top: 1px; padding: 1px; display:flex;justify-content:center;align-items:center;">
-                <i class="far fa-file-alt fa-2x" style="padding-right: 5px; font-size: 2.2em"></i>
+                <i class="far fa-file-alt fa-2x" style="padding-right: 10px; font-size: 2.5em"></i>
             </div>
 
             <form class="form-inline my-2 my-lg-0" action="/api/text" method="post">
-                <input id="q-id" class="form-control mr-sm-2" type="search"
-                       name="q" placeholder="Search" aria-label="Search">
+                <div style="margin-right: 10px;">
+                    <div class="radio" style="margin-right: 5px; margin-bottom: 5px;">
+                        <label style="justify-content: left;"><input type="radio" id="radio-button-text-id" name="optradio" value="text">Text</label>
+                    </div>
+                    <div class="radio" style="margin-right: 5px;">
+                        <label><input type="radio" id="radio-button-regex-id" name="optradio" value="regex">Regex</label>
+                    </div>
+                </div>
+                <input id="text-input-id" class="form-control mr-sm-2" type="search"
+                       name="text" placeholder="Search" aria-label="Search" disabled>
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
