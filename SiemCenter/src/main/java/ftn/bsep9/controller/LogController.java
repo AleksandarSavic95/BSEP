@@ -38,6 +38,20 @@ public class LogController {
     }
 
 
+    @PostMapping("/search-by-text")
+    public String getByText(@RequestBody String text, Model model){
+        if (logsService.findByText(text, model)) return "logs-view";
+        return "bad-request";
+    }
+
+
+    @PostMapping("/search-by-date")
+    public String searchByDate(@RequestBody String text, Model model){
+        if (logsService.findByDate(text, model)) return "logs-view";
+        return "bad-request";
+    }
+
+
     @PostMapping("/insert")
     public String insertOne(@RequestBody Log log, Model model) {
         Log insertedLog = logsRepository.insert(log);
@@ -82,13 +96,6 @@ public class LogController {
         return "logs-view";
     }
 
-
-    @PostMapping("/search-by-text")
-    public String getByText(@RequestBody String text, Model model){
-        if (logsService.findByText(text, model)) return "logs-view";
-        return "bad-request";
-    }
-
 //    @GetMapping("/recent")
 //    public String getByDateRecent(Model model){
 //        LocalDateTime minDateTime = LocalDateTime.now().minusHours(24L);
@@ -107,13 +114,6 @@ public class LogController {
 //        model.addAttribute("logs", logs);
 //        return "logs-view";
 //    }
-
-
-    @PostMapping("/search-by-date")
-    public String searchByDate(@RequestBody String text, Model model){
-        if (logsService.findByDate(text, model)) return "logs-view";
-        return "bad-request";
-    }
 
 
 }
