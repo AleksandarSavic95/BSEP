@@ -69,6 +69,7 @@ public class LogsServiceImpl implements LogsService {
         }
         catch (Exception e) {
             e.printStackTrace();
+            model.addAttribute("title", "Bad Request");
             return false;
         }
 
@@ -125,6 +126,7 @@ public class LogsServiceImpl implements LogsService {
         }
         catch (Exception e) {
             e.printStackTrace();
+            model.addAttribute("title", "Bad Request");
             return false;
         }
 
