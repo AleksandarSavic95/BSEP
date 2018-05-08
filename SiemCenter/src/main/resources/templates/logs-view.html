@@ -21,7 +21,12 @@
                     <li th:unless="${currentPage} >= 1">
                         <span aria-hidden="true" style="font-size: 30px;">&laquo;&nbsp;Previous&nbsp;&laquo;</span>
                     </li>
-                    &nbsp;&nbsp;&nbsp;&nbsp; <span style="font-size: 30px;">Page: <span th:text="${currentPage}"></span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+                    <li style="font-size: 30px;">
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        Page: <span th:text="${currentPage}"></span> / <span th:text="${totalPages - 1}"></span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                    </li>
+
                     <li th:if="${currentPage} < ${totalPages - 1}">
                         <a th:href="@{/api/all/{page}(page=${currentPage + 1})}" aria-label="Next">
                             <span aria-hidden="true" style="font-size: 30px;">&raquo;&nbsp;Next&nbsp;&raquo;</span>
