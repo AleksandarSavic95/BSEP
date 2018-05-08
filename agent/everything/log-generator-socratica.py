@@ -49,8 +49,12 @@ def main():
     severity_func_list = [logger.debug, logger.info, logger.warning, logger.error, logger.critical]
 
     while True:
-        severity_func = severity_func_list[randint(0,4)]  # random logger severity level
-        severity_func(get_message(), extra = {'app': get_app() } )  # adding a custom variable to logging format (through extra param)  : > :  https://stackoverflow.com/a/17558757/4345461
+        severity_func = severity_func_list[randint(0, 4)]  # random logger severity level
+
+        # adding a custom variable to logging format (through extra param)
+        # https://stackoverflow.com/a/17558757/4345461
+        severity_func(get_message(), extra={'app': get_app()})
+
         time.sleep(2)
 
 
