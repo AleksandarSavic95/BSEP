@@ -78,24 +78,30 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <form class="form-inline my-2 my-lg-0" action="/api/search-by-date" method="post">
-                    <div class="radio" style="margin-right: 5px;">
-                        <label><input type="radio" id="radio-button-before-id" name="optradio" value="before">Before</label>
-                    </div>
-                    <div class="radio" style="margin-right: 5px;">
-                        <label><input type="radio" id="radio-button-after-id" name="optradio" value="after">After</label>
-                    </div>
-                    <div class="radio" style="margin-right: 5px;">
-                        <label><input type="radio" id="radio-button-between-id" name="optradio" value="between">Between</label>
+                <form action="/api/search-by-date" method="post">
+                    <div class="form-inline my-2 my-lg-0">
+                        <div class="radio" style="margin-right: 5px; display: inline;">
+                            <label><input type="radio" id="radio-button-before-id" name="optradio" value="before">Before</label>
+                        </div>
+                        <div class="radio" style="margin-right: 5px; display: inline;">
+                            <label><input type="radio" id="radio-button-after-id" name="optradio" value="after">After</label>
+                        </div>
+                        <div class="radio" style="margin-right: 5px; display: inline;">
+                            <label><input type="radio" id="radio-button-between-id" name="optradio" value="between">Between</label>
+                        </div>
+                        <button class="btn btn-outline-success my-2 my-sm-0" style="display: inline;" type="submit">Search</button>
                     </div>
                     <!--<div class="radio" style="margin-right: 5px;">-->
                     <!--<label><input type="radio" name="optradio">Between</label>-->
                     <!--</div>-->
-                    <input id="date-1-id" class="form-control mr-sm-2" type="datetime-local"
-                           name="date-1" disabled>
-                    <input id="date-2-id" class="form-control mr-sm-2" type="datetime-local"
-                    name="date-2" style="display: none;">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <div class="form-inline my-2 my-lg-0">
+                        <input id="date-1-id" class="form-control mr-sm-2" type="datetime-local"
+                               name="date-1" disabled>
+                    </div>
+                    <div class="form-inline my-2 my-lg-0">
+                        <input id="date-2-id" class="form-control mr-sm-2" type="datetime-local"
+                               name="date-2" style="display: none;">
+                    </div>
                 </form>
             </ul>
 
@@ -103,18 +109,32 @@
                 <i class="far fa-file-alt fa-2x" style="padding-right: 10px; font-size: 2.5em"></i>
             </div>
 
-            <form class="form-inline my-2 my-lg-0" action="/api/search-by-text" method="post">
-                <div style="margin-right: 10px;">
-                    <div class="radio" style="margin-right: 5px; margin-bottom: 5px;">
-                        <label style="justify-content: left;"><input type="radio" id="radio-button-text-id" name="optradio" value="text">Text</label>
-                    </div>
-                    <div class="radio" style="margin-right: 5px;">
-                        <label><input type="radio" id="radio-button-regex-id" name="optradio" value="regex">Regex</label>
-                    </div>
+            <form action="/api/search-by-text" method="post">
+                <div class="form-inline my-2 my-lg-0" >
+                    <select class="form-control-range form-control-sm" name="select-responsible-person" id="id-select-responsible-person">
+                        <option id="text-option" value="text" selected="selected" class="form-control">
+                            Text </option>
+                        <option id="MAC-Address-option" value="MACAddress" class="form-control">
+                            MAC Address</option>
+                        <option id="severity-option" value="severity" class="form-control">
+                            Severity</option>
+                        <option id="service-option" value="service" class="form-control">
+                            Service</option>
+                    </select>
                 </div>
-                <input id="text-input-id" class="form-control mr-sm-2" type="search"
-                       name="text" placeholder="Search" aria-label="Search" disabled>
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <div class="form-inline my-2 my-lg-0" >
+                    <div style="margin-right: 10px;">
+                        <div class="radio" style="margin-right: 5px; margin-bottom: 5px;">
+                            <label style="justify-content: left;"><input type="radio" id="radio-button-text-id" name="optradio" value="text">Text</label>
+                        </div>
+                        <div class="radio" style="margin-right: 5px;">
+                            <label><input type="radio" id="radio-button-regex-id" name="optradio" value="regex">Regex</label>
+                        </div>
+                    </div>
+                    <input id="text-input-id" class="form-control mr-sm-2" type="search"
+                           name="text" placeholder="Search" aria-label="Search" disabled>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </div>
             </form>
         </div>
     </nav>
