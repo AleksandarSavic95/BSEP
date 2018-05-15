@@ -95,6 +95,8 @@ public class LogsServiceImpl implements LogsService {
             System.out.println(text);
 //      optradio=before&date-1=2018-05-08T01%3A40
 //      optradio=after&date-1=2018-05-08T01%3A10
+//        optradio=between&date-1=2018-05-03T11%3A11&date-2=2018-05-11T23%3A11
+//        optradio=between&date-1=2018-05-03T11%3A10&date-2=2018-05-11T23%3A25
 
             String[] beforeAndDateList = text.split("&");
             String beforeAfterString = beforeAndDateList[0].split("=")[1];
