@@ -23,6 +23,20 @@
             padding-top: 70px;
         }
 
+        p {
+            margin-bottom: 5px;
+        }
+
+        hr {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .click-log-a {
+            margin: 5px!important;
+            padding: 5px!important;
+        }
+
         #main-container {
             margin-top: 20px;
             margin-bottom: 20px;
@@ -36,13 +50,11 @@
     </style>
 
     <script>
-//        var myEl = document.getElementById('myelement');
-//        myEl.addEventListener('click', function() {
-//            alert('Hello world');
-//        }, false);
-//        myEl.addEventListener('click', function() {
-//            alert('Hello world again!!!');
-//        }, false);
+
+        function colorFunction(severity) {
+            console.log(severity);
+        }
+
         $(document).ready(function(){
             $('#radio-button-before-id').click(function(){
                 $('#date-1-id').prop('disabled', false);
@@ -64,7 +76,15 @@
                 $('#text-input-id').prop('disabled', false);
                 console.log("enabled");
             });
-});
+
+            var logElements = document.getElementsByClassName('click-log-a');
+            for (i = 0; i < logElements.length; i++) {
+                logElements[i].addEventListener('mousein', function() {
+                    console.log(logElements[i]);
+                    <!--logElements[i].css('background', 'tomato');-->
+                }, false);
+            }
+        });
     </script>
 </head>
 <body>

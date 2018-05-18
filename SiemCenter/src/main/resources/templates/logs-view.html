@@ -49,32 +49,32 @@
                 <!--/*@thymesVar id="logs" type="ftn.bsep9.model.Log"*/-->
                 <th:block th:each="log:${logs.content}">
                     <!-- Card -->
-                    <div class="card col-lg-4" th:href="@{/api/id/{id}(id=${log.id})}">
+                    <div class="col-lg-4" th:href="@{/api/id/{id}(id=${log.id})}" style="margin: 0; padding: 0;">
                         <!-- Card content -->
-                        <div class="card-body">
-                            <!-- Title -->
-                            <h4 class="card-title">Card title</h4>
-                            <a th:href="@{/api/id/{id}(id=${log.id})}" class="list-group-item list-group-item-action" style="margin-bottom: 10px;">
-                                <p>Log text: <span th:text="${log.text}"></span></p>
-                                <p>ID: <span th:text="${log.id}"></span></p>
-                                <p th:if="${log.date}">Date: <span th:text="${log.date}"></span></p>
-                                <p th:if="${log.MACAddress}">MAC Address: <span th:text="${log.MACAddress}"></span></p>
+                        <div class="card-body" style="margin: 5px; padding: 0;">
+                            <a th:href="@{/api/id/{id}(id=${log.id})}" class="click-log-a list-group-item list-group-item-action"
+                               th:attr="style='background:\'' + ${log.severityType} + '\');'">
+                                <p>Log text: <span th:text="${log.text}"></span></p><hr>
+                                <p>ID: <span th:text="${log.id}"></span></p><hr>
+                                <p th:if="${log.date}">Date: <span th:text="${log.date}"></span></p><hr>
+                                <p th:if="${log.MACAddress}">MAC Address: <span th:text="${log.MACAddress}"></span></p><hr>
                                 <p th:if="${log.service}">Service: <span th:text="${log.service}"></span></p>
                             </a>
                         </div>
 
                         <!-- Card footer -->
                         <div class="rounded-bottom mdb-color lighten-3 text-center pt-3" style="padding-top: 0px!important;">
-                            <ul class="list-unstyled list-inline font-small">
+                            <ul class="list-unstyled list-inline font-small" style="margin 0;">
                                 <li class="list-inline-item pr-2 white-text"><i class="fa fa-clock-o pr-1"></i>
-                                    <i class="far fa-clock"></i><span th:each="dateTime : ${#strings.setSplit(log.date, 'T')}">
+                                    <i class="far fa-clock"></i>&nbsp;<span>Time:</span>
+                                    <span th:each="dateTime : ${#strings.setSplit(log.date, 'T')}">
                                         <!--<span th:text="${dateTime[0]}"></span>-->
                                         <span th:text="${dateTime}"></span>
                                     </span>
                                 </li>
-                                <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="fa fa-comments-o pr-1"></i>12</a></li>
-                                <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="fa fa-facebook pr-1"> </i>21</a></li>
-                                <li class="list-inline-item"><a href="#" class="white-text"><i class="fa fa-twitter pr-1"> </i>5</a></li>
+                                <!--<li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="fa fa-comments-o pr-1"></i>12</a></li>-->
+                                <!--<li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="fa fa-facebook pr-1"> </i>21</a></li>-->
+                                <!--<li class="list-inline-item"><a href="#" class="white-text"><i class="fa fa-twitter pr-1"> </i>5</a></li>-->
                             </ul>
                         </div>
 
@@ -102,4 +102,12 @@
 <!--<i class="fas fa-sync fa-spin"></i>-->
 <!--<i class="fas fa-cog fa-spin"></i>-->
 <!--<i class="fas fa-spinner fa-pulse"></i>-->
+<!--</div>-->
+
+<!-- Title --><!--<h4 class="card-title">Card title</h4>-->
+<!--<div th:attr="onmouseover='javascript:colorFunction(\'' + ${log.severityType} + '\');'"-->
+<!--th:switch="${log.severityType}">-->
+<!--<p th:case="'WARNING'">RED</p>-->
+<!--<p th:case="INFO">YELLOW</p>-->
+<!--<p th:case="*"><span th:text="${log.severityType}"></span></p>-->
 <!--</div>-->
