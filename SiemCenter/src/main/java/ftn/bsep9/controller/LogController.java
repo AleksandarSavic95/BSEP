@@ -38,12 +38,18 @@ public class LogController {
     @GetMapping("/all/{page}")
     public String getAll(@PathVariable("page") int page, Model model){
 
-        if (page < 0) page = 0;
+        if (page < 0) {
+            page = 0;
+            model.addAttribute("pageOutOfRange", true);
+        }
         int size = 2;
 
         Long count = logsRepository.count();
         System.out.println(count);
-        if (count / size < page ) page = 0;
+        if (count / size < page ) {
+            page = 0;
+            model.addAttribute("pageOutOfRange", true);
+        }
         //Pageable pageable = new PageRequest(0, 2, Sort.Direction.ASC, "date");
         //Page<Log> logsPage = this.logsRepository.findAll(pageable);
 
@@ -61,7 +67,6 @@ public class LogController {
 
         Page<Log> logsPage = logsService.findAllWithPages(page, size, Sort.Direction.ASC, "date");
 
-        model.addAttribute("method-url", "/api/all");
         model.addAttribute("logs", logsPage);
         model.addAttribute("totalPages", logsPage.getTotalPages());
         model.addAttribute("currentPage", page);

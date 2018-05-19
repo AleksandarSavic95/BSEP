@@ -12,6 +12,12 @@
         <!-- Page Content -->
         <div class="container" id="main-container">
             <nav aria-label="Page navigation">
+                <div class="row" style="justify-content: center; text-align: center;">
+                    <div th:if="${pageOutOfRange}" class="col-lg-8 alert alert-danger alert-dismissible" style="margin: 0;">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Page out of range</strong> Page you requested does not exist. Showing page 0 instead.
+                    </div>
+                </div>
                 <ul class="pagination" style="justify-content: center; margin-bottom: 0">
                     <li th:if="${currentPage} >= 1">
                         <a th:href="@{/api/all/{page}(page=${currentPage - 1})}" aria-label="Previous">
