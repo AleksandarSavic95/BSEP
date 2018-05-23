@@ -31,26 +31,15 @@ public class LogsServiceImpl implements LogsService {
     @Autowired
     LogsRepository logsRepository;
 
-    @Autowired
-    MongoOperations mongoOperations;
 
-
-    public Boolean findAllWithPages(Model model, int page, int pageSize,
+    public Boolean findAllWithPages(Model model, int page, int size,
                                       Sort.Direction sortDirection, String sortField) {
 
         try {
-            if (page < 0) {
-                page = 0;
-                model.addAttribute("pageOutOfRange", true);
-            }
-
             Long count = this.logsRepository.count();
-            if (count / pageSize < page ) {
-                page = 0;
-                model.addAttribute("pageOutOfRange", true);
-            }
+            page = checkPageRange(page, count / size, model);
 
-            PageRequest pageRequest = new PageRequest(page, pageSize,
+            PageRequest pageRequest = new PageRequest(page, size,
                     new Sort(sortDirection, sortField));
 
             Page<Log> logs = this.logsRepository.findAll(pageRequest);
@@ -65,7 +54,6 @@ public class LogsServiceImpl implements LogsService {
             return false;
         }
 
-
         return true;
     }
 
@@ -74,15 +62,10 @@ public class LogsServiceImpl implements LogsService {
     public Boolean findByText(String text, int page, Model model) {
 
         int size = 3;
-
-//        List<Log> logs;
         Page<Log> logs;
+        QLog qLog = new QLog("logs");  // create a query class (QLog)
 
-        // create a query class (QLog)
-        QLog qLog = new QLog("logs");
-
-
-//          text=ne%C5%A1to+%3D+vrijednost+and+ne%C5%A1toDrugo+%3D+drugaVrijednost
+//      text=ne%C5%A1to+%3D+vrijednost+and+ne%C5%A1toDrugo+%3D+drugaVrijednost
         text = text.substring(5);  // uklonimo "text="
         text = text.replace("%2B", " ");  // "+" u "razmak"
 
@@ -96,34 +79,18 @@ public class LogsServiceImpl implements LogsService {
         text = text.replace("+", " ");
 
         try {
-//            text=ne%C5%A1to+%3D+vrijednost+and+ne%C5%A1toDrugo+%3D+drugaVrijednost+
-//                    ne%C5%A1to+%3D+vrijednost+and+ne%C5%A1toDrugo+%3D+drugaVrijednost+
             BooleanExpression finalBooleanExpression = SearchParser.parse(text, qLog);
 
             Long count = this.logsRepository.count(finalBooleanExpression);
-            if (count  / size < page ) {
-                page = 0;
-                model.addAttribute("pageOutOfRange", true);
-            }
+            page = checkPageRange(page, count / size, model);
 
             logs = this.logsRepository.findAll(
                     finalBooleanExpression, new PageRequest(page, size)); // filterByDate
              //, Sort.Direction.ASC, "MACAddress"
 
-            for (Log log : logs)
-                System.out.println(log.getText());
-
-            if (page < 0) {
-                page = 0;
-                model.addAttribute("pageOutOfRange", true);
-            }
-
-//            Page<Log> logsPage = logsService.findAllWithPages(page, size, Sort.Direction.ASC, "date");
             model.addAttribute("logs", logs);
             model.addAttribute("totalPages", logs.getTotalPages());
             model.addAttribute("currentPage", page);
-
-            model.addAttribute("searchedString", text);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -192,6 +159,21 @@ public class LogsServiceImpl implements LogsService {
         }
 
         return true;
+    }
 
+
+    private int checkPageRange(int page, Long totalPages, Model model) {
+        if (page < 0) {
+            page = 0;
+            model.addAttribute("pageOutOfRange", true);
+        }
+
+        if (page > totalPages) {
+            page = 0;
+            model.addAttribute("pageOutOfRange", true);
+        }
+
+        return page;
     }
 }
+
