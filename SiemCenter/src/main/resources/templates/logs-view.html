@@ -20,12 +20,18 @@
                 </div>
                 <ul class="pagination" style="justify-content: center; margin-bottom: 0">
                     <li th:if="${currentPage} >= 1">
-                        <a th:href="@{/api/all/{page}(page=${currentPage - 1})}" aria-label="Previous">
-                            <span aria-hidden="true" style="font-size: 20px;">&laquo;&nbsp;Previous&nbsp;&laquo;</span>
-                        </a>
+                        <form th:if="${searchString}" name="submitForm"
+                              method="POST" th:action="@{/api/search-by-text/{page}(page=${currentPage - 1})}">
+                            <input type="hidden" name="text" th:value="${searchString}">
+                            <button class="btn btn-sm btn-outline-info" type="submit" style="font-size: 15px;">&lt;&nbsp;Previous&nbsp;&lt;</button>
+                        </form>
+                        <form th:unless="${searchString}" name="submitForm"
+                              method="GET" th:action="@{/api/all/{page}(page=${currentPage - 1})}">
+                            <button class="btn btn-sm btn-outline-info" type="submit" style="font-size: 15px;">&lt;&nbsp;Previous&nbsp;&lt;</button>
+                        </form>
                     </li>
                     <li th:unless="${currentPage} >= 1">
-                        <span aria-hidden="true" style="font-size: 20px;">&laquo;&nbsp;Previous&nbsp;&laquo;</span>
+                        <span aria-hidden="true" style="font-size: 20px;">&lt;&nbsp;Previous&nbsp;&lt;</span>
                     </li>
                     <li style="font-size: 20px;">
                         &nbsp;&nbsp;&nbsp;
@@ -33,19 +39,25 @@
                         &nbsp;&nbsp;&nbsp;
                     </li>
                     <li th:if="${currentPage} < ${totalPages - 1}">
-                        <a th:href="@{/api/all/{page}(page=${currentPage + 1})}" aria-label="Next">
-                            <span aria-hidden="true" style="font-size: 20px;">&raquo;&nbsp;Next&nbsp;&raquo;</span>
-                        </a>
+                        <form th:if="${searchString}" name="submitForm"
+                              method="POST" th:action="@{/api/search-by-text/{page}(page=${currentPage + 1})}">
+                            <input type="hidden" name="text" th:value="${searchString}">
+                            <button class="btn btn-sm btn-outline-info" type="submit" style="font-size: 15px;">&gt;&nbsp;Next&nbsp;&gt;</button>
+                        </form>
+                        <form th:unless="${searchString}" name="submitForm"
+                              method="GET" th:action="@{/api/all/{page}(page=${currentPage + 1})}">
+                            <button class="btn btn-sm btn-outline-info" type="submit" style="font-size: 15px;">&gt;&nbsp;Next&nbsp;&gt;</button>
+                        </form>
                     </li>
                     <li th:unless="${currentPage} < ${totalPages - 1}">
-                        <span aria-hidden="true" style="font-size: 20px;">&raquo;&nbsp;Next&nbsp;&raquo;</span>
+                        <span aria-hidden="true" style="font-size: 22px;">&gt;&nbsp;Next&nbsp;&gt;</span>
                     </li>
                 </ul>
             </nav>
             <div class="row" style="justify-content: center;">
                 <div class="col-lg-12 text-center">
                     <div th:if="${searchedString}">
-                        <h2>You serached for &quot;<span th:text="${searchedString}"></span>&quot; </h2>
+                        <h2>You searched for &quot;<span th:text="${searchedString}"></span>&quot; </h2>
                         <p class="lead">Here's what we found</p>
                     </div>
                     <div th:unless="${searchedString}">

@@ -35,26 +35,58 @@ public class LogsServiceImpl implements LogsService {
     MongoOperations mongoOperations;
 
 
-    public Page<Log> findAllWithPages(int pageStart, int pageSize,
+    public Boolean findAllWithPages(Model model, int page, int pageSize,
                                       Sort.Direction sortDirection, String sortField) {
-        PageRequest pageRequest = new PageRequest(pageStart, pageSize,
-                new Sort(sortDirection, sortField));
-        return this.logsRepository.findAll(pageRequest);
+
+        try {
+            if (page < 0) {
+                page = 0;
+                model.addAttribute("pageOutOfRange", true);
+            }
+
+            Long count = this.logsRepository.count();
+            if (count / pageSize < page ) {
+                page = 0;
+                model.addAttribute("pageOutOfRange", true);
+            }
+
+            PageRequest pageRequest = new PageRequest(page, pageSize,
+                    new Sort(sortDirection, sortField));
+
+            Page<Log> logs = this.logsRepository.findAll(pageRequest);
+
+            model.addAttribute("logs", logs);
+            model.addAttribute("totalPages", logs.getTotalPages());
+            model.addAttribute("currentPage", page);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("title", "Bad Request");
+            return false;
+        }
+
+
+        return true;
     }
 
 
     @Override
-    public Boolean findByText(String text, Model model) {
+    public Boolean findByText(String text, int page, Model model) {
+
+        int size = 3;
 
 //        List<Log> logs;
         Page<Log> logs;
-        int page = 0;
 
         // create a query class (QLog)
         QLog qLog = new QLog("logs");
 
+
 //          text=ne%C5%A1to+%3D+vrijednost+and+ne%C5%A1toDrugo+%3D+drugaVrijednost
         text = text.substring(5);  // uklonimo "text="
+        text = text.replace("%2B", " ");  // "+" u "razmak"
+
+        model.addAttribute("searchString", text);  // dodamo pretragu po tekstu u promjenljivu za sljedecu stranicu
 
         text = text.replace("%5B", "[");
         text = text.replace("%5D", "]");
@@ -66,97 +98,31 @@ public class LogsServiceImpl implements LogsService {
         try {
 //            text=ne%C5%A1to+%3D+vrijednost+and+ne%C5%A1toDrugo+%3D+drugaVrijednost+
 //                    ne%C5%A1to+%3D+vrijednost+and+ne%C5%A1toDrugo+%3D+drugaVrijednost+
-
-//            Document d = mongoOperations.executeCommand("find()");
-//            System.out.println(d);
-//            System.out.println(d.get("date"));
-
-            // https://stackoverflow.com/a/26386715/4345461
-//            final DBObject command = new BasicDBObject();
-            DB db = new DB(new Mongo("localhost", 27017), "logs");
-//            String collectionName = "log";
-//            command.put("eval", "function() { return db." + collectionName + ".find(); }");
-//            CommandResult result = db.command(command);
-
-//            System.out.println(result);
-//            System.out.println(result.get("date"));
-//            System.out.println(result.get("text"));
-//            for (Object o :
-//                    result.values()) {
-//                System.out.println(o);
-//            }
-//
-//            for (Object o :
-//                    result.keySet()) {
-//                System.out.println(o);
-//            }
-
-
-            // Za filtriranje IZMEDJU 2 datuma
-//        LocalDateTime minDateTime = LocalDateTime.now().minusHours(24L);
-//        final LocalDateTime maxDateTime = LocalDateTime.now().minusSeconds(20);
-
-            // using the query class we can create the filters
-//            BooleanExpression filterByMACAddress = qLog.MACAddress.eq("\tC5:85:06:17:93:BF");
-//            BooleanExpression filterByService = qLog.service.eq("\tstudent-service");
-//            BooleanExpression filterByReferentService = qLog.service.eq("\treferent-service");
-//            BooleanExpression filterByDate = qLog.date.between(LocalDateTime.now().minusDays(20), LocalDateTime.now());
-
-                // we can then pass the filters to the findAll() method
-//            logs = (List<Log>) this.logsRepository.findAll(
-//                    filterByMACAddress.and(filterByService).or(filterByReferentService)); // filterByDate
-            //,new PageRequest(page, 2, Sort.Direction.ASC, "MACAddress")
-
-//            for (Log log :
-//                    logs) {
-//                System.out.println(log);
-//            }
-
-
-//            DBCollection collection = db.getCollection("log");
-//            BasicDBObject andQuery = new BasicDBObject();
-//            List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
-//            obj.add(new BasicDBObject("MACAddress", "\tC5:85:06:17:93:BF"));
-//            obj.add(new BasicDBObject("service", "\tstudent-service"));
-//            andQuery.put("$and", obj);
-//
-//            System.out.println(andQuery.toString());
-//
-//            DBCursor cursor = collection.find(andQuery);
-//            while (cursor.hasNext()) {
-//                System.out.println(cursor.next());
-//            }
-
-
             BooleanExpression finalBooleanExpression = SearchParser.parse(text, qLog);
-            logs = this.logsRepository.findAll(
-                    finalBooleanExpression, new PageRequest(page, 5)); // filterByDate
-             //, Sort.Direction.ASC, "MACAddress"
 
-            for (Log log :
-                    logs) {
-                System.out.println(log.getText());
+            Long count = this.logsRepository.count(finalBooleanExpression);
+            if (count  / size < page ) {
+                page = 0;
+                model.addAttribute("pageOutOfRange", true);
             }
 
-            // Korisno za pregrage razlicitih atributa (ne samo Log.text) po regex-u ili tekstu
-            //
-//            Criteria criteria = Criteria.where("description").regex(searchString);
-//            Query query = Query.query(criteria);
-//            // apply pagination, sorting would also be specified here
-//            query.limit(limit);
-//            query.skip(offset);
-//            mongoOperations.find(query, Movie.class);
-    //        Query query = new Query();
-    //        query.limit(10);
-    //        query.addCriteria(Criteria.where("text").regex(Pattern.compile("")));
+            logs = this.logsRepository.findAll(
+                    finalBooleanExpression, new PageRequest(page, size)); // filterByDate
+             //, Sort.Direction.ASC, "MACAddress"
 
+            for (Log log : logs)
+                System.out.println(log.getText());
+
+            if (page < 0) {
+                page = 0;
+                model.addAttribute("pageOutOfRange", true);
+            }
 
 //            Page<Log> logsPage = logsService.findAllWithPages(page, size, Sort.Direction.ASC, "date");
             model.addAttribute("logs", logs);
             model.addAttribute("totalPages", logs.getTotalPages());
             model.addAttribute("currentPage", page);
 
-//            model.addAttribute("logs", logs);
             model.addAttribute("searchedString", text);
         }
         catch (Exception e) {

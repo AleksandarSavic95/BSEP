@@ -38,21 +38,6 @@ public class LogController {
     @GetMapping("/all/{page}")
     public String getAll(@PathVariable("page") int page, Model model){
 
-        if (page < 0) {
-            page = 0;
-            model.addAttribute("pageOutOfRange", true);
-        }
-        int size = 2;
-
-        Long count = logsRepository.count();
-        System.out.println(count);
-        if (count / size < page ) {
-            page = 0;
-            model.addAttribute("pageOutOfRange", true);
-        }
-        //Pageable pageable = new PageRequest(0, 2, Sort.Direction.ASC, "date");
-        //Page<Log> logsPage = this.logsRepository.findAll(pageable);
-
 //        logsPage.getSize()              2
 //        logsPage.getNumberOfElements()  2
 //        logsPage.getNumber()            0
@@ -65,18 +50,16 @@ public class LogController {
 //        logsPage.getPageable().getPageNumber());   0
 //        logsPage.getPageable().getPageSize());     2
 
-        Page<Log> logsPage = logsService.findAllWithPages(page, size, Sort.Direction.ASC, "date");
+        int size = 3;
 
-        model.addAttribute("logs", logsPage);
-        model.addAttribute("totalPages", logsPage.getTotalPages());
-        model.addAttribute("currentPage", page);
-        return "logs-view";
+        if (logsService.findAllWithPages(model, page, size, Sort.Direction.ASC, "date")) return "logs-view";
+        return "bad-request";
     }
 
 
-    @PostMapping("/search-by-text")
-    public String getByText(@RequestBody String text, Model model){
-        if (logsService.findByText(text, model)) return "logs-view";
+    @PostMapping("/search-by-text/{page}")
+    public String getByText(@RequestBody String text, @PathVariable("page") int page, Model model){
+        if (logsService.findByText(text, page, model)) return "logs-view";
         return "bad-request";
     }
 

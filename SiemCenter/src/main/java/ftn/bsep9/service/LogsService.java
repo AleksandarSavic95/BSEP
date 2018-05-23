@@ -8,10 +8,10 @@ import org.springframework.ui.Model;
 
 public interface LogsService {
 
-    Boolean findByText(String text, Model model);
+    Boolean findByText(String text, int page, Model model);
 
     Boolean findByDate(String text, Model model);
 
-    Page<Log> findAllWithPages(int pageStart, int pageSize, Sort.Direction sortDirection, String sortField);
+    Boolean findAllWithPages(Model model, int pageStart, int pageSize, Sort.Direction sortDirection, String sortField);
 
 }
