@@ -34,9 +34,16 @@
                         <span aria-hidden="true" style="font-size: 20px;">&lt;&nbsp;Previous&nbsp;&lt;</span>
                     </li>
                     <li style="font-size: 20px;">
-                        &nbsp;&nbsp;&nbsp;
-                        Page: <span th:text="${currentPage}"></span> / <span th:text="${totalPages - 1}"></span>
-                        &nbsp;&nbsp;&nbsp;
+                        <th:block th:if="${totalPages} == 0">
+                            &nbsp;&nbsp;&nbsp;
+                            Page: <span th:text="${currentPage}"></span> / <span> 0 </span>
+                            &nbsp;&nbsp;&nbsp;
+                        </th:block>
+                        <th:block th:unless="${totalPages} == 0">
+                            &nbsp;&nbsp;&nbsp;
+                            Page: <span th:text="${currentPage}"></span> / <span th:text="${totalPages - 1}"></span>
+                            &nbsp;&nbsp;&nbsp;
+                        </th:block>
                     </li>
                     <li th:if="${currentPage} < ${totalPages - 1}">
                         <form th:if="${searchString}" name="submitForm"

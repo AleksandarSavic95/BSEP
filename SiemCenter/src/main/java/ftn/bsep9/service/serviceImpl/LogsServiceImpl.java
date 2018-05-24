@@ -76,6 +76,7 @@ public class LogsServiceImpl implements LogsService {
         text = text.replace("%3A", ":");
         text = text.replace("%3D", "=");
         text = text.replace("%5C", "\\");
+        text = text.replace("%2F", "/");
         text = text.replace("+", " ");
 
         try {
@@ -163,12 +164,7 @@ public class LogsServiceImpl implements LogsService {
 
 
     private int checkPageRange(int page, Long totalPages, Model model) {
-        if (page < 0) {
-            page = 0;
-            model.addAttribute("pageOutOfRange", true);
-        }
-
-        if (page > totalPages) {
+        if (page < 0 || page > totalPages) {
             page = 0;
             model.addAttribute("pageOutOfRange", true);
         }

@@ -43,49 +43,41 @@ public class SearchParser {
                 System.out.println(wordsList[wordNumber+2]);
                 switch (wordsList[wordNumber]) {
                     case "text":
-
                         wordNumber++;
                         System.out.println("\n T E X T");
                         // text = - [1525735397615] User with username: username1 has logged out.\n
-                        if (wordsList[wordNumber].equals("=")) {
-                            System.out.println("\t =");
-                            wordNumber++;  // text = _rijec_;  _rijec_ ima indeks "text" + 2
+                        switch (wordsList[wordNumber]) {
+                            case "=":
+                                System.out.println("\t =");
+                                wordNumber++;  // text = _rijec_;  _rijec_ ima indeks "text" + 2
 
-                            StringBuilder searchBuilder = new StringBuilder();
-                            do {
-                                searchBuilder.append(wordsList[wordNumber]);
-                                searchBuilder.append(" ");
+                                StringBuilder searchBuilder = new StringBuilder();
+                                do {
+                                    searchBuilder.append(wordsList[wordNumber]);
+                                    searchBuilder.append(" ");
+                                    wordNumber++;
+                                } while(wordNumber < wordsList.length &&
+                                        (!
+                                            (wordsList[wordNumber].equals("and")
+                                            || wordsList[wordNumber].equals("or")
+                                            || wordsList[wordNumber].equals("not"))
+                                        ) );
+
+                                filter = qLog.text.eq(searchBuilder.toString());
+                                break;
+                            case "contains":  // text contains oneWordText
                                 wordNumber++;
-                            } while(wordNumber < wordsList.length &&
-                                    (!
-                                        (wordsList[wordNumber].equals("and")
-                                        || wordsList[wordNumber].equals("or")
-                                        || wordsList[wordNumber].equals("not"))
-                                    ) );
-
-//                            int openedSquareBracketIndex = searchBuilder.indexOf("%5B");
-//                            int closedSquareBracketIndex = searchBuilder.indexOf("%5D");
-//                            int colonIndex = searchBuilder.indexOf("%3A");
-//                            searchBuilder.replace(openedSquareBracketIndex, 3, "[");
-//                            searchBuilder.replace(closedSquareBracketIndex, 3, "]");
-//                            searchBuilder.replace(colonIndex, 3, ":");
-                            filter = qLog.text.eq(searchBuilder.toString());
+                                filter = qLog.text.contains(wordsList[wordNumber]);
+                                wordNumber++;
+                                break;
+                            case "regex":  // regex
+                                wordNumber++;
+                                filter = qLog.text.matches(wordsList[wordNumber]);
+                                wordNumber++;
+                                break;
+                            default:
+                                throw new Exception("Bad query formating for attribute: text");
                         }
-
-                        // text contains oneWordText
-                        else if(wordsList[wordNumber].equals("contains")) {
-                            wordNumber++;
-                            filter = qLog.text.contains(wordsList[wordNumber]);
-                            wordNumber++;
-                        }
-
-                        // regex
-                        else if (wordsList[wordNumber].equals("regex")) {
-
-                            filter = qLog.text.matches(wordsList[wordNumber + 1]);
-                        }
-                        else
-                            throw new Exception("Bad query formating for attribute: text");
 
                         booleanExpressionsList.add(filter);  // dodamo text filter u listu filtera
                         break;
@@ -211,8 +203,6 @@ public class SearchParser {
                     default:
                         throw new Exception("Bad logical operator >> " + logicalOperator);
                 }
-
-                i++;
             }
 
             System.out.println("\n---------- ---------------- ----------");
