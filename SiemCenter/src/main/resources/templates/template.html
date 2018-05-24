@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="header">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Log view">
+    <meta name="author" content="Student">
+
+    <!--/*@thymesVar id="title" type="java.lang.String"*/-->
+    <title th:text="${title}">Logs view</title>
+
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <script type="text/javascript" th:src="@{/jquery/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
+
+    <!-- Custom styles for this template -->
+    <style>
+        body {
+            padding-top: 70px;
+        }
+
+        p {
+            margin-bottom: 5px;
+        }
+
+        hr {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .click-log-a {
+            margin: 5px!important;
+            padding: 5px!important;
+        }
+
+        #main-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 992px) {
+            body {
+                padding-top: 70px;
+            }
+        }
+    </style>
+
+    <script>
+
+        function colorFunction(severity) {
+            console.log(severity);
+        }
+
+        $(document).ready(function(){
+            $('#radio-button-before-id').click(function(){
+                $('#date-1-id').prop('disabled', false);
+                $('#date-2-id').css('display', 'none');
+            });
+            $('#radio-button-after-id').click(function(){
+                $('#date-1-id').prop('disabled', false);
+                $('#date-2-id').css('display', 'none');
+            });
+            $('#radio-button-between-id').click(function(){
+                $('#date-1-id').prop('disabled', false);
+                $('#date-2-id').css('display', 'block');
+            });
+            $('#radio-button-regex-id').click(function(){
+                $('#text-input-id').prop('disabled', false);
+                console.log("enabled");
+            });
+            $('#radio-button-text-id').click(function(){
+                $('#text-input-id').prop('disabled', false);
+                console.log("enabled");
+            });
+
+            var logElements = document.getElementsByClassName('click-log-a');
+            for (i = 0; i < logElements.length; i++) {
+                logElements[i].addEventListener('mousein', function() {
+                    console.log(logElements[i]);
+                    <!--logElements[i].css('background', 'tomato');-->
+                }, false);
+            }
+        });
+    </script>
+</head>
+<body>
+
+<th:block th:fragment="navigation">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg light bg-light fixed-top">
+        <div style="color:royalblue; margin-top: 1px; padding: 1px; display:flex;justify-content:center;align-items:center;">
+            <i class="far fa-file-alt fa-3x" style="padding-right: 20px; font-size: 3.5em"></i>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <form action="/api/search-by-text/0" method="post">
+                    <label for="text-input-id">Search like this: attribute &#61; value <b>AND</b>/<b>OR</b>/<b>NOT</b> attribute &#61; value</label>
+                    <input id="text-input-id" class="form-control mr-sm-2" type="search"
+                           name="text" placeholder="Search" aria-label="Search">
+                </form>
+            </ul>
+
+            <div class="form-inline my-2 my-lg-0">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="button">Logout</button>
+            </div>
+        </div>
+    </nav>
+</th:block>
+
+<p th:fragment="asd">
+    just some text
+</p>
+
+</body>
+</html>

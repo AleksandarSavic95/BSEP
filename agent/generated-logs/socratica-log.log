@@ -74,3 +74,49 @@
 03-04-2018 12:58:43 	8B:35:C3:6E:10:6C 	professor-service : 	CRITICAL - [1522753123102] User with username: drstevanovic has logged in.
 03-04-2018 12:58:45 	8B:35:C3:6E:10:6C 	referent-service : 	WARNING - [1522753125102] User with username: coa995 has logged out.
 03-04-2018 12:58:47 	8B:35:C3:6E:10:6C 	referent-service : 	WARNING - [1522753127102] User with username: filip.savic has logged out.
+07-05-2018 15:20:58 	C5:85:06:17:93:BF 	student-service : 	INFO - [1525699258040] User with username: username1 has logged in.
+07-05-2018 15:21:00 	C5:85:06:17:93:BF 	student-service : 	ERROR - [1525699260041] User with username: filip.savic has logged out.
+07-05-2018 15:21:02 	C5:85:06:17:93:BF 	referent-service : 	DEBUG - [1525699262041] User with username: drstevanovic has logged in.
+07-05-2018 15:21:04 	C5:85:06:17:93:BF 	referent-service : 	ERROR - [1525699264041] User with username: username1 has logged out.
+07-05-2018 15:21:06 	C5:85:06:17:93:BF 	professor-service : 	WARNING - [1525699266042] User with username: coa995 failed to log in.
+07-05-2018 15:21:08 	C5:85:06:17:93:BF 	referent-service : 	INFO - [1525699268042] User with username: coa995 failed to log in.
+07-05-2018 15:21:10 	C5:85:06:17:93:BF 	professor-service : 	CRITICAL - [1525699270042] User with username: drstevanovic has logged in.
+07-05-2018 15:21:12 	C5:85:06:17:93:BF 	professor-service : 	INFO - [1525699272042] User with username: coa995 failed to log in.
+07-05-2018 15:21:14 	C5:85:06:17:93:BF 	student-service : 	CRITICAL - [1525699274042] User with username: username1 failed to log in.
+07-05-2018 15:21:16 	C5:85:06:17:93:BF 	student-service : 	WARNING - [1525699276042] User with username: drstevanovic failed to log in.
+07-05-2018 15:21:18 	C5:85:06:17:93:BF 	referent-service : 	CRITICAL - [1525699278042] User with username: username1 failed to log in.
+07-05-2018 15:21:20 	C5:85:06:17:93:BF 	referent-service : 	DEBUG - [1525699280042] User with username: username1 has logged in.
+07-05-2018 15:21:22 	C5:85:06:17:93:BF 	student-service : 	DEBUG - [1525699282042] User with username: filip.savic failed to log in.
+07-05-2018 15:21:24 	C5:85:06:17:93:BF 	student-service : 	INFO - [1525699284043] User with username: username1 has logged out.
+07-05-2018 15:21:26 	C5:85:06:17:93:BF 	student-service : 	WARNING - [1525699286043] User with username: username1 failed to log in.
+07-05-2018 15:21:28 	C5:85:06:17:93:BF 	referent-service : 	DEBUG - [1525699288043] User with username: drstevanovic has logged out.
+07-05-2018 15:21:30 	C5:85:06:17:93:BF 	professor-service : 	INFO - [1525699290043] User with username: filip.savic has logged in.
+07-05-2018 15:21:32 	C5:85:06:17:93:BF 	referent-service : 	WARNING - [1525699292043] User with username: filip.savic has logged in.
+07-05-2018 15:21:34 	C5:85:06:17:93:BF 	referent-service : 	CRITICAL - [1525699294043] User with username: filip.savic failed to log in.
+07-05-2018 15:21:36 	C5:85:06:17:93:BF 	student-service : 	WARNING - [1525699296043] User with username: coa995 has logged in.
+07-05-2018 15:21:38 	C5:85:06:17:93:BF 	student-service : 	ERROR - [1525699298043] User with username: username1 has logged out.
+07-05-2018 15:21:40 	C5:85:06:17:93:BF 	student-service : 	INFO - [1525699300044] User with username: username1 failed to log in.
+07-05-2018 15:21:42 	C5:85:06:17:93:BF 	referent-service : 	CRITICAL - [1525699302044] User with username: drstevanovic failed to log in.
+07-05-2018 15:21:44 	C5:85:06:17:93:BF 	referent-service : 	ERROR - [1525699304044] User with username: username1 has logged out.
+07-05-2018 15:21:46 	C5:85:06:17:93:BF 	student-service : 	ERROR - [1525699306044] User with username: filip.savic failed to log in.
+07-05-2018 15:21:48 	C5:85:06:17:93:BF 	professor-service : 	ERROR - [1525699308044] User with username: filip.savic failed to log in.
+07-05-2018 15:21:50 	C5:85:06:17:93:BF 	professor-service : 	INFO - [1525699310044] User with username: coa995 has logged out.
+07-05-2018 15:21:52 	C5:85:06:17:93:BF 	student-service : 	WARNING - [1525699312044] User with username: username1 has logged out.
+07-05-2018 15:21:54 	C5:85:06:17:93:BF 	professor-service : 	INFO - [1525699314044] User with username: username1 failed to log in.
+07-05-2018 15:21:56 	C5:85:06:17:93:BF 	referent-service : 	WARNING - [1525699316044] User with username: coa995 has logged in.
+07-05-2018 15:21:58 	C5:85:06:17:93:BF 	student-service : 	ERROR - [1525699318045] User with username: drstevanovic has logged out.
+07-05-2018 15:22:00 	C5:85:06:17:93:BF 	student-service : 	ERROR - [1525699320045] User with username: coa995 failed to log in.
+07-05-2018 15:22:02 	C5:85:06:17:93:BF 	referent-service : 	DEBUG - [1525699322045] User with username: username1 has logged in.
+07-05-2018 15:22:04 	C5:85:06:17:93:BF 	professor-service : 	ERROR - [1525699324045] User with username: drstevanovic has logged out.
+07-05-2018 15:22:06 	C5:85:06:17:93:BF 	student-service : 	DEBUG - [1525699326045] User with username: drstevanovic has logged in.
+07-05-2018 15:22:08 	C5:85:06:17:93:BF 	referent-service : 	INFO - [1525699328045] User with username: filip.savic has logged out.
+07-05-2018 15:22:10 	C5:85:06:17:93:BF 	student-service : 	ERROR - [1525699330045] User with username: drstevanovic has logged in.
+07-05-2018 15:22:12 	C5:85:06:17:93:BF 	professor-service : 	DEBUG - [1525699332045] User with username: username1 has logged in.
+07-05-2018 15:22:14 	C5:85:06:17:93:BF 	professor-service : 	ERROR - [1525699334045] User with username: drstevanovic failed to log in.
+07-05-2018 15:22:16 	C5:85:06:17:93:BF 	referent-service : 	WARNING - [1525699336046] User with username: drstevanovic has logged out.
+07-05-2018 15:22:18 	C5:85:06:17:93:BF 	student-service : 	CRITICAL - [1525699338046] User with username: filip.savic has logged out.
+07-05-2018 15:22:20 	C5:85:06:17:93:BF 	professor-service : 	ERROR - [1525699340046] User with username: username1 has logged in.
+07-05-2018 15:22:22 	C5:85:06:17:93:BF 	student-service : 	WARNING - [1525699342046] User with username: drstevanovic failed to log in.
+07-05-2018 15:22:24 	C5:85:06:17:93:BF 	student-service : 	DEBUG - [1525699344046] User with username: coa995 has logged out.
+07-05-2018 15:22:26 	C5:85:06:17:93:BF 	professor-service : 	ERROR - [1525699346046] User with username: filip.savic failed to log in.
+07-05-2018 15:22:28 	C5:85:06:17:93:BF 	student-service : 	CRITICAL - [1525699348046] User with username: filip.savic failed to log in.

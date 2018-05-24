@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <head th:replace="template :: header">
+    </head>
+
+<body>
+
+<th:block th:replace="template :: navigation">
+</th:block>
+
+    <div class="container">
+        <h1 th:text="${log}" style="text-align: center"></h1>
+    </div>
+
+</body>
+</html>
