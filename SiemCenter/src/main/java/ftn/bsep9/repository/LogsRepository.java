@@ -16,16 +16,15 @@ import java.util.Optional;
 @Repository
 public interface LogsRepository extends MongoRepository<Log, String>, QuerydslPredicateExecutor<Log> {
 
-    @Override
-    Optional<Log> findById(String search);
+//    @Override
+//    Optional<Log> findById(String search);
 
-    List<Log> findByDate(LocalDateTime date);
+//    List<Log> findByDate(LocalDateTime date);
 
-    List<Log> findAllByTextContainsIgnoreCase(String text);
+//    List<Log> findAllByTextContainsIgnoreCase(String text);
 
-    @Query("{ 'text':{$regex:?0,$options:'i'} }")
-    List<Log> findByTextRegexIgnoreCase(String text);
-
+//    @Query("{ 'text':{$regex:?0,$options:'i'} }")
+//    List<Log> findByTextRegexIgnoreCase(String text);
 
     Page<Log> findAll(Pageable pageable);
 

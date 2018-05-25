@@ -64,11 +64,11 @@ public class LogController {
     }
 
 
-    @PostMapping("/search-by-date")
-    public String searchByDate(@RequestBody String text, Model model){
-        if (logsService.findByDate(text, model)) return "logs-view";
-        return "bad-request";
-    }
+//    @PostMapping("/search-by-date")
+//    public String searchByDate(@RequestBody String text, Model model){
+//        if (logsService.findByDate(text, model)) return "logs-view";
+//        return "bad-request";
+//    }
 
 
     @PostMapping("/insert")
@@ -80,10 +80,10 @@ public class LogController {
     }
 
 
-    @PutMapping
-    public void update(@RequestBody Log log){
-        this.logsRepository.save(log);
-    }
+//    @PutMapping
+//    public void update(@RequestBody Log log){
+//        this.logsRepository.save(log);
+//    }
 
 
     @DeleteMapping("/delete")
@@ -105,15 +105,15 @@ public class LogController {
     }
 
 
-    @GetMapping("/date/{date}")
-    public String getByDate(@PathVariable("date") String dateString, Model model){
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        LocalDateTime localDateTime = LocalDateTime.parse(dateString, dateTimeFormatter);
-        List<Log> logs = this.logsRepository.findByDate(localDateTime);
-
-        model.addAttribute("logs", logs);
-        return "logs-view";
-    }
+//    @GetMapping("/date/{date}")
+//    public String getByDate(@PathVariable("date") String dateString, Model model){
+//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+//        LocalDateTime localDateTime = LocalDateTime.parse(dateString, dateTimeFormatter);
+//        List<Log> logs = this.logsRepository.findByDate(localDateTime);
+//
+//        model.addAttribute("logs", logs);
+//        return "logs-view";
+//    }
 
 //    @GetMapping("/recent")
 //    public String getByDateRecent(Model model){

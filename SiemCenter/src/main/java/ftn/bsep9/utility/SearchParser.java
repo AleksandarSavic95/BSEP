@@ -14,20 +14,6 @@ import java.util.List;
 
 public class SearchParser {
 
-    // using the query class we can create the filters
-//    BooleanExpression filterByMACAddress = qLog.MACAddress.eq("\tC5:85:06:17:93:BF");
-//    BooleanExpression filterByService = qLog.service.eq("\tstudent-service");
-//    BooleanExpression filterByReferentService = qLog.service.eq("\treferent-service");
-//    BooleanExpression filterByDate = qLog.date.between(LocalDateTime.now().minusDays(20), LocalDateTime.now());
-//
-//    // we can then pass the filters to the findAll() method
-//    logs = (List<Log>) this.logsRepository.findAll(filterByMACAddress.and(filterByService).or(filterByReferentService)); // filterByDate
-//
-//            for (Log log :
-//    logs) {
-//        System.out.println(log);
-//    }
-
         public static BooleanExpression parse(String searchString, QLog qLog) throws Exception {
 
             System.out.println(searchString);
@@ -140,6 +126,11 @@ public class SearchParser {
                                 filter = qLog.MACAddress.contains(wordsList[wordNumber]);
                                 wordNumber++;
                                 break;
+                            case "regex":  // regex
+                                wordNumber++;
+                                filter = qLog.MACAddress.matches(wordsList[wordNumber]);
+                                wordNumber++;
+                                break;
                             default:
                                 throw new Exception("Bad query formatting for attribute: MACAddress");
                         }
@@ -157,6 +148,11 @@ public class SearchParser {
                             case "contains":
                                 wordNumber++;
                                 filter = qLog.service.contains(wordsList[wordNumber]);
+                                wordNumber++;
+                                break;
+                            case "regex":  // regex
+                                wordNumber++;
+                                filter = qLog.service.matches(wordsList[wordNumber]);
                                 wordNumber++;
                                 break;
                             default:
@@ -178,6 +174,11 @@ public class SearchParser {
                                 filter = qLog.severityType.contains(wordsList[wordNumber]);
                                 wordNumber++;
                                 break;
+                            case "regex":  // regex
+                                wordNumber++;
+                                filter = qLog.severityType.matches(wordsList[wordNumber]);
+                                wordNumber++;
+                                break;
                             default:
                                 throw new Exception("Bad query formatting for attribute: severityType");
                         }
@@ -195,8 +196,6 @@ public class SearchParser {
                     booleanExpressionsList.add(filter);  // dodamo filter u listu filtera
 
                 if (wordNumber < wordsList.length - 1) {
-                    System.out.println(wordNumber);
-                    System.out.println(wordsList.length);
                     System.out.println("adding: " + wordsList[wordNumber]);
                     logicalOperatorsList.add(wordsList[wordNumber]);
                 }
@@ -227,16 +226,8 @@ public class SearchParser {
 
             System.out.println("\n---------- ---------------- ----------");
             System.out.println(finalBooleanExpression.toString());
-            System.out.println("---------- ---------------- ----------\n");
 
             return finalBooleanExpression;
-        }
-
-
-        public static void main(String[] args) {
-            String asd = "asd fgh q w";
-            if (asd.contains("d fg "))
-                System.out.println("ASD!");
         }
 
 }
