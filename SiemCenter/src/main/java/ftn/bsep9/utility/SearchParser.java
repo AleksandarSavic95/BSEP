@@ -40,6 +40,13 @@ public class SearchParser {
             Integer wordNumber = 0;
             BooleanExpression filter;
 
+            Boolean firstNot = false;
+
+            if (wordsList[0].equals("not")) {
+                firstNot = true;
+                wordNumber++;
+            }
+
             do {
                 System.out.println(wordsList[wordNumber]);
                 System.out.println(wordsList[wordNumber+1]);
@@ -81,7 +88,6 @@ public class SearchParser {
                             default:
                                 throw new Exception("Bad query formating for attribute: text");
                         }
-
                         break;
 
                     case "date":  // date between 17.05.2018. 20:30 & 18.05.2018. 16:20:40
@@ -181,7 +187,12 @@ public class SearchParser {
                         throw new Exception("Unmatched Log attribute >> " + wordsList[wordNumber]);
                 }
 
-                booleanExpressionsList.add(filter);  // dodamo filter u listu filtera
+                if (firstNot) {
+                    booleanExpressionsList.add(filter.not());  // dodamo negiran filter u listu filtera
+                    firstNot = false;
+                }
+                else
+                    booleanExpressionsList.add(filter);  // dodamo filter u listu filtera
 
                 if (wordNumber < wordsList.length - 1) {
                     System.out.println(wordNumber);
