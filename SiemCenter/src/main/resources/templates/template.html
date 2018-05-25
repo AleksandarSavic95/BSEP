@@ -93,7 +93,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg light bg-light fixed-top">
         <div style="color:royalblue; margin-top: 1px; padding: 1px; display:flex;justify-content:center;align-items:center;">
-            <i class="far fa-file-alt fa-3x" style="padding-right: 20px; font-size: 3.5em"></i>
+            <a href="/api/all"><i class="far fa-file-alt fa-3x" style="padding-right: 20px; font-size: 3.5em"></i></a>
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -101,7 +101,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <form action="/api/search-by-text/0" method="post">
-                    <label for="text-input-id">Search like this: attribute &#61; value <b>AND</b>/<b>OR</b>/<b>NOT</b> attribute &#61; value</label>
+                    <label for="text-input-id">Search like this: attribute &#61; value <b>and</b>/<b>or</b>/<b>not</b> date <b>before</b>/<b>after</b>/<b>between</b> dd.MM.yyyy. HH:mm:ss</label>
                     <input id="text-input-id" class="form-control mr-sm-2" type="search"
                            name="text" placeholder="Search" aria-label="Search">
                 </form>

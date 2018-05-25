@@ -68,12 +68,13 @@ public class LogsServiceImpl implements LogsService {
 //      text=ne%C5%A1to+%3D+vrijednost+and+ne%C5%A1toDrugo+%3D+drugaVrijednost
         text = text.substring(5);  // uklonimo "text="
         text = text.replace("%2B", " ");  // "+" u "razmak"
+        text = text.replace("%3A", ":");
+        text = text.replace("%26", "&");
 
         model.addAttribute("searchString", text);  // dodamo pretragu po tekstu u promjenljivu za sljedecu stranicu
 
         text = text.replace("%5B", "[");
         text = text.replace("%5D", "]");
-        text = text.replace("%3A", ":");
         text = text.replace("%3D", "=");
         text = text.replace("%5C", "\\");
         text = text.replace("%2F", "/");
@@ -92,9 +93,12 @@ public class LogsServiceImpl implements LogsService {
             model.addAttribute("logs", logs);
             model.addAttribute("totalPages", logs.getTotalPages());
             model.addAttribute("currentPage", page);
+            model.addAttribute("searchedString", text);
         }
         catch (Exception e) {
             e.printStackTrace();
+            if (e.getClass().equals(java.time.format.DateTimeParseException.class))
+                model.addAttribute("errorMessage", e.getMessage());
             model.addAttribute("title", "Bad Request");
             return false;
         }

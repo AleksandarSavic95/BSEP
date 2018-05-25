@@ -5,6 +5,9 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import ftn.bsep9.model.QLog;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +37,7 @@ public class SearchParser {
             List<String> logicalOperatorsList = new ArrayList<>();
             List<BooleanExpression> booleanExpressionsList = new ArrayList<>();
 
-            int wordNumber = 0;
+            Integer wordNumber = 0;
             BooleanExpression filter;
 
             do {
@@ -49,7 +52,7 @@ public class SearchParser {
                         switch (wordsList[wordNumber]) {
                             case "=":
                                 System.out.println("\t =");
-                                wordNumber++;  // text = _rijec_;  _rijec_ ima indeks "text" + 2
+                                wordNumber++;
 
                                 StringBuilder searchBuilder = new StringBuilder();
                                 do {
@@ -79,111 +82,93 @@ public class SearchParser {
                                 throw new Exception("Bad query formating for attribute: text");
                         }
 
-                        booleanExpressionsList.add(filter);  // dodamo text filter u listu filtera
                         break;
 
-                    case "date":  // date between 17.05.2018T20:30&18.5.2018T16:20:40
+                    case "date":  // date between 17.05.2018. 20:30 & 18.05.2018. 16:20:40
                         System.out.println("\n D A T E");
-//                        if (wordsList[i].equals("before")) {
-//
-//                        }
-//
-//                        else if (wordsList[i].equals("after")) {
-//
-//                        }
-//
-//                        else if (wordsList[i].equals("between")) {
-//
-//                        }
+                        wordNumber++;
+                        switch (wordsList[wordNumber]) {
+                            case "before":
+                                wordNumber++;
+                                filter = qLog.date.before(LocalDateTime.parse(
+                                        wordsList[wordNumber] + " " + wordsList[wordNumber + 1],
+                                        DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss")));
+                                wordNumber++;
+                                wordNumber++;
+                                break;
+                            case "after":
+                                wordNumber++;
+                                filter = qLog.date.after(LocalDateTime.parse(
+                                        wordsList[wordNumber] + " " + wordsList[wordNumber + 1],
+                                        DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss")));
+                                wordNumber++;
+                                wordNumber++;
+                                break;
+                            case "between":
+                                wordNumber++;
+                                if ( ! (wordsList[wordNumber + 2].equals("&")) )
+                                    throw new DateTimeParseException("Date separator is not &", wordsList[wordNumber + 2], 1);
+                                filter = qLog.date.between(
+                                        LocalDateTime.parse(wordsList[wordNumber] + " " + wordsList[wordNumber + 1],
+                                                DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss")),
+                                        LocalDateTime.parse(wordsList[wordNumber + 3] + " " + wordsList[wordNumber + 4],
+                                                DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss")));
+                                wordNumber = wordNumber + 5;
+                                break;
+                            default:
+                                throw new Exception("Bad query formatting for attribute: date");
+                        }
 
                         break;
+
                     case "MACAddress":
                         System.out.println("\n M A C");
+                        wordNumber++;
+                        switch (wordsList[wordNumber]) {
+                            case "=":
+                                wordNumber++;
+                                filter = qLog.MACAddress.eq(wordsList[wordNumber]);
+                                wordNumber++;
+                                break;
+                            case "contains":
+                                wordNumber++;
+                                filter = qLog.MACAddress.contains(wordsList[wordNumber]);
+                                wordNumber++;
+                                break;
+                            default:
+                                throw new Exception("Bad query formatting for attribute: MACAddress");
+                        }
                         break;
+
                     case "service":
                         System.out.println("\n S E R V I C E");
+                        wordNumber++;
+                        filter = qLog.service.eq(wordsList[wordNumber]);
+                        wordNumber++;
                         break;
+                        
                     case "severityType":
                         System.out.println("\n S E V E R I T Y");
+                        wordNumber++;
+                        filter = qLog.severityType.eq(wordsList[wordNumber]);
+                        wordNumber++;
                         break;
                     default:
                         throw new Exception("Unmatched Log attribute >> " + wordsList[wordNumber]);
                 }
 
+                booleanExpressionsList.add(filter);  // dodamo filter u listu filtera
+
                 if (wordNumber < wordsList.length - 1) {
                     System.out.println(wordNumber);
                     System.out.println(wordsList.length);
-                    System.out.println("adding :" + wordsList[wordNumber]);
+                    System.out.println("adding: " + wordsList[wordNumber]);
                     logicalOperatorsList.add(wordsList[wordNumber]);
                 }
 
                 wordNumber++;  // povecamo broj da pogodimo sljedeci logicki operator (ili kraj rijeci)
 
             } while (wordNumber < wordsList.length);
-//            text;
-//            date;
-//            MACAddress;
-//            service;
-//            severityType;
-            // text = vrijednost and date between 17.05.2018T20:30&18.5.2018T16:20:40 or MACAddress =
-//            for (int i = 0; i < wordsList.length - wordsList.length % 3; i = i + 4) {
-//                System.out.println(wordsList[i]);
-//                System.out.println(wordsList[i+1]);
-//                System.out.println(wordsList[i+2]);
-//
-//
-//                if (wordsList.length > 3) {
-//                    System.out.println(wordsList[i+3]);
-//                    if (i < 4)
-//                        logicalOperatorsList.add(wordsList[3]);  // prvi logicki operator
-//                    else
-//                        logicalOperatorsList.add(wordsList[i - 1]);
-//                }
-//
-//                BooleanExpression filter;
-//                switch (wordsList[i]) {
-//                    case "text":
-//                        System.out.println("\n T E X T");
-//
-//                        if (wordsList[i + 1].contains("/.*"))
-//                            filter = qLog.text.matches(wordsList[i + 2]);
-//                        else if (wordsList[i + 1].equals("%3D"))
-//                            filter = qLog.text.eq(wordsList[i + 2]);
-//                        else if(wordsList[i + 1].equals("contains"))
-//                            filter = qLog.text.contains(wordsList[i + 2]);
-//                        else
-//                            throw new Exception("Bad query formating for attribute: text");
-//                        booleanExpressionsList.add(filter);
-//                        break;
-//
-//                    case "date":  // date between 17.05.2018T20:30&18.5.2018T16:20:40
-//                        System.out.println("\n D A T E");
-////                        if (wordsList[i + 1].equals("before")) {
-////
-////                        }
-////
-////                        else if (wordsList[i + 1].equals("after")) {
-////
-////                        }
-////
-////                        else if (wordsList[i + 1].equals("between")) {
-////
-////                        }
-//
-//                        break;
-//                    case "MACAddress":
-//                        System.out.println("\n M A C");
-//                        break;
-//                    case "service":
-//                        System.out.println("\n S E R V I C E");
-//                        break;
-//                    case "severityType":
-//                        System.out.println("\n S E V E R I T Y");
-//                        break;
-//                    default:
-//                        throw new Exception("Unmatched Log attribute");
-//                }
-//            }
 
 //            text = vrijednost and date between 17.05.2018T20:30&18.5.2018T16:20:40 or MACAddress = C9:45:15:6A:93:17
             int i = 0;

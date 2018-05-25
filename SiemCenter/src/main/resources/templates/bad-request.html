@@ -8,9 +8,10 @@
 <th:block th:replace="template :: navigation">
 </th:block>
 
-<div class="container">
-    <h1 style="text-align: center; padding-top: 20px;">You made a bad request.</h1>
-    <h2 style="text-align: center"><a href="/api/all">Go back to viewing all logs.</a></h2>
+<div class="container" style="text-align: center;">
+    <h2 style="text-align: center; padding-top: 20px;">You made a bad request.</h2>
+    <h3 th:text="${errorMessage}"></h3>
+    <h3 style="text-align: center"><a href="/api/all">Go back to viewing all logs.</a></h3>
 </div>
 
 </body>
