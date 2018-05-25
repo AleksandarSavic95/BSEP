@@ -118,7 +118,6 @@ public class SearchParser {
                             default:
                                 throw new Exception("Bad query formatting for attribute: date");
                         }
-
                         break;
 
                     case "MACAddress":
@@ -143,16 +142,41 @@ public class SearchParser {
                     case "service":
                         System.out.println("\n S E R V I C E");
                         wordNumber++;
-                        filter = qLog.service.eq(wordsList[wordNumber]);
-                        wordNumber++;
+                        switch (wordsList[wordNumber]) {
+                            case "=":
+                                wordNumber++;
+                                filter = qLog.service.eq(wordsList[wordNumber]);
+                                wordNumber++;
+                                break;
+                            case "contains":
+                                wordNumber++;
+                                filter = qLog.service.contains(wordsList[wordNumber]);
+                                wordNumber++;
+                                break;
+                            default:
+                                throw new Exception("Bad query formatting for attribute: service");
+                        }
                         break;
-                        
+
                     case "severityType":
                         System.out.println("\n S E V E R I T Y");
                         wordNumber++;
-                        filter = qLog.severityType.eq(wordsList[wordNumber]);
-                        wordNumber++;
+                        switch (wordsList[wordNumber]) {
+                            case "=":
+                                wordNumber++;
+                                filter = qLog.severityType.eq(wordsList[wordNumber]);
+                                wordNumber++;
+                                break;
+                            case "contains":
+                                wordNumber++;
+                                filter = qLog.severityType.contains(wordsList[wordNumber]);
+                                wordNumber++;
+                                break;
+                            default:
+                                throw new Exception("Bad query formatting for attribute: severityType");
+                        }
                         break;
+
                     default:
                         throw new Exception("Unmatched Log attribute >> " + wordsList[wordNumber]);
                 }
@@ -170,7 +194,7 @@ public class SearchParser {
 
             } while (wordNumber < wordsList.length);
 
-//            text = vrijednost and date between 17.05.2018T20:30&18.5.2018T16:20:40 or MACAddress = C9:45:15:6A:93:17
+//          text = vrijednost and date between 17.05.2018T20:30&18.5.2018T16:20:40 or MACAddress = C9:45:15:6A:93:17
             int i = 0;
             BooleanExpression finalBooleanExpression = booleanExpressionsList.get(i);
             for (String logicalOperator : logicalOperatorsList) {

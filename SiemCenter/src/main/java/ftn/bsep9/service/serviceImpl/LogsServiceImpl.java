@@ -97,8 +97,7 @@ public class LogsServiceImpl implements LogsService {
         }
         catch (Exception e) {
             e.printStackTrace();
-            if (e.getClass().equals(java.time.format.DateTimeParseException.class))
-                model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("errorMessage", e.getMessage());
             model.addAttribute("title", "Bad Request");
             return false;
         }
