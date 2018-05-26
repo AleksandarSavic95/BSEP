@@ -16,7 +16,7 @@
 	},
 	"Directories": [
 		{
-			"path": "D:/Radim/BSEP/New/BSEP/agent/src/logs",
+			"path": "D:/Radim/BSEP/New/BSEP/agent/src/generating/logs",
 			"regexps": [
 				"(\\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}:\\d{2})\\s+(([0-9A-E]{2}:){5}[0-9A-E]{2})\\s+([a-z0-9-]+)\\s*:\\s*(WARNING|ERROR|CRITICAL)",
 				".*WARNING.*"
