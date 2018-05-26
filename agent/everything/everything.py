@@ -1,53 +1,10 @@
-# https://docs.python.org/2/library/configparser.html
-import configparser
-import os
 import re
 import time
+import json
+from os import listdir
+from os.path import join, isfile, abspath
 
 import requests
-
-
-def read_config(config_path):
-    """
-    Reads the configuration file and returns:
-     - list of directories [or log fieles?] to watch for (absolute paths),
-     - web address of the SIEM center [+ more information],
-     - list of regular expressions for filtering log entries,
-     - ... ?
-    """
-    config = configparser.ConfigParser()
-    config.read(config_path)
-    # config  .sections()  .options('section')  .items('section')
-    log_files = []
-    for item in config.items('directories'):  # list of (key, value) pairs
-        directory = item[1]  # item[0] je samo broj iz config fajla  (1,2,3..)
-        print('files (folders are skipped) in: ' + directory)
-        for dir_or_file in os.listdir(directory):
-            if not os.path.isdir(dir_or_file):
-                print('\t' + dir_or_file)
-                log_files.append(os.path.join(directory, dir_or_file))
-
-    siem_address = config.get('SIEM data', 'address')
-    print('SIEM center address: ' + siem_address)
-
-    regexps = [item[1] for item in config.items('Regex filters')]
-    # for item in config.items('Regex filters'):
-    #     regexps.append(item[1])
-
-    # make a dictionary
-    config_dict = {'logs': log_files, 'siem': siem_address, 'regexps': regexps}
-    return log_files, siem_address, regexps  # OR: config_dict
-
-
-def follow(file):
-    file.seek(0, 2)  # Go to the end of the file
-    while True:
-        line = file.readline()
-        if not line:
-            time.sleep(0.5)  # Sleep briefly
-            continue
-        yield line
-
 
 SERVER_ADDRESS = 'localhost'
 SERVER_PORT = 8765
@@ -62,30 +19,67 @@ def send_log(log_line):
     print('status and text of response: ', response.status_code, response.text)
 
 
+def read_config(config_path):
+    with open(config_path) as f:
+        configuration = json.load(f)
+    return configuration
+
+
+def read_dir(path=''):
+    """Opens every file in specified directory and returns the list of opened files."""
+    try:
+        dir_content = listdir(path)
+    except FileNotFoundError:
+        print('Invalid path: ' + path)
+        return
+    print('Listing files in: ' + path)
+
+    opened_log_files = []
+    for dir_or_file in dir_content:
+        # join gives same path as abspath? TODO: Move this to a variable and un-import abspath!
+        if isfile(join(path, dir_or_file)):
+            opened_log_files.append(open(join(path, dir_or_file)))
+            print('\tFound a file: ' + dir_or_file + ' |ABS|: ' + abspath(dir_or_file))
+
+    print('successfully read directory: ' + path)
+    return opened_log_files
+
+
+def follow(file):
+    file.seek(0, 2)  # Go to the end of the file
+    while True:
+        line = file.readline()
+        if not line:
+            time.sleep(0.5)  # Sleep briefly # TODO: sleep longer???
+            continue
+        yield line
+
+
 if __name__ == '__main__':
-    log_files, siem_address, regexps = read_config('config.ini')
+    config = read_config('config.json')
     print('Config read. Opening log files...')
 
-    patterns = [re.compile(reg) for reg in regexps]
+    for directory in config['Directories']:
+        opened_log_files = read_dir(directory['path'])
+        directory['patterns'] = [re.compile(reg) for reg in directory['regexps']]
+        print('Opened {} log files with {} patterns in dir {}'
+              .format(len(opened_log_files), len(directory['patterns']), directory['path']))
 
-    files = []
-    for f in log_files:
-        print('opening file ' + f + ' ...')
-        files.append(open(f))
+        # # for opened_log_file in opened_log_files:
+        opened_log_file = opened_log_files[0]  # za pocetak samo prvi fajl
+        lines = follow(opened_log_file)
+        for line in lines:
+            print(line)
+            for pattern in directory['patterns']:
+                print('tryting to match regex: ' + pattern.pattern)
+                if bool(re.search(pattern, line)):
+                    print('matched\n\t' + pattern.pattern + '\nwith\n\t' + line)
+                    send_log(line)  # not tested !
+                    break  # don't match any other regexps
+                print()
+            print('Waiting for a new log')
 
-    # za svaki otvoreni fajl
-    # for f in files:
-    lines = follow(files[0])  # za pocetak samo prvi fajl
-    for line in lines:
-        print(line)
-        for pattern in patterns:
-            print('tryting to match regex: ' + pattern.pattern)
-            if bool(re.search(pattern, line)):
-                print('matched\n\t' + pattern.pattern + '\nwith\n\t' + line)
-                send_log(line)  # not tested !
-                break  # don't match any other regexps
-            print()
-        print('Waiting for a new log')
+    print('END?')
     # !!!
     # for f in files:
     #     f.close()

@@ -126,7 +126,7 @@ def get_mac_address():
 def log(log_type, message):
     log_format = "%(asctime)s \t" + get_mac_address() + " \t%(app)s : \t%(levelname)s - %(message)s"
     logging.basicConfig(
-        filename="student-service-logs.log",
+        filename="logs/student-service-logs.log",
         datefmt='%d-%m-%Y %H:%M:%S',
         level=logging.DEBUG,
         format=log_format,

@@ -4,4 +4,8 @@
 08-05-2018 16:27:04 	34:23:87:02:53:AE 	student-service : 	INFO - [1525789624832] Checking financial card
 08-05-2018 16:27:06 	34:23:87:02:53:AE 	student-service : 	INFO - [1525789626833] Logged out successfully
 08-05-2018 16:27:06 	34:23:87:02:53:AE 	student-service : 	INFO - [1525789626833] User fsavic logged in successfully
-08-05-2018 16:27:06 	34:23:87:02:53:AE 	student-service : 	INFO - [1525789626834] Checking financial card
+08-05-2018 16:27:06 	34:23:87:02:53:AE 	student-service : 	INFO - [1525789626834] Checking financial card25-05-2018 12:25:07 	54:BE:F7:5B:33:39 	student-service : 	INFO - [1527243907241] User fsavic logged in successfully
+25-05-2018 12:25:07 	54:BE:F7:5B:33:39 	student-service : 	INFO - [1527243907241] User cojacasper logged in successfully
+25-05-2018 12:25:10 	54:BE:F7:5B:33:39 	student-service : 	INFO - [1527243910242] Checking financial card
+25-05-2018 12:25:13 	54:BE:F7:5B:33:39 	student-service : 	INFO - [1527243913258] Logged out successfully
+25-05-2018 12:25:18 	54:BE:F7:5B:33:39 	student-service : 	CRITICAL - [1527243918259] Non-user has tried to check financial card!
