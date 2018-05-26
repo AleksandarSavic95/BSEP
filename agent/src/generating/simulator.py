@@ -1,7 +1,7 @@
 import random
 import time
 
-from user import User
+from ..generating.user import User
 
 if __name__ == '__main__':
     users = ['fsavic', 'cojacasper', 'drstevanovic']
