@@ -1,5 +1,0 @@
-Hello world
-ERROR
-Mon 1-may-2017 2:14:23PM WARNING no solution found
-WARNING
-asdf
