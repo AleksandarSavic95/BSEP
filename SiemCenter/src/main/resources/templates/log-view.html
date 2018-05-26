@@ -9,8 +9,30 @@
 <th:block th:replace="template :: navigation">
 </th:block>
 
-    <div class="container">
-        <h1 th:text="${log}" style="text-align: center"></h1>
+    <div class="container" style="padding-top: 50px; display:flex;justify-content:center;align-items:center;width:100%;height:100%;">
+        <div class="card col-lg-8" style="width: 58rem;">
+            <!--Card body-->
+            <div class="card-body" style="text-align: center;">
+                <h4 class="card-title"><span th:text="${log.severityType}"></span></h4>
+                <h5 class="card-subtitle mb-2 text-muted"><span th:text="${log.id}"></span></h5>
+                <p>Log text: <span th:text="${log.text}"></span></p><hr>
+                <p th:if="${log.MACAddress}">MAC Address: <span th:text="${log.MACAddress}"></span></p><hr style="width: 80%;">
+                <p th:if="${log.service}">Service: <span th:text="${log.service}"></span></p>
+            </div>
+
+            <!-- Card footer -->
+            <div class="rounded-bottom mdb-color lighten-3 text-center pt-3" style="padding-top: 0px!important;">
+                <ul class="list-unstyled list-inline font-small" style="margin 0;">
+                    <li class="list-inline-item pr-2 white-text"><i class="fa fa-clock-o pr-1"></i>
+                        <i class="far fa-clock"></i>&nbsp;<span>Time:</span>
+                        <span th:each="dateTime : ${#strings.setSplit(log.date, 'T')}">
+                            <!--<span th:text="${dateTime[0]}"></span>-->
+                            <span th:text="${dateTime}"></span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
 </body>
