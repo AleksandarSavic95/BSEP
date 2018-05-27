@@ -103,9 +103,9 @@ public class Log {
 
         String[] splittedLog = logString.split(" ");
         String dateTimeString = splittedLog[0] + " " + splittedLog[1];
-        String MACAddress = splittedLog[2];
-        String service = splittedLog[3];
-        String severityType = splittedLog[5]; // splittedLog[4] = ' : '
+        String MACAddress = splittedLog[2].trim();
+        String service = splittedLog[3].trim();
+        String severityType = splittedLog[5].trim(); // splittedLog[4] = ' : '
 
         StringBuilder sb = new StringBuilder();
         for (int i = 6; i < splittedLog.length; i++) {

@@ -77,14 +77,41 @@
                     <div class="col-lg-4" th:href="@{/api/id/{id}(id=${log.id})}" style="margin: 0; padding: 0;">
                         <!-- Card content -->
                         <div class="card-body" style="margin: 5px; padding: 0;">
-                            <a th:href="@{/api/id/{id}(id=${log.id})}" class="click-log-a list-group-item list-group-item-action"
-                               th:attr="style='background:\'' + ${log.severityType} + '\');'">
-                                <p>Log text: <span th:text="${log.text}"></span></p><hr>
-                                <p>ID: <span th:text="${log.id}"></span></p><hr>
-                                <p th:if="${log.date}">Date: <span th:text="${log.date}"></span></p><hr>
-                                <p th:if="${log.MACAddress}">MAC Address: <span th:text="${log.MACAddress}"></span></p><hr>
-                                <p th:if="${log.service}">Service: <span th:text="${log.service}"></span></p>
-                            </a>
+                            <th:block th:switch="${log.severityType}">
+                                <a th:case="WARNING" th:href="@{/api/id/{id}(id=${log.id})}" class="click-log-a list-group-item list-group-item-action"
+                                   th:attr="style='background: green;'">
+                                    <p>Log text: <span th:text="${log.text}"></span></p><hr>
+                                    <p>ID: <span th:text="${log.id}"></span></p><hr>
+                                    <p th:if="${log.date}">Date: <span th:text="${log.date}"></span></p><hr>
+                                    <p th:if="${log.MACAddress}">MAC Address: <span th:text="${log.MACAddress}"></span></p><hr>
+                                    <p th:if="${log.service}">Service: <span th:text="${log.service}"></span></p>
+                                </a>
+                                <a th:case="CRITICAL" th:href="@{/api/id/{id}(id=${log.id})}" class="click-log-a list-group-item list-group-item-action"
+                                   th:attr="style='background: blue;'">
+                                    <p>Log text: <span th:text="${log.text}"></span></p><hr>
+                                    <p>ID: <span th:text="${log.id}"></span></p><hr>
+                                    <p th:if="${log.date}">Date: <span th:text="${log.date}"></span></p><hr>
+                                    <p th:if="${log.MACAddress}">MAC Address: <span th:text="${log.MACAddress}"></span></p><hr>
+                                    <p th:if="${log.service}">Service: <span th:text="${log.service}"></span></p>
+                                </a>
+                                <a th:case="ERROR" th:href="@{/api/id/{id}(id=${log.id})}" class="click-log-a list-group-item list-group-item-action"
+                                   th:attr="style='background: red;'">
+                                    <p>Log text: <span th:text="${log.text}"></span></p><hr>
+                                    <p>ID: <span th:text="${log.id}"></span></p><hr>
+                                    <p th:if="${log.date}">Date: <span th:text="${log.date}"></span></p><hr>
+                                    <p th:if="${log.MACAddress}">MAC Address: <span th:text="${log.MACAddress}"></span></p><hr>
+                                    <p th:if="${log.service}">Service: <span th:text="${log.service}"></span></p>
+                                </a>
+                                <a th:case="*" th:href="@{/api/id/{id}(id=${log.id})}" class="click-log-a list-group-item list-group-item-action"
+                                   th:attr="style='background:' + ${log.severityType} + ';'">
+                                    <p>Log text: <span th:text="${log.text}"></span></p><hr>
+                                    <p>ID: <span th:text="${log.id}"></span></p><hr>
+                                    <p th:if="${log.date}">Date: <span th:text="${log.date}"></span></p><hr>
+                                    <p th:if="${log.MACAddress}">MAC Address: <span th:text="${log.MACAddress}"></span></p><hr>
+                                    <p th:if="${log.service}">Service: <span th:text="${log.service}"></span></p><hr>
+                                    <p th:if="${log.severityType}">Severity Type: <span th:text="Unmatched + ${log.severityType}"></span></p>
+                                </a>
+                            </th:block>
                         </div>
 
                         <!-- Card footer -->
@@ -117,19 +144,10 @@
 
 </html>
 
-
 <!--<div class="fa-3x">-->
 <!--<i class="fas fa-spinner fa-spin"></i>-->
 <!--<i class="fas fa-circle-notch fa-spin"></i>-->
 <!--<i class="fas fa-sync fa-spin"></i>-->
 <!--<i class="fas fa-cog fa-spin"></i>-->
 <!--<i class="fas fa-spinner fa-pulse"></i>-->
-<!--</div>-->
-
-<!-- Title --><!--<h4 class="card-title">Card title</h4>-->
-<!--<div th:attr="onmouseover='javascript:colorFunction(\'' + ${log.severityType} + '\');'"-->
-<!--th:switch="${log.severityType}">-->
-<!--<p th:case="'WARNING'">RED</p>-->
-<!--<p th:case="INFO">YELLOW</p>-->
-<!--<p th:case="*"><span th:text="${log.severityType}"></span></p>-->
 <!--</div>-->
