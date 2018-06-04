@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="template :: header">
+    </head>
+
+    <body>
+
+        <th:block th:replace="template :: navigation">
+        </th:block>
+
+        <div class="container" id="main-container">
+            <div class="col-lg-6 col-md-6 offset-lg-3">
+
+                <h2 style="text-align: center;"> Log in </h2>
+
+                <form action="/api/login" method="post" style="border: 3px solid #f1f1f1;">
+
+                    <div class="container">
+                        <label for="username"><b>Username</b></label>
+                        <input id="username" type="text" placeholder="Enter Username" name="username" required>
+
+                        <label for="password"><b>Password</b></label>
+                        <input id="password" type="password" placeholder="Enter Password" name="password" required>
+
+                        <button type="submit">Log in</button>
+                    </div>
+
+                    <div class="container" style="background-color:#f1f1f1">
+                        <span class="already">Don't have an account? <a href="/api/register">Register</a></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </body>
+
+</html>

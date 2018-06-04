@@ -3,20 +3,16 @@ package ftn.bsep9.controller;
 import ftn.bsep9.model.Log;
 import ftn.bsep9.repository.LogsRepository;
 import ftn.bsep9.service.LogsService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/logs/")
 public class LogController {
 
     private LogsRepository logsRepository;
