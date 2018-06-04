@@ -9,7 +9,5 @@ import java.util.Map;
 public interface UserService extends UserDetailsService {
     User getUserByUsername(String username);
 
-    User register(User user);
-
     Boolean changePassword(Map<String, String> params);
 }

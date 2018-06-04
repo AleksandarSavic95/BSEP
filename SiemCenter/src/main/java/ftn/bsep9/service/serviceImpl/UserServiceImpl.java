@@ -1,7 +1,5 @@
 package ftn.bsep9.service.serviceImpl;
 
-import ftn.bsep9.exceptions.UserAlreadyExistsException;
-import ftn.bsep9.model.Role;
 import ftn.bsep9.model.User;
 import ftn.bsep9.repository.UserRepository;
 import ftn.bsep9.security.SecurityUtils;
@@ -31,16 +29,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
-    }
-
-    @Override
-    public User register(User user) {
-        if (userRepository.findByUsername(user.getUsername()) != null) {
-            throw new UserAlreadyExistsException("User already exists");
-        }
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        user.setRole(Role.OPERATOR);
-        return userRepository.save(user);
     }
 
     @Override
