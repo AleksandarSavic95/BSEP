@@ -6,6 +6,8 @@ import ftn.bsep9.model.QLog;
 import ftn.bsep9.repository.LogsRepository;
 import ftn.bsep9.service.LogsService;
 import ftn.bsep9.utility.SearchParser;
+import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,11 @@ public class LogsServiceImpl implements LogsService {
     @Autowired
     LogsRepository logsRepository;
 
+    @Autowired
+    KieContainer kieContainer; // EXPERIMENTAL!!! TRY LATER!
+
+    @Autowired
+    KieSession kieSession;
 
     public Boolean findAllWithPages(Model model, Integer page, Integer size,
                                       Sort.Direction sortDirection, String sortField) {
@@ -102,6 +109,15 @@ public class LogsServiceImpl implements LogsService {
         }
 
         return page;
+    }
+
+    @Override
+    public void saveLog(Log log) {
+        KieSession kieSession = kieContainer.newKieSession();
+        kieSession.insert(log);
+        kieSession.fireAllRules();
+        kieSession.dispose(); // try without this?
+        // return log;
     }
 }
 
