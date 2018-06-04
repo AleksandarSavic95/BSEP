@@ -10,12 +10,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api")
@@ -49,8 +50,8 @@ public class UserController {
 
 
     @GetMapping("/login")
-    public String login (Model model) {
-        model.addAttribute("user_form",true);
+    public String login(Model model) {
+        model.addAttribute("user_form", true);
         model.addAttribute("title", "Login");
         return "auth/login";
     }
@@ -75,13 +76,28 @@ public class UserController {
     }
 
 
+    @GetMapping("/change-password")
+    @PreAuthorize("hasAnyAuthority('OPERATOR', 'ADMIN')")
+    public String changePassword(Model model) {
+        return "auth/change-password";
+    }
+
+    @PutMapping(value = "/password")
+    @PreAuthorize("hasAnyAuthority('OPERATOR', 'ADMIN')")
+    public String changePassword(@RequestBody Map<String, String> params) {
+        if (userService.changePassword(params)) {
+            return "Valja";
+        }
+        return "Ne valja";
+    }
+
+
     @GetMapping("/register")
-    public String register (Model model) {
-        model.addAttribute("user_form",true);
+    public String register(Model model) {
+        model.addAttribute("user_form", true);
         model.addAttribute("title", "Register");
         return "auth/register";
     }
-
 
     @ResponseBody
     @PostMapping(value = "/register")
@@ -90,4 +106,5 @@ public class UserController {
 
         return ResponseEntity.ok("Successfully registered");
     }
+
 }
