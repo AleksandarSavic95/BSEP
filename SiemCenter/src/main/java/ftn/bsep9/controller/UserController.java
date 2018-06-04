@@ -1,21 +1,34 @@
 package ftn.bsep9.controller;
 
+import com.sun.media.jfxmedia.Media;
 import ftn.bsep9.model.User;
 import ftn.bsep9.security.TokenUtils;
 import ftn.bsep9.service.UserService;
+import javafx.application.Application;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.RedirectStrategy;
+import org.springframework.security.web.server.header.ContentTypeOptionsServerHttpHeadersWriter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api")
@@ -56,38 +69,26 @@ public class UserController {
     }
 
 
-    @ResponseBody
     @PostMapping(value = "/login")
-    public ResponseEntity<String> login(@RequestBody User user) {
+    public String login(@RequestParam Map<String, String> body, Model model,
+                              RedirectAttributes redirectAttributes
+    ) {
         try {
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+            System.out.println(body.get("username"));
+            System.out.println(body.get("password"));
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(body.get("username"), body.get("password"));
             Authentication authentication = authenticationManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            UserDetails details = userService.loadUserByUsername(body.get("username"));
 
-            UserDetails details = userService.loadUserByUsername(user.getUsername());
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("X-Auth-Token", tokenUtils.generateToken(details));
+            redirectAttributes.addFlashAttribute("token", tokenUtils.generateToken(details));
 
-            return new ResponseEntity<>(headers, HttpStatus.OK);
+            return "redirect:/api/logs/all";
         } catch (Exception ex) {
-            return new ResponseEntity<>("Login failed", HttpStatus.UNAUTHORIZED);
+            model.addAttribute("errorMessage","Wrong username or password. " + ex.getMessage());
+            return "auth/login";
         }
     }
 
 
-    @GetMapping("/register")
-    public String register (Model model) {
-        model.addAttribute("user_form",true);
-        model.addAttribute("title", "Register");
-        return "auth/register";
-    }
-
-
-    @ResponseBody
-    @PostMapping(value = "/register")
-    public ResponseEntity<String> register(@RequestBody User user) {
-        user = userService.register(user);
-
-        return ResponseEntity.ok("Successfully registered");
-    }
 }

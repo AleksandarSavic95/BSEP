@@ -7,6 +7,9 @@
     <meta name="description" content="Log view">
     <meta name="author" content="Student">
 
+    <!--/*@thymesVar id="token" type="java.lang.String"*/-->
+    <meta name="_jwt" th:content="${token}"/>
+
     <!--/*@thymesVar id="title" type="java.lang.String"*/-->
     <title th:text="${title}">Logs view</title>
 
@@ -60,6 +63,18 @@
         }
 
         $(document).ready(function(){
+            $(function(){
+                var _token = $('meta[name="_jwt"]').attr('content');
+
+                $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+                    jqXHR.setRequestHeader("X-Auth-Token", _token);
+                });
+            });
+
+            $(function () {
+                // ovdje ce neki post i get, da testiram da li se ubaci token u Request Header
+            })
+
             $('#radio-button-before-id').click(function(){
                 $('#date-1-id').prop('disabled', false);
                 $('#date-2-id').css('display', 'none');

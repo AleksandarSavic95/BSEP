@@ -27,7 +27,11 @@ public class LogController {
 
 
     @GetMapping("/all")
-    public String getAllNoPage(Model model){
+    public String getAllNoPage(@ModelAttribute("token") String token, Model model){
+        System.out.println("\n T O K E N");
+        System.out.println(token);
+        System.out.println("\n");
+//        model.addAttribute("token", token);
         return getAll(0, model);
     }
 
@@ -47,6 +51,9 @@ public class LogController {
 //        logsPage.getPageable().getPageSize());     2
 
         int size = 3;
+
+        System.out.println("\nmodel.containsAttribute(\"token\")");
+        System.out.println(model.containsAttribute("token"));
 
         if (logsService.findAllWithPages(model, page, size, Sort.Direction.ASC, "date")) return "logs-view";
         return "bad-request";
