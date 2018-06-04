@@ -65,11 +65,17 @@ public class LogsServiceImpl implements LogsService {
         text = text.replace("+", " ");
         text = text.replace("%2B", "+");
         text = text.replace("%3A", ":");
+        text = text.replace("%3B", ";");
+        text = text.replace("%2C", ",");
         text = text.replace("%26", "&");
         text = text.replace("%28", "(");
         text = text.replace("%29", ")");
         text = text.replace("%5B", "[");
         text = text.replace("%5D", "]");
+        text = text.replace("%7B", "{");
+        text = text.replace("%7D", "}");
+        text = text.replace("%22", "\"");
+        text = text.replace("%24", "$");
         text = text.replace("%3D", "=");
         text = text.replace("%5C", "\\");
         text = text.replace("%2F", "/");
