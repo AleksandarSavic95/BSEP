@@ -13,9 +13,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/api")
 public class UserController {
 
@@ -23,23 +25,38 @@ public class UserController {
     private UserService userService;
     private TokenUtils tokenUtils;
 
+
     public UserController(AuthenticationManager authenticationManager, UserService userService, TokenUtils tokenUtils) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.tokenUtils = tokenUtils;
     }
 
+
+    @ResponseBody
     @GetMapping("/test-public")
     public ResponseEntity<String> testPublic() {
         return ResponseEntity.ok("Test public - success");
     }
 
+
+    @ResponseBody
     @GetMapping("/test-private")
     @PreAuthorize("hasAnyAuthority('OPERATOR')")
     public ResponseEntity<String> testPrivate() {
         return ResponseEntity.ok("Test private - success");
     }
 
+
+    @GetMapping("/login")
+    public String login (Model model) {
+        model.addAttribute("user_form",true);
+        model.addAttribute("title", "Login");
+        return "auth/login";
+    }
+
+
+    @ResponseBody
     @PostMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody User user) {
         try {
@@ -57,6 +74,16 @@ public class UserController {
         }
     }
 
+
+    @GetMapping("/register")
+    public String register (Model model) {
+        model.addAttribute("user_form",true);
+        model.addAttribute("title", "Register");
+        return "auth/register";
+    }
+
+
+    @ResponseBody
     @PostMapping(value = "/register")
     public ResponseEntity<String> register(@RequestBody User user) {
         user = userService.register(user);
