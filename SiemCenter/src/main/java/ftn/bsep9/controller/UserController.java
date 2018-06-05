@@ -40,10 +40,20 @@ public class UserController {
 
 
     @ResponseBody
-    @GetMapping("/test-private")
+    @GetMapping("/test-operator")
     @PreAuthorize("hasAnyAuthority('OPERATOR')")
     public ResponseEntity<String> testPrivate() {
+        System.out.println("\n OPERATOR token stigao");
         return ResponseEntity.ok("Test private - success");
+    }
+
+
+    @ResponseBody
+    @GetMapping("/test-admin")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public ResponseEntity<String> testAdmin() {
+        System.out.println("\n ADMIN token stigao");
+        return ResponseEntity.ok("Test admin - success");
     }
 
 

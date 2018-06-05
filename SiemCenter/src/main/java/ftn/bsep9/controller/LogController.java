@@ -4,6 +4,7 @@ import ftn.bsep9.model.Log;
 import ftn.bsep9.repository.LogsRepository;
 import ftn.bsep9.service.LogsService;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,13 +29,10 @@ public class LogController {
 
     @GetMapping("/all")
     public String getAllNoPage(@ModelAttribute("token") String token, Model model){
-        System.out.println("\n T O K E N");
-        System.out.println(token);
-        System.out.println("\n");
-//        model.addAttribute("token", token);
         return getAll(0, model);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/all/{page}")
     public String getAll(@PathVariable("page") int page, Model model){
 
