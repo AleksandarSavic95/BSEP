@@ -60,8 +60,17 @@
 
         $(document).ready(function(){
             $(function(){
-                if (localStorage.getItem("token") === "undefined" ) {
+                console.log(sessionStorage.getItem("token"));
+                console.log(localStorage.getItem("token"));
+
+                if (sessionStorage.getItem("token") === "undefined" || sessionStorage.getItem("token") === null) {
+                    sessionStorage.setItem("token", $('meta[name="_jwt"]').attr('content'));
+                    console.log("setting SESSION");
+                }
+
+                if (localStorage.getItem("token") === "undefined" || localStorage.getItem("token") === null ) {
                     localStorage.setItem("token", $('meta[name="_jwt"]').attr('content'))
+                    console.log("setting LOCAL");
                 }
 
                 $.ajaxPrefilter(function (options, originalOptions, jqXHR) {

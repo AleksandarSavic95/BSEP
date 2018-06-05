@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @Controller
@@ -67,7 +68,7 @@ public class UserController {
 
     @PostMapping(value = "/login")
     public String login(@RequestParam Map<String, String> body, Model model,
-                        RedirectAttributes redirectAttributes
+                        RedirectAttributes redirectAttributes, HttpSession session
     ) {
         try {
             System.out.println(body.get("username"));
@@ -78,7 +79,8 @@ public class UserController {
             UserDetails details = userService.loadUserByUsername(body.get("username"));
 
             redirectAttributes.addFlashAttribute("token", tokenUtils.generateToken(details));
-
+//            session.setAttribute("token","tokenUtils.generateToken(details)");
+//            session.setAttribute("sesasd","SESasd");
             return "redirect:/api/logs/all";
         } catch (Exception ex) {
             model.addAttribute("errorMessage", "Wrong username or password. " + ex.getMessage());
