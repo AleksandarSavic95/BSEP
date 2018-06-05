@@ -31,11 +31,12 @@
 			<artifactId>spring-boot-starter-jersey</artifactId>
 		</dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
+        <!-- Drools doesn't work with devtools.. Use when not using drools -->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-devtools</artifactId>-->
+            <!--<optional>true</optional>-->
+        <!--</dependency>-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

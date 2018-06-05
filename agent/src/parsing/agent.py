@@ -40,8 +40,8 @@ def read_dir(path=''):
     try:
         dir_content = listdir(path)
     except FileNotFoundError:
-        print('Invalid path: ' + path)
-        return
+        print('\n\tERROR - Invalid path: ' + path)
+        return False
     print('Listing files in: ' + path)
 
     opened_log_files = []
@@ -80,23 +80,24 @@ if __name__ == '__main__':
 
     for directory in config['Directories']:
         opened_log_files = read_dir(directory['path'])
-        directory['patterns'] = [re.compile(reg) for reg in directory['regexps']]
-        print('Opened {} log files with {} patterns in dir {}'
-              .format(len(opened_log_files), len(directory['patterns']), directory['path']))
+        if opened_log_files:
+            directory['patterns'] = [re.compile(reg) for reg in directory['regexps']]
+            print('Opened {} log files with {} patterns in dir {}'
+                  .format(len(opened_log_files), len(directory['patterns']), directory['path']))
 
-        # # for opened_log_file in opened_log_files:
-        opened_log_file = opened_log_files[0]  # za pocetak samo prvi fajl
-        lines = follow(opened_log_file)
-        for line in lines:
-            print(line)
-            for pattern in directory['patterns']:
-                print('tryting to match regex: ' + pattern.pattern)
-                if bool(re.search(pattern, line)):
-                    print('matched\n\t' + pattern.pattern + '\nwith\n\t' + line)
-                    send_log(session, line)  # not tested !
-                    break  # don't match any other regexps
-                print()
-            print('Waiting for a new log')
+            # # for opened_log_file in opened_log_files: # # TODO: CITATI SVE FAJLOVE!!!
+            opened_log_file = opened_log_files[0]  # za pocetak samo prvi fajl
+            lines = follow(opened_log_file)
+            for line in lines:
+                print(line)
+                for pattern in directory['patterns']:
+                    print('tryting to match regex: ' + pattern.pattern)
+                    if bool(re.search(pattern, line)):
+                        print('matched\n\t' + pattern.pattern + '\nwith\n\t' + line)
+                        send_log(session, line)  # not tested !
+                        break  # don't match any other regexps
+                    print()
+                print('Waiting for a new log')
 
     print('END?')
     # !!!

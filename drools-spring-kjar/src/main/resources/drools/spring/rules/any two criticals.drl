@@ -1,0 +1,21 @@
+package drools.spring.rules;
+dialect  "mvel"
+
+import ftn.bsep9.model.Log;
+
+declare TwoCriticalsEvent
+    @role(event)
+    text1: String
+    text2: String
+end
+
+rule "alarm for any two criticals"
+    when
+        $log1: Log(severityType.equals("CRITICAL"))
+        $log2: Log(this != $log1)
+        not TwoCriticalsEvent(text1 == $log1.getText(), text2 == $log2.getText())
+    then
+        System.out.println("Two criticals!");
+        System.out.println($log1.getText() + " " + $log2.getText());
+        insert(new TwoCriticalsEvent($log1.getText(), $log2.getText()))
+end

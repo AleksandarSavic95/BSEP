@@ -8,10 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-
-import java.util.Arrays;
 
 @SpringBootApplication
 public class SiemApplication {
@@ -19,35 +16,33 @@ public class SiemApplication {
 	private static Logger log = LoggerFactory.getLogger(SiemApplication.class);
 
 	public static void main(String[] args) {
-		ApplicationContext ctx = SpringApplication.run(SiemApplication.class, args);
-
-		String[] beanNames = ctx.getBeanDefinitionNames();
-		Arrays.sort(beanNames);
-
-		StringBuilder sb = new StringBuilder("Application beans:\n");
-		for (String beanName : beanNames) {
-			sb.append(beanName);
-            sb.append("\n");
-		}
-		log.info(sb.toString());
+		SpringApplication.run(SiemApplication.class, args);
 	}
 
 	@Bean
 	public KieContainer kieContainer() {
 		KieServices ks = KieServices.Factory.get();
-		KieContainer kContainer = ks.newKieContainer(ks.newReleaseId("drools-spring-siem","drools-spring-kjar", "0.0.1-SNAPSHOT"));
+		KieContainer kContainer = ks.newKieContainer(ks.newReleaseId("ftn.bsep9","drools-spring-kjar", "0.0.1-SNAPSHOT"));
 		KieScanner kScanner = ks.newKieScanner(kContainer);
-		kScanner.start(10_000);
+        log.warn(":) created a KIE Container - return...");
+		kScanner.start(10000);
 		return kContainer;
 	}
 
-	/**
-	 *   M Y   T R Y   - not tested
-	 * Creates KieSession from the KieContainer Bean.
-	 * @return created KieSession.
-	 */
-	@Bean
-	public KieSession kieSession() {
-		return kieContainer().newKieSession("AutowiredKieSession");
-	}
+    /**
+     *   M Y   T R Y   - not tested enough :)
+     *   Spring Beans are Singletons.
+     * Creates KieSession from the KieContainer.
+     * @return created KieSession.
+     */
+    @Bean
+    public KieSession kieSession() {
+        KieServices ks = KieServices.Factory.get();
+        KieContainer kContainer = ks.newKieContainer(ks.newReleaseId("drools-spring-v2","drools-spring-v2-kjar", "0.0.1-SNAPSHOT"));
+        // https://docs.jboss.org/drools/release/6.2.0.CR3/drools-docs/html/KIEChapter.html#KIEDeployingSection
+        KieScanner kScanner = ks.newKieScanner(kContainer);
+        kScanner.start(10000L); // Scan kjar project for changes every 10 seconds
+        log.warn(":) created a KIE Session - return...");
+        return kieContainer().newKieSession();
+    }
 }

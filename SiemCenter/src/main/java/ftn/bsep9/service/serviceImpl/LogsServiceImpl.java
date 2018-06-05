@@ -22,11 +22,15 @@ public class LogsServiceImpl implements LogsService {
     @Autowired
     LogsRepository logsRepository;
 
-    @Autowired
-    KieContainer kieContainer; // EXPERIMENTAL!!! TRY LATER!
+    private final KieSession kieSession;
+    private final KieContainer kieContainer;
 
     @Autowired
-    KieSession kieSession;
+    public LogsServiceImpl(KieContainer kieContainer, KieSession kieSession) {
+        System.out.println("\t\t Initialising a container and a session.");
+        this.kieContainer = kieContainer;
+        this.kieSession = kieSession;
+    }
 
     public Boolean findAllWithPages(Model model, Integer page, Integer size,
                                       Sort.Direction sortDirection, String sortField) {
@@ -119,10 +123,12 @@ public class LogsServiceImpl implements LogsService {
 
     @Override
     public void saveLog(Log log) {
-        KieSession kieSession = kieContainer.newKieSession();
+        System.out.println("FIRE ALL RULES");
+        // KieSession kieSession = kieContainer.newKieSession();
         kieSession.insert(log);
         kieSession.fireAllRules();
-        kieSession.dispose(); // try without this?
+        // Stateful rule session must always be disposed when finished
+        // kieSession.dispose(); // try without this?
         // return log;
     }
 }
