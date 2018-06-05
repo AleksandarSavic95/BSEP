@@ -91,6 +91,8 @@ public class UserController {
     @GetMapping("/change-password")
 //    @PreAuthorize("hasAnyAuthority('OPERATOR', 'ADMIN')")
     public String changePassword(Model model) {
+        model.addAttribute("user_form", true);
+        model.addAttribute("title", "Change Password");
         return "auth/change-password";
     }
 
