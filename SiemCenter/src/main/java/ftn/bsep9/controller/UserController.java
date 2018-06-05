@@ -89,18 +89,18 @@ public class UserController {
     }
 
     @GetMapping("/change-password")
-    @PreAuthorize("hasAnyAuthority('OPERATOR', 'ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('OPERATOR', 'ADMIN')")
     public String changePassword(Model model) {
         return "auth/change-password";
     }
 
-    @PutMapping(value = "/password")
-    @PreAuthorize("hasAnyAuthority('OPERATOR', 'ADMIN')")
-    public String changePassword(@RequestBody Map<String, String> params) {
+    @PostMapping(value = "/password")
+//    @PreAuthorize("hasAnyAuthority('OPERATOR', 'ADMIN')")
+    public String changePassword(@RequestParam Map<String, String> params) {
         if (userService.changePassword(params)) {
-            return "Valja";
+            return "logs-view";
         }
-        return "Ne valja";
+        return "logs-view";
     }
 
 

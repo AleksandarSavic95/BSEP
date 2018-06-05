@@ -32,7 +32,7 @@ public class LogController {
         return getAll(0, model);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/all/{page}")
     public String getAll(@PathVariable("page") int page, Model model){
 
