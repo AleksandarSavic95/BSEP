@@ -12,7 +12,7 @@ end
 rule "alarm for any two criticals"
     when
         $log1: Log(severityType.equals("CRITICAL"))
-        $log2: Log(this != $log1)
+        $log2: Log(severityType.equals("CRITICAL"), this != $log1)
         not TwoCriticalsEvent(text1 == $log1.getText(), text2 == $log2.getText())
     then
         System.out.println("Two criticals!");

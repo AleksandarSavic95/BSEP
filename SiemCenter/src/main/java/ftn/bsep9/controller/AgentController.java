@@ -31,6 +31,11 @@ public class AgentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Receives a Log and sends it to KIESession for rules evaluation.
+     * @param report received Log
+     * @return ResponseEntity object (always 200 OK)
+     */
     @PostMapping("/logs")
     public ResponseEntity<String> receiveLogKBS(@RequestBody AgentReport report) {
         Log log = new Log(report.getLog());

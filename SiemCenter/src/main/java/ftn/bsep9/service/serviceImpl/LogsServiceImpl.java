@@ -23,12 +23,10 @@ public class LogsServiceImpl implements LogsService {
     LogsRepository logsRepository;
 
     private final KieSession kieSession;
-    private final KieContainer kieContainer;
 
     @Autowired
-    public LogsServiceImpl(KieContainer kieContainer, KieSession kieSession) {
-        System.out.println("\t\t Initialising a container and a session.");
-        this.kieContainer = kieContainer;
+    public LogsServiceImpl(KieSession kieSession) {
+        System.out.println("\t\tInitializing a KIE Session...");
         this.kieSession = kieSession;
     }
 
@@ -123,13 +121,8 @@ public class LogsServiceImpl implements LogsService {
 
     @Override
     public void saveLog(Log log) {
-        System.out.println("FIRE ALL RULES");
-        // KieSession kieSession = kieContainer.newKieSession();
         kieSession.insert(log);
         kieSession.fireAllRules();
-        // Stateful rule session must always be disposed when finished
-        // kieSession.dispose(); // try without this?
-        // return log;
     }
 }
 

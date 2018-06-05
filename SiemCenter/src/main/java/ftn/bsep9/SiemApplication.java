@@ -19,30 +19,18 @@ public class SiemApplication {
 		SpringApplication.run(SiemApplication.class, args);
 	}
 
-	@Bean
-	public KieContainer kieContainer() {
-		KieServices ks = KieServices.Factory.get();
-		KieContainer kContainer = ks.newKieContainer(ks.newReleaseId("ftn.bsep9","drools-spring-kjar", "0.0.1-SNAPSHOT"));
-		KieScanner kScanner = ks.newKieScanner(kContainer);
-        log.warn(":) created a KIE Container - return...");
-		kScanner.start(10000);
-		return kContainer;
-	}
-
     /**
-     *   M Y   T R Y   - not tested enough :)
-     *   Spring Beans are Singletons.
-     * Creates KieSession from the KieContainer.
+     * Creates a KieSession Spring Bean (Singleton) from the KieContainer.
      * @return created KieSession.
      */
     @Bean
     public KieSession kieSession() {
         KieServices ks = KieServices.Factory.get();
-        KieContainer kContainer = ks.newKieContainer(ks.newReleaseId("drools-spring-v2","drools-spring-v2-kjar", "0.0.1-SNAPSHOT"));
+        KieContainer kContainer = ks.newKieContainer(ks.newReleaseId("ftn.bsep9","drools-spring-kjar", "0.0.1-SNAPSHOT"));
         // https://docs.jboss.org/drools/release/6.2.0.CR3/drools-docs/html/KIEChapter.html#KIEDeployingSection
         KieScanner kScanner = ks.newKieScanner(kContainer);
-        kScanner.start(10000L); // Scan kjar project for changes every 10 seconds
-        log.warn(":) created a KIE Session - return...");
-        return kieContainer().newKieSession();
+        kScanner.start(10000);
+        log.warn(":) created a KIE Container - returning...");
+        return kContainer.newKieSession();
     }
 }
