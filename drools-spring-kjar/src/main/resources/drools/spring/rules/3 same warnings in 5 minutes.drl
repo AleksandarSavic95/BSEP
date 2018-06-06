@@ -1,10 +1,12 @@
 package drools.spring.rules
 
 import ftn.bsep9.model.Log;
+import java.util.Date;
 
-declare MultipleWarningsEvent
+declare MultipleSameWarningsEvent
     @role(event)
     macAddress: String
+    occuredAt: Date
     // TODO: memorize each warning's timestamp in order to have more than
     //       one MultipleWarningsEvent event per machine (MACAddress)
 end
@@ -24,8 +26,8 @@ rule "3 same warnings in 5 minutes"
         )
         // TODO: zapamtiti $severity da mozemo pratiti vise tipova severity-a jednim pravilom! :)
         // not (MultipleWarningsEvent(macAddress == $trackedMacAddress, severityType == $severity))
-        not (MultipleWarningsEvent(macAddress == $trackedMacAddress))
+        not (MultipleSameWarningsEvent(macAddress == $trackedMacAddress))
     then
-        insert(new MultipleWarningsEvent($trackedMacAddress));
+        insert(new MultipleSameWarningsEvent($trackedMacAddress, new Date()));
         System.out.println("3 warnings on machine: " + $trackedMacAddress);
 end
