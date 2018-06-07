@@ -1,0 +1,29 @@
+package drools.spring.rules;
+dialect  "mvel"
+
+import ftn.bsep9.model.Log;
+
+//rule "collect all logs"
+//    when
+//        Log()
+//        $logCount: Number(intValue >= 1) from accumulate(
+//            $LOG: Log(),
+//            count($LOG)
+//        )
+//    then
+//        System.out.println("\nLOGS: " + $logCount);
+//end
+
+rule "two logs"
+    when
+        $L1: Log()
+        $L2: Log(this != $L1)
+    then
+        System.out.println("\nTWO!!!\n");
+end
+
+rule "go!"
+    when
+    then
+        System.out.println("GO from \"collect all logs\"....");
+end

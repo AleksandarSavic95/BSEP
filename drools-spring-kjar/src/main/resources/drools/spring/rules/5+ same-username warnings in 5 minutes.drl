@@ -6,21 +6,17 @@ import java.util.Date;
 
 declare fiveOrMoreSameUsernameWarningsEvent
     @role(event)
+    @timestamp(occuredAt) // for "meets" on these events/facts
     macAddress: String
     occuredAt: Date
+    // $warningCount will (probably?) always be 5, unless 5+ events happen
+    // during the 5m brake, which is made by `not..over window:time(5m)`.
     warningCount: int
-    // TODO: memorize each warning's timestamp in order to have more than
-    //       one MultipleWarningsEvent event per machine (MACAddress)
 end
 
 // by importing a STATIC function: // import function my.package.Foo.hello
 function String getUsername(String text) {
     return text.substring(text.indexOf("User") + 5).split(" ", 2)[0];
-}
-
-function boolean noMoreThanXMinutesApart(int minutes, Date d) {
-    return ((new Date()).getTime() - d.getTime()) <= minutes * 60 * 1000;
-//    System.out.println("noMoreThanXMinutesApart: " + new Date());
 }
 
 rule "5+ same-username warnings in 5 minutes"
@@ -38,11 +34,11 @@ rule "5+ same-username warnings in 5 minutes"
             count($log2)
         )
         // TODO: zapamtiti $severity da mozemo pratiti vise tipova severity-a jednim pravilom! :)
-        // not (fiveOrMoreSameUsernameWarningsEvent( ... ,  severityType == $severity ))
-        not (fiveOrMoreSameUsernameWarningsEvent(noMoreThanXMinutesApart(5, occuredAt))) // macAddress == $trackedMacAddress,
+//        not(
+//            fiveOrMoreSameUsernameWarningsEvent() // macAddress == $trackedMacAddress
+//            over window:time(5m)
+//        )
     then
-        System.out.println("Warnings count: " + $warningsCount.intValue() + "<- +1 !");
-        System.out.println("ADD IT TO CONSTRUCTOR OF THIS EVENT!!!\n");
         insert(new fiveOrMoreSameUsernameWarningsEvent($trackedMacAddress, new Date(), $warningsCount + 1));
         System.out.println("5 same-username warnings in 5 minutes on machine: " + $trackedMacAddress);
 end
