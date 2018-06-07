@@ -1,7 +1,11 @@
 package ftn.bsep9.controller;
 
+import ftn.bsep9.model.User;
 import ftn.bsep9.security.TokenUtils;
 import ftn.bsep9.service.UserService;
+import org.apache.http.protocol.HTTP;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/api")
 public class UserController {
 
@@ -33,14 +37,12 @@ public class UserController {
     }
 
 
-    @ResponseBody
     @GetMapping("/test-public")
     public ResponseEntity<String> testPublic() {
         return ResponseEntity.ok("Test public - success");
     }
 
 
-    @ResponseBody
     @GetMapping("/test-operator")
     @PreAuthorize("hasAnyAuthority('OPERATOR')")
     public ResponseEntity<String> testPrivate() {
@@ -49,7 +51,6 @@ public class UserController {
     }
 
 
-    @ResponseBody
     @GetMapping("/test-admin")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<String> testAdmin() {
@@ -58,52 +59,35 @@ public class UserController {
     }
 
 
-    @GetMapping("/login")
-    public String login(Model model) {
-        model.addAttribute("user_form", true);
-        model.addAttribute("title", "Login");
-        return "auth/login";
-    }
-
-
     @PostMapping(value = "/login")
-    public String login(@RequestParam Map<String, String> body, Model model,
-                        RedirectAttributes redirectAttributes, HttpSession session
-    ) {
+    public ResponseEntity<String> login(@RequestBody User user) {
         try {
-            System.out.println(body.get("username"));
-            System.out.println(body.get("password"));
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(body.get("username"), body.get("password"));
+            System.out.println("\n LOGIN POST");
+            System.out.println(user.getUsername());
+            System.out.println(user.getPassword());
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
             Authentication authentication = authenticationManager.authenticate(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            UserDetails details = userService.loadUserByUsername(body.get("username"));
 
-            redirectAttributes.addFlashAttribute("token", tokenUtils.generateToken(details));
-//            session.setAttribute("token","tokenUtils.generateToken(details)");
-//            session.setAttribute("sesasd","SESasd");
-            return "redirect:/api/logs/all";
+            UserDetails details = userService.loadUserByUsername(user.getUsername());
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("X-Auth-Token", tokenUtils.generateToken(details));
+
+            return new ResponseEntity<>(headers, HttpStatus.OK);
         } catch (Exception ex) {
-            model.addAttribute("errorMessage", "Wrong username or password. " + ex.getMessage());
-            return "auth/login";
+            return new ResponseEntity<>("Login failed", HttpStatus.UNAUTHORIZED);
         }
     }
 
-    @GetMapping("/change-password")
-//    @PreAuthorize("hasAnyAuthority('OPERATOR', 'ADMIN')")
-    public String changePassword(Model model) {
-        model.addAttribute("user_form", true);
-        model.addAttribute("title", "Change Password");
-        return "auth/change-password";
-    }
 
-    @PostMapping(value = "/password")
-//    @PreAuthorize("hasAnyAuthority('OPERATOR', 'ADMIN')")
-    public String changePassword(@RequestParam Map<String, String> params) {
-        if (userService.changePassword(params)) {
-            return "logs-view";
-        }
-        return "logs-view";
-    }
+//    @PostMapping(value = "/password")
+////    @PreAuthorize("hasAnyAuthority('OPERATOR', 'ADMIN')")
+//    public ResponseEntity<String> changePassword(@RequestParam Map<String, String> params) {
+//        if (userService.changePassword(params)) {
+//            return "logs-view";
+//        }
+//        return new ResponseEntity<String>(HttpStatus.OK, 'asd');
+//    }
 
 
 }
