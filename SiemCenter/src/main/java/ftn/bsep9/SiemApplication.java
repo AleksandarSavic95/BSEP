@@ -1,5 +1,6 @@
 package ftn.bsep9;
 
+import ftn.bsep9.model.Log;
 import org.drools.core.ClockType;
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
@@ -185,6 +186,15 @@ public class SiemApplication {
         kieScanner.start(10000);
 
         log.warn(":) created a KIE Container - returning...");
+
+        Log L1 = new Log("04-06-2018 22:36:24 54:BE:F7:5B:33:39 student-service : WARNING - [1528144715749] User fsavic failed to 6 log in.");
+        Log L2 = new Log("04-06-2018 22:36:25 54:BE:F7:5B:33:39 student-service : WARNING - [1528144715749] User fsavic failed to 6 log in.");
+        Log L3 = new Log("04-06-2018 22:36:26 54:BE:F7:5B:33:39 student-service : WARNING - [1528144715749] User fsavic failed to 6 log in.");
+        kieSession.insert(L1);
+        kieSession.insert(L2);
+        kieSession.insert(L3);
+        kieSession.fireAllRules();
+        System.out.println("\n\nFIRED from the BEAN!!!\n\n");
         return kieSession; // sessionName
     }
 }

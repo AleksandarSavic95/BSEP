@@ -14,7 +14,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <kie.version>6.5.0.Final</kie.version>
+        <kie.version>6.2.0.Final</kie.version>
+        <!-- 7.7.0 - 7.2.0 - 6.5.0 - 6.4.0 == NOT WORKING -->
 
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -51,6 +52,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jersey</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>14.0.1</version>
+            <!--<scope>test</scope>-->
         </dependency>
         <!--<dependency>-->
             <!--<groupId>org.springframework.data</groupId>-->

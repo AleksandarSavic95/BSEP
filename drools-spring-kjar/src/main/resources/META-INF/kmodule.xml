@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kmodule xmlns="http://jboss.org/kie/6.0.0/kmodule">
-	<!--<kbase name="myKBase" eventProcessingMode="stream" packages="drools.spring.rules">-->
-		<!--&lt;!&ndash;<ksession name="myKSession"/>&ndash;&gt;-->
-	<!--</kbase>-->
+	<kbase name="myKBase" packages="drools.spring.rules" eventProcessingMode="stream"> <!--eventProcessingMode="stream"-->
+		<ksession name="myKSession" default="true"/>
+	</kbase>
 </kmodule>

@@ -42,3 +42,26 @@ rule "5+ same-username warnings in 5 minutes"
         insert(new fiveOrMoreSameUsernameWarningsEvent($trackedMacAddress, new Date(), $warningsCount + 1));
         System.out.println("5 same-username warnings in 5 minutes on machine: " + $trackedMacAddress);
 end
+
+rule "test for a MultiWarning over window time"
+    when
+        fiveOrMoreSameUsernameWarningsEvent() over window:time(1m)
+    then
+        System.out.println("NO MULTI-WARNINGS!");
+end
+
+rule "test for NO multiWarnings over window time"
+    when
+        not(fiveOrMoreSameUsernameWarningsEvent() over window:time(1m))
+    then
+        System.out.println("NO MULTI-WARNINGS!");
+end
+
+rule "no logs over window:time 1m"
+    when
+        not(
+            Log() over window:time(1m)
+        )
+    then
+        System.out.println("NO LOGS IN THE PAST MINUTE!");
+end
