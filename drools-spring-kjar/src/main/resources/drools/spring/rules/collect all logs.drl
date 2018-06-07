@@ -3,16 +3,16 @@ dialect  "mvel"
 
 import ftn.bsep9.model.Log;
 
-//rule "collect all logs"
-//    when
-//        Log()
-//        $logCount: Number(intValue >= 1) from accumulate(
-//            $LOG: Log(),
-//            count($LOG)
-//        )
-//    then
-//        System.out.println("\nLOGS: " + $logCount);
-//end
+rule "collect all logs"
+    when
+        Log()
+        $logCount: Number(intValue >= 1) from accumulate(
+            $LOG: Log(),
+            count($LOG)
+        )
+    then
+        System.out.println("\nLOGS: " + $logCount);
+end
 
 rule "two logs"
     when
