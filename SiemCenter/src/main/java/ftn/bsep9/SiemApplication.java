@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 public class SiemApplication {
 
 	private static Logger log = LoggerFactory.getLogger(SiemApplication.class);
-	private static String sessionName = "myKSession";
+
     private static String groupId = "ftn.bsep9";
     private static String artifactId = "drools-spring-kjar";
     private static String version = "0.0.1-SNAPSHOT";
