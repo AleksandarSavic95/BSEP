@@ -3,7 +3,10 @@ package ftn.bsep9.controller;
 import ftn.bsep9.model.Log;
 import ftn.bsep9.repository.LogsRepository;
 import ftn.bsep9.service.LogsService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,15 +29,11 @@ public class LogController {
     }
 
 
-
-    @GetMapping("/all")
-    public String getAllNoPage(@ModelAttribute("token") String token, Model model){
-        return getAll(0, model);
-    }
-
 //    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    @GetMapping("/all/{page}")
-    public String getAll(@PathVariable("page") int page, Model model){
+    @ResponseBody
+    @GetMapping("/all")
+    public ResponseEntity<Page<Log>> getAll(@RequestParam Integer page,
+                                            @RequestParam Integer size) {
 
 //        logsPage.getSize()              2
 //        logsPage.getNumberOfElements()  2
@@ -48,20 +47,27 @@ public class LogController {
 //        logsPage.getPageable().getPageNumber());   0
 //        logsPage.getPageable().getPageSize());     2
 
-        int size = 3;
-
-        System.out.println("\nmodel.containsAttribute(\"token\")");
-        System.out.println(model.containsAttribute("token"));
-
-        if (logsService.findAllWithPages(model, page, size, Sort.Direction.ASC, "date")) return "logs-view";
-        return "bad-request";
+        Page<Log> logs = logsService.findAllWithPages(page, size, Sort.Direction.ASC, "date");
+        if (logs != null)
+            return new ResponseEntity<>(logs, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 
-    @PostMapping("/search-by-text/{page}")
-    public String getByText(@RequestBody String text, @PathVariable("page") int page, Model model){
-        if (logsService.findByText(text, page, model)) return "logs-view";
-        return "bad-request";
+    @ResponseBody
+    @GetMapping("/search-by-text")
+    public ResponseEntity<Page<Log>> getByText(@RequestParam String searchCriteria,
+                                               @RequestParam int page,
+                                               @RequestParam int size) {
+
+        System.out.println("");
+        System.out.println(searchCriteria);
+        System.out.println(page);
+        System.out.println(size);
+        Page<Log> logsPage = logsService.findByText(searchCriteria, page, size);
+        if (logsPage != null)
+            return new ResponseEntity<>(logsPage, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 
