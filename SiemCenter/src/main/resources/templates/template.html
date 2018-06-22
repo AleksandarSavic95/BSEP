@@ -7,6 +7,9 @@
     <meta name="description" content="Log view">
     <meta name="author" content="Student">
 
+    <!--/*@thymesVar id="token" type="java.lang.String"*/-->
+    <meta name="_jwt" th:content="${token}"/>
+
     <!--/*@thymesVar id="title" type="java.lang.String"*/-->
     <title th:text="${title}">Logs view</title>
 
@@ -14,6 +17,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
 
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <!--/*@thymesVar id="user_form" type="java.lang.Boolean"*/-->
+    <link th:if="${user_form}" rel="stylesheet" th:href="@{/css/login.css}" />
     <script type="text/javascript" th:src="@{/jquery/jquery.js}"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.js}"></script>
 
@@ -52,31 +57,50 @@
     </style>
 
     <script>
-
-        function colorFunction(severity) {
-            console.log(severity);
+        function logout() {
+            localStorage.setItem("token", undefined);
+            window.location = "/api/login";
         }
 
         $(document).ready(function(){
+            $(function(){
+//                console.log(sessionStorage.getItem("token"));
+
+//                if (sessionStorage.getItem("token") === "undefined" || sessionStorage.getItem("token") === null) {
+//                    sessionStorage.setItem("token", $('meta[name="_jwt"]').attr('content'));
+//                    console.log("setting SESSION");
+//                }
+
+                console.log(localStorage.getItem("token"));
+
+                if (localStorage.getItem("token") === "undefined" || localStorage.getItem("token") === null ) {
+                    localStorage.setItem("token", $('meta[name="_jwt"]').attr('content'));
+//                    console.log("setting LOCAL");
+                }
+
+                $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+                    jqXHR.setRequestHeader("X-Auth-Token", localStorage.getItem("token"));
+                    console.log("prefiltered with token > " + localStorage.getItem("token"));
+                });
+            });
+
+            $(function () {
+                // ovdje ce neki post i get, da testiram da li se ubaci token u Request Header
+                // BAR Jedna od ove dvije metode ce uvijek fail-ovati
+                $.get("/api/test-admin", function (data) {
+                    console.log("\n\tGETTING admin data");
+                    console.log(data);
+                });
+
+                $.get("/api/test-operator", function (data) {
+                    console.log("\n\tGETTING operator data");
+                    console.log(data);
+                });
+            });
+
             $('#radio-button-before-id').click(function(){
                 $('#date-1-id').prop('disabled', false);
                 $('#date-2-id').css('display', 'none');
-            });
-            $('#radio-button-after-id').click(function(){
-                $('#date-1-id').prop('disabled', false);
-                $('#date-2-id').css('display', 'none');
-            });
-            $('#radio-button-between-id').click(function(){
-                $('#date-1-id').prop('disabled', false);
-                $('#date-2-id').css('display', 'block');
-            });
-            $('#radio-button-regex-id').click(function(){
-                $('#text-input-id').prop('disabled', false);
-                console.log("enabled");
-            });
-            $('#radio-button-text-id').click(function(){
-                $('#text-input-id').prop('disabled', false);
-                console.log("enabled");
             });
 
             var logElements = document.getElementsByClassName('click-log-a');
@@ -95,14 +119,14 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg light bg-light fixed-top">
         <div style="color:royalblue; margin-top: 1px; padding: 1px; display:flex;justify-content:center;align-items:center;">
-            <a href="/api/all"><i class="far fa-file-alt fa-3x" style="padding-right: 20px; font-size: 3.5em"></i></a>
+            <a href="/api/logs/all"><i class="far fa-file-alt fa-3x" style="padding-right: 20px; font-size: 3.5em"></i></a>
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <form action="/api/search-by-text/0" method="post">
+                <form action="/api/logs/search-by-text/0" method="post">
                     <label for="text-input-id">Search like this: attribute &#61; value <b>and</b>/<b>or</b>/<b>not</b> date <b>before</b>/<b>after</b>/<b>between</b> dd.MM.yyyy. HH:mm:ss</label>
                     <input id="text-input-id" class="form-control mr-sm-2" type="search"
                            name="text" placeholder="Search" aria-label="Search">
@@ -110,7 +134,10 @@
             </ul>
 
             <div class="form-inline my-2 my-lg-0">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="button">Logout</button>
+                <a class="btn btn-outline-success my-2 my-sm-0" type="button" href="/api/change-password">Change password</a>
+            </div>
+            <div class="form-inline my-2 my-lg-0">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="JavaScript:logout()">Logout</button>
             </div>
         </div>
     </nav>

@@ -3,20 +3,17 @@ package ftn.bsep9.controller;
 import ftn.bsep9.model.Log;
 import ftn.bsep9.repository.LogsRepository;
 import ftn.bsep9.service.LogsService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/logs/")
 public class LogController {
 
     private LogsRepository logsRepository;
@@ -31,10 +28,11 @@ public class LogController {
 
 
     @GetMapping("/all")
-    public String getAllNoPage(Model model){
+    public String getAllNoPage(@ModelAttribute("token") String token, Model model){
         return getAll(0, model);
     }
 
+//    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/all/{page}")
     public String getAll(@PathVariable("page") int page, Model model){
 
@@ -51,6 +49,9 @@ public class LogController {
 //        logsPage.getPageable().getPageSize());     2
 
         int size = 3;
+
+        System.out.println("\nmodel.containsAttribute(\"token\")");
+        System.out.println(model.containsAttribute("token"));
 
         if (logsService.findAllWithPages(model, page, size, Sort.Direction.ASC, "date")) return "logs-view";
         return "bad-request";
