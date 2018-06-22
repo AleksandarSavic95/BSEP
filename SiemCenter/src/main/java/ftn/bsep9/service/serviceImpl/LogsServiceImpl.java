@@ -63,25 +63,6 @@ public class LogsServiceImpl implements LogsService {
         Page<Log> logs;
         QLog qLog = new QLog("logs");  // create a query class (QLog)
 
-        text = text.substring(5);  // uklonimo "text="
-        text = text.replace("+", " ");
-        text = text.replace("%2B", "+");
-        text = text.replace("%3A", ":");
-        text = text.replace("%3B", ";");
-        text = text.replace("%2C", ",");
-        text = text.replace("%26", "&");
-        text = text.replace("%28", "(");
-        text = text.replace("%29", ")");
-        text = text.replace("%5B", "[");
-        text = text.replace("%5D", "]");
-        text = text.replace("%7B", "{");
-        text = text.replace("%7D", "}");
-        text = text.replace("%22", "\"");
-        text = text.replace("%24", "$");
-        text = text.replace("%3D", "=");
-        text = text.replace("%5C", "\\");
-        text = text.replace("%2F", "/");
-
         model.addAttribute("searchString", text);  // dodamo pretragu po tekstu u promjenljivu za sljedecu stranicu
 
         try {
