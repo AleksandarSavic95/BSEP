@@ -1,34 +1,21 @@
 package ftn.bsep9;
 
-import ftn.bsep9.model.Log;
-import org.drools.core.ClockType;
-import org.kie.api.KieBase;
-import org.kie.api.KieBaseConfiguration;
 import org.kie.api.KieServices;
 import org.kie.api.builder.*;
-import org.kie.api.builder.model.KieBaseModel;
-import org.kie.api.builder.model.KieModuleModel;
-import org.kie.api.cdi.KContainer;
-import org.kie.api.conf.EventProcessingOption;
-import org.kie.api.conf.KieBaseOption;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.kie.api.runtime.KieSessionConfiguration;
-import org.kie.api.runtime.conf.ClockTypeOption;
-import org.kie.internal.io.ResourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.Properties;
 
 @SpringBootApplication
 public class SiemApplication {
 
 	private static Logger log = LoggerFactory.getLogger(SiemApplication.class);
-	private static String sessionName = "myKSession";
+
     private static String groupId = "ftn.bsep9";
     private static String artifactId = "drools-spring-kjar";
     private static String version = "0.0.1-SNAPSHOT";
