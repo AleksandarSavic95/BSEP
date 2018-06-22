@@ -9,6 +9,9 @@
         <th:block th:replace="template :: navigation">
         </th:block>
 
+        <!--<h2>-->
+            <!--<p th:text="${token}" th:unless="${token == null}">[...]</p>-->
+        <!--</h2>-->
         <!-- Page Content -->
         <div class="container" id="main-container">
             <nav aria-label="Page navigation">
@@ -21,12 +24,12 @@
                 <ul class="pagination" style="justify-content: center; margin-bottom: 0">
                     <li th:if="${currentPage} >= 1">
                         <form th:if="${searchString}" name="submitForm"
-                              method="POST" th:action="@{/api/search-by-text/{page}(page=${currentPage - 1})}">
+                              method="POST" th:action="@{/api/logs/search-by-text/{page}(page=${currentPage - 1})}">
                             <input type="hidden" name="text" th:value="${searchString}">
                             <button class="btn btn-sm btn-outline-info" type="submit" style="font-size: 15px;">&lt;&nbsp;Previous&nbsp;&lt;</button>
                         </form>
                         <form th:unless="${searchString}" name="submitForm"
-                              method="GET" th:action="@{/api/all/{page}(page=${currentPage - 1})}">
+                              method="GET" th:action="@{/api/logs/all/{page}(page=${currentPage - 1})}">
                             <button class="btn btn-sm btn-outline-info" type="submit" style="font-size: 15px;">&lt;&nbsp;Previous&nbsp;&lt;</button>
                         </form>
                     </li>
@@ -47,12 +50,12 @@
                     </li>
                     <li th:if="${currentPage} < ${totalPages - 1}">
                         <form th:if="${searchString}" name="submitForm"
-                              method="POST" th:action="@{/api/search-by-text/{page}(page=${currentPage + 1})}">
+                              method="POST" th:action="@{/api/logs/search-by-text/{page}(page=${currentPage + 1})}">
                             <input type="hidden" name="text" th:value="${searchString}">
                             <button class="btn btn-sm btn-outline-info" type="submit" style="font-size: 15px;">&gt;&nbsp;Next&nbsp;&gt;</button>
                         </form>
                         <form th:unless="${searchString}" name="submitForm"
-                              method="GET" th:action="@{/api/all/{page}(page=${currentPage + 1})}">
+                              method="GET" th:action="@{/api/logs/all/{page}(page=${currentPage + 1})}">
                             <button class="btn btn-sm btn-outline-info" type="submit" style="font-size: 15px;">&gt;&nbsp;Next&nbsp;&gt;</button>
                         </form>
                     </li>
@@ -74,7 +77,7 @@
                 <!--/*@thymesVar id="logs" type="ftn.bsep9.model.Log"*/-->
                 <th:block th:each="log:${logs.content}">
                     <!-- Card -->
-                    <div class="col-lg-4" th:href="@{/api/id/{id}(id=${log.id})}" style="margin: 0; padding: 0;">
+                    <div class="col-lg-4" th:href="@{/api/logs/id/{id}(id=${log.id})}" style="margin: 0; padding: 0;">
                         <!-- Card content -->
                         <div class="card-body" style="margin: 5px; padding: 0;">
                             <th:block th:switch="${log.severityType}">
