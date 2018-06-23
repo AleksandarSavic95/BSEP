@@ -1,19 +1,12 @@
 package drools.spring.rules;
 dialect  "mvel"
 
-import ftn.bsep9.model.Log;
 import java.util.List;
+import ftn.bsep9.model.Log;
 
 rule "alarm for any warning"
     when
         $log: Log(severityType.equals("WARNING"))
     then
         System.out.println("A warning! " + $log.getText());
-end
-
-rule "How many logs?"
-    when
-      $list: List() from collect(Log())
-    then
-      System.out.println("we've found " + $list.size() + " orders");
 end

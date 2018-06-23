@@ -1,0 +1,12 @@
+package drools.spring.rules;
+dialect  "mvel"
+
+import java.util.List;
+import ftn.bsep9.model.Log;
+
+rule "collect logs?"
+    when
+      $list: List() from collect(Log())
+    then
+      System.out.println("we've found " + $list.size() + " logs!");
+end
