@@ -1,6 +1,7 @@
 package ftn.bsep9.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.kie.api.definition.type.Expires;
 import org.kie.api.definition.type.Role;
 import org.kie.api.definition.type.Timestamp;
@@ -48,6 +49,7 @@ public class Log {
      * Converts the LocalDateTime attribute to milliseconds.
      * @return calculated number of milliseconds
      */
+    @JsonIgnore
     public long getDateTimeMilliseconds() {
         // dont ask.. https://stackoverflow.com/a/28706357/2101117
         return this.date.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
