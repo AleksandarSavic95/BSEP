@@ -9,6 +9,11 @@ import org.springframework.stereotype.Controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
+/**
+ * Controller only for test purposes.
+ * No need to run Postman for  server -> client  message creation.
+ */
 @Controller
 public class WebSocketController {
     private final SimpMessagingTemplate template;

@@ -4,6 +4,7 @@ public class AlarmNotification {
     private String date;
     private String content;
     private String level;
+    // TODO: Add link to log/list of logs which caused the alarm
 
     public AlarmNotification() {
     }
