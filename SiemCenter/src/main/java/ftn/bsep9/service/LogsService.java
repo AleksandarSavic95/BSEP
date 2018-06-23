@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 
 public interface LogsService {
 
-    Page<Log> findByText(String text, Integer page, Integer size);
+    Object findByText(String text, Integer page, Integer size);
 
 //    Boolean findByDate(String text, Model model);
 

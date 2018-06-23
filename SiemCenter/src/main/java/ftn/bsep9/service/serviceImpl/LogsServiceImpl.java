@@ -54,9 +54,8 @@ public class LogsServiceImpl implements LogsService {
 
 
     @Override
-    public Page<Log> findByText(String text, Integer page, Integer size) {
+    public Object findByText(String text, Integer page, Integer size) {
 
-//        Integer size = 3;
         Page<Log> logs;
         QLog qLog = new QLog("logs");  // create a query class (QLog)
 
@@ -72,8 +71,7 @@ public class LogsServiceImpl implements LogsService {
         }
         catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
-            return null;
+            return e.getMessage();
         }
 
         return logs;

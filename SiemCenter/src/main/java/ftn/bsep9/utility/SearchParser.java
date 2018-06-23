@@ -1,7 +1,6 @@
 package ftn.bsep9.utility;
 
 
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import ftn.bsep9.model.QLog;
 
@@ -34,9 +33,6 @@ public class SearchParser {
             }
 
             do {
-                System.out.println(wordsList[wordNumber]);
-                System.out.println(wordsList[wordNumber+1]);
-                System.out.println(wordsList[wordNumber+2]);
                 switch (wordsList[wordNumber]) {
                     case "text":
                         wordNumber++;
@@ -185,7 +181,7 @@ public class SearchParser {
                         break;
 
                     default:
-                        throw new Exception("Unmatched Log attribute >> " + wordsList[wordNumber]);
+                        throw new Exception("Unmatched Log attribute: " + wordsList[wordNumber]);
                 }
 
                 if (firstNot) {
