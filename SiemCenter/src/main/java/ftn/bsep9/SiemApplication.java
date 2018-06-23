@@ -41,4 +41,6 @@ public class SiemApplication {
         log.warn(":) created a KIE Container - returning...");
         return kieSession; // sessionName
     }
+
+    // TODO: create NotificationService + add SimpMessagingTemplate as a Bean
 }
