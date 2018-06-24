@@ -1,0 +1,40 @@
+package drools.spring.rules;
+dialect  "mvel"
+
+import java.util.Date;
+import ftn.bsep9.model.Log;
+import ftn.bsep9.service.NotificationService;
+
+global NotificationService notificationService;
+
+declare fiveOrMoreLogsEvent
+    @role(event)
+    @timestamp(date) // for "meets" on these events/facts
+    logCount: int
+    date: Date
+end
+
+rule "accumulate logs"
+    when
+        Log()
+        $logCount: Number(intValue() >= 1) from accumulate(
+            $LOG: Log(),
+            count($LOG)
+        )
+        not (
+            fiveOrMoreLogsEvent(logCount == $logCount.intValue())
+            over window:time(15m)
+        )
+    then
+        System.out.println("\nLOGS: " + $logCount);
+        if ($logCount.intValue() >= 5) {
+            insert(new fiveOrMoreLogsEvent($logCount.intValue(), new Date()));
+            notificationService.sendInfo($logCount.toString() + " logs in memory!");
+        }
+end
+
+rule "go!"
+    when
+    then
+        System.out.println("GO from \"collect all logs\"....");
+end

@@ -1,11 +1,13 @@
 package ftn.bsep9;
 
+import ftn.bsep9.service.NotificationService;
 import org.kie.api.KieServices;
 import org.kie.api.builder.*;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +15,9 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class SiemApplication {
+
+    @Autowired
+    NotificationService notificationService;
 
 	private static Logger log = LoggerFactory.getLogger(SiemApplication.class);
 
@@ -37,6 +42,9 @@ public class SiemApplication {
 
         final KieScanner kieScanner = kieServices.newKieScanner(kieContainer);
         kieScanner.start(10000);
+
+        System.out.println("Notification service setup...");
+        kieSession.setGlobal("notificationService", notificationService);
 
         log.warn(":) created a KIE Container - returning...");
         return kieSession; // sessionName
