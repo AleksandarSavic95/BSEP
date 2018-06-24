@@ -19,17 +19,21 @@ public class NotificationServiceImpl implements NotificationService {
         this.template = template;
     }
 
-//    @MessageMapping("/send/message")
-//    public void onReceiveMessage(String message) {
-//        String dateString = new SimpleDateFormat("HH:mm:ss").format(new Date());
-//        this.template.convertAndSend("/chat",
-//                new AlarmNotification(dateString, message, "danger"));
-//    }
+    @Override
+    public void sendWarning(String message) {
+        this.sendMessage(message, "danger");
+    }
 
     @Override
-    public void sendMessage(String message) {
+    public void sendInfo(String message) {
+        this.sendMessage(message, "info");
+    }
+
+    @Override
+    public void sendMessage(String message, String level) {
         String dateString = new SimpleDateFormat("HH:mm:ss").format(new Date());
+        System.out.println("sending message " + message);
         this.template.convertAndSend("/chat",
-                new AlarmNotification(dateString, message, "danger"));
+                new AlarmNotification(dateString, message, level));
     }
 }
