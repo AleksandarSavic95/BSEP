@@ -4,9 +4,9 @@ dialect  "mvel"
 import java.util.List;
 import ftn.bsep9.model.Log;
 
-rule "alarm for any warning"
-    when
-        $log: Log(severityType.equals("WARNING"))
-    then
-        System.out.println("A warning! " + $log.getText());
-end
+//rule "alarm for any warning"
+//    when
+//        $log: Log(severityType.equals("WARNING"))
+//    then
+//        System.out.println("A warning! " + $log.getText());
+//end
