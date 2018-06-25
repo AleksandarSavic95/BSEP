@@ -1,47 +1,41 @@
 package ftn.bsep9.controller;
 
 import ftn.bsep9.model.AlarmFile;
-import ftn.bsep9.model.Log;
-import ftn.bsep9.service.AlarmStorageService;
+import ftn.bsep9.service.AlarmFileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/alarms")
 public class AlarmController {
 
     @Autowired
-    private AlarmStorageService alarmStorageService;
+    private AlarmFileService alarmFileService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<String> create(@RequestBody AlarmFile alarmFile) {
         System.out.println(alarmFile);
-        alarmStorageService.create(alarmFile);
+        alarmFileService.create(alarmFile);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<Page<String>> getAll(@RequestParam Integer page,
-                                            @RequestParam Integer size,
-                                               @RequestParam String sortDirection) {
-        // Page<String> fileNames = ...
-        alarmStorageService.findAllWithPages(page, size, sortDirection);
-//        if (fileNames == null) {
-//            return ResponseEntity.badRequest().build();
-//        }
-        return new ResponseEntity<>(HttpStatus.OK); // FALI OBJEKAT U ODGOVORU !!!
+    public ResponseEntity<Page<String>> getAll(@RequestParam(defaultValue = "0") Integer page,
+                                            @RequestParam(defaultValue = "10") Integer size,
+                                               @RequestParam(defaultValue = "asc") String sortDirection) {
+
+        Page<String> fileNames = alarmFileService.findAllWithPages(page, size, sortDirection);
+        return new ResponseEntity<>(fileNames, HttpStatus.OK);
     }
 
     @GetMapping("/{alarmName}")
     public ResponseEntity<AlarmFile> get(@PathVariable String alarmName) {
         System.out.println("Getting: " + alarmName);
-        AlarmFile alarmFile = alarmStorageService.get(alarmName);
+        AlarmFile alarmFile = alarmFileService.get(alarmName);
         if (alarmFile == null) {
             return ResponseEntity.notFound().build();
         }
@@ -52,7 +46,7 @@ public class AlarmController {
     public ResponseEntity<AlarmFile> update(@PathVariable String alarmName,
                                             @RequestBody AlarmFile alarmFile) {
         System.out.println("Updating: " + alarmName);
-        AlarmFile updated = alarmStorageService.update(alarmName, alarmFile);
+        AlarmFile updated = alarmFileService.update(alarmName, alarmFile);
         if (updated == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -62,6 +56,6 @@ public class AlarmController {
     @DeleteMapping("/{alarmName}")
     public ResponseEntity<Boolean> delete(@PathVariable String alarmName) {
         System.out.println("Deleting: " + alarmName);
-        return ResponseEntity.ok(alarmStorageService.delete(alarmName));
+        return ResponseEntity.ok(alarmFileService.delete(alarmName));
     }
 }
