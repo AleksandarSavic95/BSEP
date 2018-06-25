@@ -1,9 +1,9 @@
 package ftn.bsep9.service;
 
 import ftn.bsep9.model.AlarmFile;
-import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Page;
 
-public interface AlarmStorageService {
+public interface AlarmFileService {
     AlarmFile create(AlarmFile alarmFile);
 
     AlarmFile get(String alarmName);
@@ -12,5 +12,5 @@ public interface AlarmStorageService {
 
     boolean delete(String alarmName);
 
-    PagedListHolder<String> findAllWithPages(int page, int size, String sortDirection);
+    Page<String> findAllWithPages(int page, int size, String sortDirection);
 }
