@@ -3,7 +3,6 @@ package ftn.bsep9.controller;
 import ftn.bsep9.model.AlarmFile;
 import ftn.bsep9.service.AlarmFileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +25,9 @@ public class AlarmController {
     @GetMapping
     public ResponseEntity<Page<String>> getAll(@RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam(defaultValue = "10") Integer size,
-                                               @RequestParam(defaultValue = "asc") String sortDirection) {
+                                               @RequestParam(defaultValue = "asc") String sort) {
 
-        Page<String> fileNames = alarmFileService.findAllWithPages(page, size, sortDirection);
+        Page<String> fileNames = alarmFileService.findAllWithPages(page, size, sort);
         return new ResponseEntity<>(fileNames, HttpStatus.OK);
     }
 

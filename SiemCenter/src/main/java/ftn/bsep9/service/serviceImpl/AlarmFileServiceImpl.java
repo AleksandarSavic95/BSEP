@@ -4,7 +4,6 @@ import ftn.bsep9.model.AlarmFile;
 import ftn.bsep9.repository.AlarmFilesRepository;
 import ftn.bsep9.service.AlarmFileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -69,9 +68,6 @@ public class AlarmFileServiceImpl implements AlarmFileService {
             Collections.reverse(fileNames);
         }
 
-//        PagedListHolder<String> pagedListHolder = new PagedListHolder<>(fileNames);
-//        pagedListHolder.setPage(page);
-//        pagedListHolder.setPageSize(size);
         Pageable pageable = PageRequest.of(page, size);
 
         return new PageImpl<>(fileNames, pageable, fileNames.size());
