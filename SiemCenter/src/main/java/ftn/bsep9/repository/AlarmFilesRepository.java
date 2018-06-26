@@ -32,7 +32,7 @@ public class AlarmFilesRepository {
         if (files == null)
             return new ArrayList<>();
         System.out.println("Sorting " + files.length + " files...");
-        return Arrays.asList(files).parallelStream().map(File::getName)
+        return Arrays.asList(files).parallelStream().map(file -> file.getName().substring(0, file.getName().length()-4))
                 .sorted(String.CASE_INSENSITIVE_ORDER).collect(Collectors.toList());
     }
 
