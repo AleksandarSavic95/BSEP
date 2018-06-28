@@ -3,9 +3,10 @@ dialect  "mvel"
 
 import java.util.Date;
 import ftn.bsep9.model.Log;
-import ftn.bsep9.service.NotificationService;
+import ftn.bsep9.model.Alarm;
+//import ftn.bsep9.service.AlarmService;
 
-global NotificationService notificationService;
+//global AlarmService alarmService;
 
 declare fiveOrMoreLogsEvent
     @role(event)
@@ -29,7 +30,9 @@ rule "accumulate logs"
         System.out.println("\nLOGS: " + $logCount);
         if ($logCount.intValue() >= 5) {
             insert(new fiveOrMoreLogsEvent($logCount.intValue(), new Date()));
-            notificationService.sendInfo($logCount.toString() + " logs in memory!");
+//            alarmService.fireAlarm(new Alarm(
+//                "info", "macAddress", "service", $logCount.toString() + " logs in memory!"
+//            ));
         }
 end
 
