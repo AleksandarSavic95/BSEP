@@ -42,7 +42,7 @@ end
 rule "USER-SECURITY 5 same username LoginTries"
 agenda-group "USER-SECURITY"
     when
-        LoginTry($trackedUsername: username)
+        LoginTry($trackedUsername: username, username != null)
         $list: List(size >= 5) from collect(LoginTry(username == $trackedUsername) over window:time(5m))
         not (
             FiveSameUserLoginsEvent(username == $trackedUsername)

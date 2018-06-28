@@ -64,6 +64,8 @@ public class UserController {
 
         String username = user.getUsername();
         if (! userSecurityService.canUserTryToLogin(username)) {
+            // blocked username LoginTry is STILL an IP try!
+            userSecurityService.saveLoginTry(null, ipAddress);
             return new ResponseEntity<>("Too many tries! Please try later!",
                     HttpStatus.FORBIDDEN);
         }
