@@ -46,6 +46,8 @@ public class SiemApplication {
         System.out.println("Notification service setup...");
         kieSession.setGlobal("notificationService", notificationService);
 
+        // kieSession.getAgenda().getAgendaGroup("user-security").setFocus();
+
         log.warn(":) created a KIE Container - returning...");
         return kieSession; // sessionName
     }
