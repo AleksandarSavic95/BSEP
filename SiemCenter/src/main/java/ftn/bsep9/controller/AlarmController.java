@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/alarms")
@@ -34,15 +33,7 @@ public class AlarmController {
     }
 
     @GetMapping("/{alarmName}")
-    public ResponseEntity<AlarmFile> get(@PathVariable String alarmName, HttpServletRequest request) {
-        System.out.println("\nget remote: address, user, host, port:");
-        System.out.println(request.getRemoteAddr()); // ex. 192.168.1.4
-        System.out.println(request.getRemoteUser()); // null
-        System.out.println(request.getRemoteHost()); // ex. 192.168.1.4
-        System.out.println(request.getRemotePort()); // ex. 61368
-        System.out.println("\nHeader X-FORWARDED-FOR:");
-        System.out.println(request.getHeader("X-FORWARDED-FOR")); // null
-
+    public ResponseEntity<AlarmFile> get(@PathVariable String alarmName) {
         System.out.println("Getting: " + alarmName);
         AlarmFile alarmFile = alarmFileService.get(alarmName);
         if (alarmFile == null) {

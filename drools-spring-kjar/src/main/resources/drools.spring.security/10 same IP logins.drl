@@ -1,0 +1,40 @@
+package drools.spring.security;
+dialect  "mvel"
+
+import java.util.Date;
+import java.util.List;
+import ftn.bsep9.model.LoginTry;
+
+declare TenSameIpLoginsEvent
+    @role(event)
+    @expires(15m) // !!! TODO: What is the best expire time?
+    @timestamp(occuredAt) // for "meets" on these events/facts
+    ipAddress: String
+    occuredAt: Date
+    // $loginCount will (probably?) always be 5, unless 5+ events happen
+    // during the 5m brake, which is made by `not..over window:time(5m)`.
+    loginCount: int
+end
+
+
+rule "USER-SECURITY 10 same IP LoginTries"
+agenda-group "USER-SECURITY"
+    when
+        LoginTry($trackedIp: ipAddress)
+        $list: List(size >= 10) from collect(LoginTry(ipAddress == $trackedIp) over window:time(5m))
+        not (
+            TenSameIpLoginsEvent(ipAddress == $trackedIp)
+            over window:time(15m) // time MUST be equal to @expire time of the event!!!
+        )
+    then
+      System.out.println("\nCollected " + $list.size() + " tries for IP: " + $trackedIp);
+      insert(new TenSameIpLoginsEvent(
+                      $trackedIp, new Date(), $list.size())
+                  );
+end
+
+/** QUERY **/
+
+query "can IP login" (String $ipAddress)
+    $forbidden: TenSameIpLoginsEvent(ipAddress == $ipAddress)
+end

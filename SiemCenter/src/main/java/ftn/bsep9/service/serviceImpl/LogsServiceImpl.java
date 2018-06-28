@@ -6,8 +6,10 @@ import ftn.bsep9.model.QLog;
 import ftn.bsep9.repository.LogsRepository;
 import ftn.bsep9.service.LogsService;
 import ftn.bsep9.utility.SearchParser;
+import org.drools.core.base.RuleNameEqualsAgendaFilter;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.Agenda;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -89,6 +91,8 @@ public class LogsServiceImpl implements LogsService {
     @Override
     public void saveLog(Log log) {
         kieSession.insert(log);
+        // fire rules without defined "agenda-group" attribute
+        kieSession.getAgenda().getAgendaGroup("MAIN").setFocus();
         kieSession.fireAllRules();
     }
 }
