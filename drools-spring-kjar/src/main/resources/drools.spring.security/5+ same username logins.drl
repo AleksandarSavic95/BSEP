@@ -1,0 +1,78 @@
+package drools.spring.rules;
+dialect  "mvel"
+
+import java.util.Date;
+import java.util.List;
+import ftn.bsep9.model.LoginTry;
+
+declare FiveSameUserLoginsEvent
+    @role(event)
+    @expires(5m) // !!! TODO: What is the best expire time?
+    @timestamp(occuredAt) // for "meets" on these events/facts
+    username: String
+    occuredAt: Date
+    // $loginCount will (probably?) always be 5, unless 5+ events happen
+    // during the 5m brake, which is made by `not..over window:time(5m)`.
+    loginCount: int
+end
+
+//rule "USER-SECURITY accumulate LoginTries"
+//agenda-group "USER-SECURITY"
+//    when
+//        $firstTry: LoginTry($trackedUsername: username)
+//        $tryCount: Number(intValue() >= 5) from accumulate(
+//            $try: LoginTry(username == $trackedUsername),
+//            count($try)
+//        )
+
+// TRIES MUST BE COUNTED WITH   OVER WINDOW:TIME   OR LoginTry must expire in 5 minutes!!!
+// TRIES MUST BE COUNTED WITH   OVER WINDOW:TIME   OR LoginTry must expire in 5 minutes!!!
+// TRIES MUST BE COUNTED WITH   OVER WINDOW:TIME   OR LoginTry must expire in 5 minutes!!!
+//        not (
+//            FiveSameUserLoginsEvent(username == $trackedUsername)
+//            over window:time(5m) // time MUST be equal to @expire time of the event!!!
+//        )
+//    then
+//        System.out.println("\nAccumulated" + $tryCount.intValue() + " tries for user: " + $trackedUsername);
+//        insert(new FiveSameUserLoginsEvent(
+//                $trackedUsername, new Date(), $tryCount.intValue())
+//            );
+//end
+
+rule "USER-SECURITY 5 same username LoginTries"
+agenda-group "USER-SECURITY"
+    when
+        LoginTry($trackedUsername: username, username != null)
+        $list: List(size >= 5) from collect(LoginTry(username == $trackedUsername) over window:time(5m))
+        not (
+            FiveSameUserLoginsEvent(username == $trackedUsername)
+            over window:time(5m) // time MUST be equal to @expire time of the event!!!
+        )
+    then
+      System.out.println("\nCollected " + $list.size() + " tries for user: " + $trackedUsername);
+      insert(new FiveSameUserLoginsEvent(
+                      $trackedUsername, new Date(), $list.size())
+                  );
+end
+
+
+rule "USER-SECURITY any LoginTry"
+agenda-group "USER-SECURITY"
+    when
+        LoginTry($username: username, $ip: ipAddress)
+    then
+        System.out.println("A login try! for user: " + $username + " and IP: " + $ip);
+end
+
+rule "USER-SECURITY empty"
+agenda-group "USER-SECURITY"
+    when
+    then
+        System.out.println("USER-SECURITY AG");
+end
+
+/** QUERY **/
+
+query "can user login" (String $username)
+    $forbidden: FiveSameUserLoginsEvent(username == $username)
+end
