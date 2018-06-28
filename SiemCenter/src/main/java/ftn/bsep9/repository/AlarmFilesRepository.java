@@ -25,7 +25,6 @@ public class AlarmFilesRepository {
 
     /** relative path to Maven module with rules */
     private static final String RULES_DIRECTORY = "drools-spring-kjar/src/main/resources/drools/spring/rules/";
-    private static final String RULES_PACKAGE = "drools.spring.rules";
 
     public List<String> getFileNamesAscending() {
         File[] files = new File(RULES_DIRECTORY).listFiles((dir, name) -> name.endsWith(".drl"));
@@ -46,12 +45,6 @@ public class AlarmFilesRepository {
     }
 
     public AlarmFile saveAlarm(AlarmFile alarmFile, boolean forUpdate) {
-        // add necessary package declaration and import statements
-        alarmFile.setContent("package " + RULES_PACKAGE + ";\n"
-                + "dialect  \"mvel\"\n\n"
-                + "import ftn.bsep9.model.Log;\n"
-                + alarmFile.getContent());
-
         if (isSafe(alarmFile, forUpdate)) {
             String rulePath = RULES_DIRECTORY + alarmFile.getName() + ".drl";
             System.out.println("saving new rule to:" + rulePath + " ....");
