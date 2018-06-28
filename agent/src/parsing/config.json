@@ -1,14 +1,22 @@
 {
   "SIEM": {
-    "address": "http://localhost:8080",
+    "protocol": "https",
+    "host_name": "localhost",
+    "port": "8765",
     "property": "value"
   },
   "OS": {
     "name": "Windows",
     "version": "10",
-    "dirs": [
-      "D:/Radim/BSEP",
-      "Another dir"
+    "log_types": [
+      {
+        "name": "Application",
+        "severities": ["WARNING", "ERROR"]
+      },
+      {
+        "name": "Security",
+        "severities": ["WARNING", "ERROR"]
+      }
     ]
   },
   "Firewall": {
