@@ -59,23 +59,16 @@ public class UserController {
     @PostMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody User user, HttpServletRequest request) {
         String ip = request.getHeader("X-FORWARDED-FOR");
-        System.out.println("X-FORWARDED-FOR  and  request.getRemoteAddr()");
-        System.out.println(ip + " " + request.getRemoteAddr());
-
         String ipAddress = (ip == null || ip.length() == 0) ? request.getRemoteAddr() : ip;
         System.out.println("ip: " + ipAddress); // ex. 192.168.1.4
-//
-//        if (! userSecurityService.canIpTryToLogin(ipAddress)) {
-//            return new ResponseEntity<>("You shall not pass! Your IP is blocked!",
-//                    HttpStatus.FORBIDDEN);
-//        }
+
         String username = user.getUsername();
         if (! userSecurityService.canUserTryToLogin(username)) {
             return new ResponseEntity<>("Too many tries! Please try later!",
                     HttpStatus.FORBIDDEN);
         }
 
-        // this could be moved to IpInterceptor#preHandle, but
+        // IP this could be moved to IpInterceptor#preHandle, but
         // that will mean IP would get blocked after any X requests
         userSecurityService.saveLoginTry(username, ipAddress); // !!!
 
