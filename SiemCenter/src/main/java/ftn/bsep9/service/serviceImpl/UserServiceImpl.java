@@ -45,12 +45,31 @@ public class UserServiceImpl implements UserService {
         }
         System.out.println(user.getUsername());
         System.out.println(user.getPassword());
+
         if (!(params.get("new-password").equals(params.get("repeat-password")))) {
             return false;
         }
+
+        // check if old password matches the user's password
         if (!passwordEncoder.matches(params.get("old-password"), user.getPassword())) {
             return false;
         }
+
+        // password must have more than 6 characters
+        if (params.get("new-password").length() < 6) {
+            return false;
+        }
+
+        // password must contain at least one digit
+        if (!params.get("new-password").matches(".*[0-9].*")) {
+            return false;
+        }
+
+        // password must contain both small and capital letters
+        if (!params.get("new-password").matches("(.*[A-Z].*[a-z].*)|(.*[a-z].*[A-Z].*)")) {
+            return false;
+        }
+
         user.setPassword(passwordEncoder.encode(params.get("new-password")));
         System.out.println(user.getPassword());
         userRepository.save(user);
@@ -67,6 +86,7 @@ public class UserServiceImpl implements UserService {
         grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().name()));
 
         ObjectMapper mapper = new ObjectMapper();
+
         try {
             HashMap<String, List<String>> permissions = mapper.readValue(new File(PERMISSIONS_FILE), HashMap.class);
             for (String permission : permissions.get(user.getRole().name())) {
