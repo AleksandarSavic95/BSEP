@@ -2,20 +2,30 @@ package drools.spring.rules;
 dialect  "mvel"
 
 import ftn.bsep9.model.Log;
+import java.util.Date;
+import ftn.bsep9.service.AlarmService;
+
+global AlarmService alarmService;
 
 declare TwoCriticalsEvent
     @role(event)
+    @expires(1h)
+    @timestamp(dateTime)
     text1: String
     text2: String
+    macAddress: String
+    dateTime: Date
 end
 
 rule "alarm for any two criticals"
     when
-        $log1: Log(severityType.equals("CRITICAL"))
-        $log2: Log(severityType.equals("CRITICAL"), this != $log1)
-        not TwoCriticalsEvent(text1 == $log1.getText(), text2 == $log2.getText())
+        $log1: Log(severityType.equals("CRITICAL"), $macAddress: MACAddress)
+        $log2: Log(severityType.equals("CRITICAL"), MACAddress == $macAddress, this != $log1)
+        not (
+            TwoCriticalsEvent(macAddress == $macAddress) over window:time(5m)
+        )
     then
-        System.out.println("Two criticals!");
-        System.out.println($log1.getText() + " " + $log2.getText());
-        insert(new TwoCriticalsEvent($log1.getText(), $log2.getText()))
+        System.out.println("!!! Two criticals on MAC address: " + $macAddress);
+        insert(new TwoCriticalsEvent($log1.getText(), $log2.getText(), $macAddress, new Date()))
+        alarmService.fireAlarm("warning", $macAddress, null, $log1.getText() + " ~ " + $log2.getText());
 end
