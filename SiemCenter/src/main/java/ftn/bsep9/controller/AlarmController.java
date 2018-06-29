@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -17,6 +18,7 @@ public class AlarmController {
     private AlarmFileService alarmFileService;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('WRITE_ALARM')")
     public ResponseEntity<String> create(@RequestBody AlarmFile alarmFile) {
         System.out.println(alarmFile);
         alarmFileService.create(alarmFile);
@@ -24,6 +26,7 @@ public class AlarmController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('READ_ALARM')")
     public ResponseEntity<Page<String>> getAll(@RequestParam(defaultValue = "0") Integer page,
                                             @RequestParam(defaultValue = "10") Integer size,
                                                @RequestParam(defaultValue = "asc") String sort) {
@@ -33,6 +36,7 @@ public class AlarmController {
     }
 
     @GetMapping("/{alarmName}")
+    @PreAuthorize("hasAuthority('READ_ALARM')")
     public ResponseEntity<AlarmFile> get(@PathVariable String alarmName) {
         System.out.println("Getting: " + alarmName);
         AlarmFile alarmFile = alarmFileService.get(alarmName);
@@ -43,6 +47,7 @@ public class AlarmController {
     }
 
     @PutMapping("/{alarmName}")
+    @PreAuthorize("hasAuthority('WRITE_ALARM')")
     public ResponseEntity<AlarmFile> update(@PathVariable String alarmName,
                                             @RequestBody AlarmFile alarmFile) {
         System.out.println("Updating: " + alarmName);
@@ -54,6 +59,7 @@ public class AlarmController {
     }
 
     @DeleteMapping("/{alarmName}")
+    @PreAuthorize("hasAuthority('WRITE_ALARM')")
     public ResponseEntity<Boolean> delete(@PathVariable String alarmName) {
         System.out.println("Deleting: " + alarmName);
         return ResponseEntity.ok(alarmFileService.delete(alarmName));

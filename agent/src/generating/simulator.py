@@ -33,7 +33,7 @@ if __name__ == '__main__':
                 user.sign_up_for_exam()
             elif action == 'check financial card':
                 user.check_financial_card()
-            pause = random.randint(1, 5)
+            pause = random.randint(1, 3)
             print('Pause {}'.format(pause))
             time.sleep(pause)
 
