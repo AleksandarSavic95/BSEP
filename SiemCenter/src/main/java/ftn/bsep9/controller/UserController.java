@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -32,29 +33,6 @@ public class UserController {
         this.tokenUtils = tokenUtils;
         this.userSecurityService = userSecurityService;
     }
-
-
-    @GetMapping("/test-public")
-    public ResponseEntity<String> testPublic() {
-        return ResponseEntity.ok("Test public - success");
-    }
-
-
-    @GetMapping("/test-operator")
-    @PreAuthorize("hasAnyAuthority('OPERATOR')")
-    public ResponseEntity<String> testPrivate() {
-        System.out.println("\n OPERATOR token stigao");
-        return ResponseEntity.ok("Test private - success");
-    }
-
-
-    @GetMapping("/test-admin")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<String> testAdmin() {
-        System.out.println("\n ADMIN token stigao");
-        return ResponseEntity.ok("Test admin - success");
-    }
-
 
     @PostMapping(value = "/login")
     public ResponseEntity<String> login(@RequestBody User user, HttpServletRequest request) {
@@ -87,14 +65,14 @@ public class UserController {
     }
 
 
-//    @PostMapping(value = "/password")
-////    @PreAuthorize("hasAnyAuthority('OPERATOR', 'ADMIN')")
-//    public ResponseEntity<String> changePassword(@RequestParam Map<String, String> params) {
-//        if (userService.changePassword(params)) {
-//            return new ResponseEntity<String>(HttpStatus.OK, "asd");
-//        }
-//        return new ResponseEntity<String>(HttpStatus.OK, "asd");
-//    }
+    @PostMapping(value = "/password")
+//    @PreAuthorize("hasAnyAuthority('OPERATOR', 'ADMIN')")
+    public ResponseEntity<String> changePassword(@RequestParam Map<String, String> params) {
+        if (userService.changePassword(params)) {
+            return new ResponseEntity<>("Your have changed your password", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Try again", HttpStatus.BAD_REQUEST);
+    }
 
 
 }
