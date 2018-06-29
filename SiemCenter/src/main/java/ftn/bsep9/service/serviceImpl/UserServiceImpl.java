@@ -1,5 +1,6 @@
 package ftn.bsep9.service.serviceImpl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ftn.bsep9.model.User;
 import ftn.bsep9.repository.UserRepository;
 import ftn.bsep9.security.SecurityUtils;
@@ -11,12 +12,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @Service
 public class UserServiceImpl implements UserService {
+
+    private final String PERMISSIONS_FILE = "src/main/resources/security/roles-permissions.json";
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -59,6 +65,17 @@ public class UserServiceImpl implements UserService {
         }
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().name()));
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            HashMap<String, List<String>> permissions = mapper.readValue(new File(PERMISSIONS_FILE), HashMap.class);
+            for (String permission : permissions.get(user.getRole().name())) {
+                grantedAuthorities.add(new SimpleGrantedAuthority(permission));
+                System.out.println(permission);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
