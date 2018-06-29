@@ -44,17 +44,17 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public Report generateReport(String date1, String date2, String timeReference) {
         System.out.println("Info . generate report");
-        System.out.println(date1);
-        System.out.println(date2);
-        System.out.println(timeReference);
-        System.out.println("Info . generate report asd \n");
 
         // 2018-06-25T11:11
-        if (date1.equals("date1"))
+        if (date1.equals("date1")) {
             System.out.println("First date is not defined");
+            return  null;
+        }
 
-        if (date2.equals("date2"))
+        if (date2.equals("date2")) {
             System.out.println("Second date is not defined");
+            return  null;
+        }
         String[] date1Splitted = date1.split("T");
         String[] date2Splitted = date2.split("T");
 

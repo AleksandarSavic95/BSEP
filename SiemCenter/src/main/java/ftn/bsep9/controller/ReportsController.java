@@ -23,11 +23,9 @@ public class ReportsController {
     public ResponseEntity<Report> generateReport(@RequestParam(defaultValue = "date1") String date1,
                                          @RequestParam(defaultValue = "date2") String date2,
                                          @RequestParam(defaultValue = "timeReference") String timeReference) {
-        System.out.println("Info . Report Controller generate report");
-        System.out.println(date1);
-        System.out.println(date2);
-        System.out.println(timeReference);
         Report report = reportService.generateReport(date1, date2, timeReference);
+        if (report == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(report, HttpStatus.OK);
     }
 }
