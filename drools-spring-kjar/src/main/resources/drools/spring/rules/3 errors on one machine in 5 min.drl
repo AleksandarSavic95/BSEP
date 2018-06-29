@@ -1,0 +1,36 @@
+package drools.spring.rules
+
+import ftn.bsep9.model.Log;
+import java.util.Date;
+import ftn.bsep9.service.AlarmService;
+
+global AlarmService alarmService;
+
+declare MultipleSameErrorsEvent
+    @role(event)
+    @expires(5m)
+    @timestamp(occuredAt)
+    macAddress: String
+    occuredAt: Date
+end
+
+rule "3 errors on one machine in 5 min"
+    when
+        $log1: Log(severityType.equals("ERROR"), $trackedMacAddress: MACAddress)
+        Number(intValue >= 3) from accumulate(
+            $log2: Log(
+                // text.equals($log1.getText()),    // same
+                severityType.equals("ERROR"), // errors
+                MACAddress.equals($trackedMacAddress),
+                this meets[5m] $log1
+            ),
+            count($log2)
+        )
+         not (
+            MultipleSameErrorsEvent(macAddress == $trackedMacAddress) // , severityType == $severity
+            over window:time(5m)
+         )
+    then
+        insert(new MultipleSameErrorsEvent($trackedMacAddress, new Date()));
+        alarmService.fireAlarm("warning", $trackedMacAddress, null, "3 errors in 5 min on machine: " + $trackedMacAddress);
+end

@@ -31,7 +31,7 @@ public class UserSecurityServiceImpl implements UserSecurityService {
     @Override
     public boolean canUserTryToLogin(String username) {
         QueryResults results = kieSession.getQueryResults(CAN_USER_LOGIN_QUERY, username);
-        System.out.println("Username results: " + results.size());
+        //System.out.println("Username results: " + results.size());
         for (QueryResultsRow result : results) {
             System.out.println(result.get("$forbidden"));
         }
@@ -41,7 +41,7 @@ public class UserSecurityServiceImpl implements UserSecurityService {
     @Override
     public boolean canIpTryToLogin(String ipAddress) {
         QueryResults results = kieSession.getQueryResults(CAN_IP_LOGIN_QUERY, ipAddress);
-        System.out.println("IP results: " + results.size());
+        //System.out.println("IP results: " + results.size());
         return results.size() == 0;
     }
 }
