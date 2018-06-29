@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AlarmRepository extends MongoRepository<Alarm, String>, QuerydslPredicateExecutor<Alarm> {
-//    Page<Alarm> findAll(Pageable pageable);
+    Page<Alarm> findAll(Pageable pageable);
 }

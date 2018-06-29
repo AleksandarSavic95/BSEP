@@ -2,7 +2,6 @@ package ftn.bsep9.controller;
 
 import ftn.bsep9.model.AgentReport;
 import ftn.bsep9.model.Log;
-import ftn.bsep9.model.Report;
 import ftn.bsep9.repository.LogsRepository;
 import ftn.bsep9.service.LogsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class AgentController {
     @PostMapping("/reports")
     public ResponseEntity<String> receiveAgentReport(@RequestBody AgentReport report) {
         Log log = new Log(report.getLog());
-        System.out.println(log);
+        // System.out.println(log);
         logsService.saveLog(log);
         logsRepository.insert(log);  // CRYPTO goes here
         return new ResponseEntity<>(HttpStatus.OK);
@@ -39,7 +38,7 @@ public class AgentController {
     @PostMapping("/logs")
     public ResponseEntity<String> receiveLogKBS(@RequestBody AgentReport report) {
         Log log = new Log(report.getLog());
-        System.out.println(log);
+        // System.out.println(log);
 
         logsService.saveLog(log);
 

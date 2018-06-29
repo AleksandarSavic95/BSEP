@@ -1,0 +1,18 @@
+package drools.spring.rules;
+dialect  "mvel"
+
+import java.util.List;
+import ftn.bsep9.model.Log;
+import ftn.bsep9.service.AlarmService;
+
+global AlarmService alarmService;
+
+rule "collect 100s of logs"
+    when
+        $list: List(size >= 100) from collect(Log())
+    then
+        if ($list.size() % 100 == 0) {
+            System.out.println("we've found " + $list.size() + " logs!");
+            alarmService.fireAlarm("success", null, null, $list.size() + " logs in memory!");
+        }
+end

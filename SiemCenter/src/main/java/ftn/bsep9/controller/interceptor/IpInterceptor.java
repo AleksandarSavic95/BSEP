@@ -28,8 +28,7 @@ public class IpInterceptor extends HandlerInterceptorAdapter {
             HttpServletResponse response,
             Object handler) {
 
-        System.out.println("[preHandle][" + request + "]" + "[" + request.getMethod()
-                + "]" + request.getRequestURI());
+        // System.out.println("[preHandle][" + request + "]" + "[" + request.getMethod() + "]" + request.getRequestURI());
 
         String ip = request.getHeader("X-FORWARDED-FOR");
         String ipAddress = (ip == null) ? request.getRemoteAddr() : ip;

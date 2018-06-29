@@ -8,15 +8,15 @@ import ftn.bsep9.service.AlarmService;
 
 global AlarmService alarmService;
 
-declare fiveOrMoreLogsEvent
+declare ThreeOrMoreTensOfLogsEvent
     @role(event)
-    @timestamp(date) // for "meets" on these events/facts
+    @timestamp(date)
     @expires(15m)
     logCount: int
     date: Date
 end
 
-rule "accumulate logs"
+rule "accumulate 3+ tens of logs"
     when
         Log()
         $logCount: Number(intValue() >= 30) from accumulate(
@@ -24,20 +24,13 @@ rule "accumulate logs"
             count($LOG)
         )
         not (
-            fiveOrMoreLogsEvent(logCount == $logCount.intValue())
+            ThreeOrMoreTensOfLogsEvent(logCount == $logCount.intValue())
             over window:time(15m)
         )
     then
         // System.out.println("\nLOGS: " + $logCount);
         if ($logCount.intValue() % 10 == 0) {
-            insert(new fiveOrMoreLogsEvent($logCount.intValue(), new Date()));
-            alarmService.fireAlarm("info", "macAddress", "service", $logCount.toString() + " logs in memory!");
+            insert(new ThreeOrMoreTensOfLogsEvent($logCount.intValue(), new Date()));
+            alarmService.fireAlarm("success", null, null, $logCount.toString() + " logs in memory!");
         }
-end
-
-
-rule "go!"
-    when
-    then
-        System.out.println("GO from \"collect all logs\"....");
 end
