@@ -113,7 +113,7 @@ class User:
 
 def log_in_to_server(username, password):
     # simulates sending POST request to the server
-    return random.random() < 0.7  # in 70% cases, logging will be successful
+    return random.random() < 0.55  # in 55% cases, logging will be successful
 
 
 def get_mac_address():

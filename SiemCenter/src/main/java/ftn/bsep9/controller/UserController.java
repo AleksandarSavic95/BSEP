@@ -41,7 +41,7 @@ public class UserController {
         System.out.println("ip: " + ipAddress); // ex. 192.168.1.4
 
         String username = user.getUsername();
-        if (! userSecurityService.canUserTryToLogin(username)) {
+        if (!userSecurityService.canUserTryToLogin(username)) {
             // blocked username LoginTry is STILL an IP try!
             userSecurityService.saveLoginTry(null, ipAddress);
             return new ResponseEntity<>("Too many tries! Please try later!",
@@ -66,7 +66,7 @@ public class UserController {
 
 
     @PostMapping(value = "/password")
-//    @PreAuthorize("hasAnyAuthority('OPERATOR', 'ADMIN')")
+    @PreAuthorize("hasAnyAuthority('CHANGE_PASSWORD')")
     public ResponseEntity<String> changePassword(@RequestParam Map<String, String> params) {
         if (userService.changePassword(params)) {
             return new ResponseEntity<>("Your have changed your password", HttpStatus.OK);

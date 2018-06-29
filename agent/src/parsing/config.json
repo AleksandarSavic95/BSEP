@@ -1,7 +1,7 @@
 {
   "SIEM": {
     "protocol": "https",
-    "host_name": "localhost",
+    "host_name": "192.168.1.6",
     "port": "8765",
     "property": "value"
   },
@@ -26,7 +26,7 @@
     {
       "path": "../generating/logs",
       "regexps": [
-        "(\\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}:\\d{2})\\s+(([0-9A-E]{2}:){5}[0-9A-E]{2})\\s+([a-z0-9-]+)\\s*:\\s*(WARNING|ERROR|CRITICAL)",
+        "(\\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}:\\d{2})\\s+(([0-9A-F]{2}:){5}[0-9A-F]{2})\\s+([a-z0-9-]+)\\s*:\\s*(WARNING|ERROR|CRITICAL)",
         ".*WARNING.*",
         ".*CRITICAL.*",
         ".*ERROR.*"

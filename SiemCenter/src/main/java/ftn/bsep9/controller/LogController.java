@@ -9,29 +9,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
 @RequestMapping("/api/logs/")
 public class LogController {
 
-    private LogsRepository logsRepository;
-
     private LogsService logsService;
 
-    public LogController(LogsRepository logsRepository, LogsService logsService) {
-        this.logsRepository = logsRepository;
+    public LogController(LogsService logsService) {
         this.logsService = logsService;
     }
 
-
-//    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    //    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseBody
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('READ_LOGS')")
     public ResponseEntity<Page<Log>> getAll(@RequestParam Integer page,
                                             @RequestParam Integer size) {
         Page<Log> logs = logsService.findAllWithPages(page, size, Sort.Direction.ASC, "date");
@@ -43,41 +40,13 @@ public class LogController {
 
     @ResponseBody
     @GetMapping("/search-by-text")
+    @PreAuthorize("hasAuthority('READ_LOGS')")
     public ResponseEntity<Object> getByText(@RequestParam String searchCriteria,
-                                               @RequestParam int page,
-                                               @RequestParam int size) {
+                                            @RequestParam int page,
+                                            @RequestParam int size) {
         Object searchRetVal = logsService.findByText(searchCriteria, page, size);
         if (String.class.isInstance(searchRetVal))
             return new ResponseEntity<>(searchRetVal, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(searchRetVal, HttpStatus.OK);
     }
-
-
-    @PostMapping("/insert")
-    public String insertOne(@RequestBody Log log, Model model) {
-        Log insertedLog = logsRepository.insert(log);
-
-        model.addAttribute("log", insertedLog);
-        return "log-view";
-    }
-
-
-    @DeleteMapping("/delete")
-    public String deleteAll(Model model) {
-        logsRepository.deleteAll();
-
-        model.addAttribute("logs", new ArrayList<Log>());
-        return "logs-view";
-    }
-
-
-    @GetMapping("/id/{id}")
-    public String getById(@PathVariable("id") String id, Model model){
-        Log log = this.logsRepository.findById(id).get();
-
-        model.addAttribute("log", log);
-        model.addAttribute("title", "Log view");
-        return "log-view";
-    }
-
 }
