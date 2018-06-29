@@ -20,7 +20,7 @@ public class Alarm {
     }
 
     public Alarm(String severity, String macAddress, String service, String text) {
-        this();
+        this.dateTime = LocalDateTime.now();
         this.severity = severity;
         this.macAddress = macAddress;
         this.service = service;

@@ -3,14 +3,15 @@ dialect  "mvel"
 
 import java.util.Date;
 import ftn.bsep9.model.Log;
-import ftn.bsep9.model.Alarm;
-//import ftn.bsep9.service.AlarmService;
 
-//global AlarmService alarmService;
+import ftn.bsep9.service.AlarmService;
+
+global AlarmService alarmService;
 
 declare fiveOrMoreLogsEvent
     @role(event)
     @timestamp(date) // for "meets" on these events/facts
+    @expires(15m)
     logCount: int
     date: Date
 end
@@ -18,7 +19,7 @@ end
 rule "accumulate logs"
     when
         Log()
-        $logCount: Number(intValue() >= 1) from accumulate(
+        $logCount: Number(intValue() >= 30) from accumulate(
             $LOG: Log(),
             count($LOG)
         )
@@ -27,14 +28,13 @@ rule "accumulate logs"
             over window:time(15m)
         )
     then
-        System.out.println("\nLOGS: " + $logCount);
-        if ($logCount.intValue() >= 5) {
+        // System.out.println("\nLOGS: " + $logCount);
+        if ($logCount.intValue() % 10 == 0) {
             insert(new fiveOrMoreLogsEvent($logCount.intValue(), new Date()));
-//            alarmService.fireAlarm(new Alarm(
-//                "info", "macAddress", "service", $logCount.toString() + " logs in memory!"
-//            ));
+            alarmService.fireAlarm("info", "macAddress", "service", $logCount.toString() + " logs in memory!");
         }
 end
+
 
 rule "go!"
     when

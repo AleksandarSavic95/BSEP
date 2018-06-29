@@ -5,10 +5,10 @@ import java.util.Date;
 
 declare MultipleSameWarningsEvent
     @role(event)
+    @expires(5m)
+    @timestamp(occuredAt)
     macAddress: String
     occuredAt: Date
-    // TODO: memorize each warning's timestamp in order to have more than
-    //       one MultipleWarningsEvent event per machine (MACAddress)
 end
 
 rule "3 same warnings in 5 minutes"
@@ -25,8 +25,10 @@ rule "3 same warnings in 5 minutes"
             count($log2)
         )
         // TODO: zapamtiti $severity da mozemo pratiti vise tipova severity-a jednim pravilom! :)
-        // not (MultipleWarningsEvent(macAddress == $trackedMacAddress, severityType == $severity))
-//        not (MultipleSameWarningsEvent(macAddress == $trackedMacAddress))
+         not (
+            MultipleSameWarningsEvent(macAddress == $trackedMacAddress) // , severityType == $severity
+            over window:time(5m)
+         )
     then
         insert(new MultipleSameWarningsEvent($trackedMacAddress, new Date()));
         System.out.println("3 warnings on machine: " + $trackedMacAddress);
