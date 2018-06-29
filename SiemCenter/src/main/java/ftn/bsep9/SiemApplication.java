@@ -1,5 +1,6 @@
 package ftn.bsep9;
 
+import ftn.bsep9.service.AlarmService;
 import ftn.bsep9.service.NotificationService;
 import org.kie.api.KieServices;
 import org.kie.api.builder.*;
@@ -17,7 +18,7 @@ import org.springframework.context.annotation.Bean;
 public class SiemApplication {
 
     @Autowired
-    NotificationService notificationService;
+    private AlarmService alarmService;
 
 	private static Logger log = LoggerFactory.getLogger(SiemApplication.class);
 
@@ -43,14 +44,10 @@ public class SiemApplication {
         final KieScanner kieScanner = kieServices.newKieScanner(kieContainer);
         kieScanner.start(10000);
 
-        System.out.println("Notification service setup...");
-        kieSession.setGlobal("notificationService", notificationService);
-
-        // kieSession.getAgenda().getAgendaGroup("user-security").setFocus();
+        System.out.println("Alarm service setup...");
+        kieSession.setGlobal("alarmService", alarmService);
 
         log.warn(":) created a KIE Container - returning...");
         return kieSession; // sessionName
     }
-
-    // TODO: create NotificationService + add SimpMessagingTemplate as a Bean
 }

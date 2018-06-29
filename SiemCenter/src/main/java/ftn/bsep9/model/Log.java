@@ -18,7 +18,7 @@ import java.util.HashMap;
 @Document
 @Role(Role.Type.EVENT)
 @Timestamp("getDateTimeMilliseconds()")
-@Expires("2h30m")
+@Expires("30m")
 public class Log {
 
     @Id
