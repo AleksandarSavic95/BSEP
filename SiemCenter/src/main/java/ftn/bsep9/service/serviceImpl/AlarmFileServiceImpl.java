@@ -60,8 +60,6 @@ public class AlarmFileServiceImpl implements AlarmFileService {
 
     @Override
     public Page<String> findAllWithPages(int page, int size, String sortDirection) {
-
-        // TODO: what happens after we make endpoint/folder for siem's rules??
         List<String> fileNames = alarmFilesRepository.getFileNamesAscending();
 
         if (! sortDirection.equals("asc")) { // ascending is default

@@ -21,7 +21,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendWarning(String message) {
-        this.sendMessage(message, "danger");
+        this.sendMessage(message, "warning");
     }
 
     @Override
