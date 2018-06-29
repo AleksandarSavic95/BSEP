@@ -19,7 +19,7 @@ public class FiredAlarmController {
     private AlarmService alarmService;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('READ_ALARM')")
+//    @PreAuthorize("hasAuthority('READ_ALARM')")
     public ResponseEntity<Page<Alarm>> getAll(@RequestParam(defaultValue = "0") Integer page,
                                               @RequestParam(defaultValue = "10") Integer size,
                                               @RequestParam(defaultValue = "asc") String sort) {

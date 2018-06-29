@@ -66,7 +66,7 @@ public class UserController {
 
 
     @PostMapping(value = "/password")
-    @PreAuthorize("hasAnyAuthority('CHANGE_PASSWORD')")
+//    @PreAuthorize("hasAnyAuthority('CHANGE_PASSWORD')")
     public ResponseEntity<String> changePassword(@RequestParam Map<String, String> params) {
         if (userService.changePassword(params)) {
             return new ResponseEntity<>("Your have changed your password", HttpStatus.OK);
