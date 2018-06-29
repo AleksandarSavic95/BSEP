@@ -46,4 +46,19 @@ def send_log(session, log_line):
         response = session.post(url, json=data, verify=ROOT_CERT_PATH)
         print('status and text of response: ', response.status_code, response.text)
     except:
+
         print("ConnectionError")
+
+
+if __name__ == '__main__':
+    url = "https://172.20.10.3:8765/api/logs/all?page=0&size=10"
+    print(url)
+
+    data = {
+        'log': "26-06-2018 00:37:02 	34:23:87:02:53:AE 	student-service : 	CRITICAL - [1529966222737] Non-user has tried to sign up for an exam!"
+    }
+
+    session = open_session()
+    response = session.post(url,
+                            json=data,
+                            verify=ROOT_CERT_PATH)
