@@ -26,4 +26,9 @@ public class AlarmServiceReportItem {
     public void setCount(Long count) {
         this.count = count;
     }
+
+    @Override
+    public String toString() {
+        return "ASRI: " + this.service + "; count: " + this.count;
+    }
 }

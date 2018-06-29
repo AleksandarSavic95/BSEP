@@ -6,12 +6,14 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import ftn.bsep9.model.Log;
+import ftn.bsep9.model.QAlarm;
 import ftn.bsep9.model.QLog;
 import ftn.bsep9.model.Report;
 import ftn.bsep9.model.report.AlarmMachineReportItem;
 import ftn.bsep9.model.report.AlarmServiceReportItem;
 import ftn.bsep9.model.report.LogMachineReportItem;
 import ftn.bsep9.model.report.LogServiceReportItem;
+import ftn.bsep9.repository.AlarmRepository;
 import ftn.bsep9.repository.LogsRepository;
 import ftn.bsep9.service.AlarmService;
 import ftn.bsep9.service.ReportService;
@@ -33,8 +35,8 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private LogsRepository logsRepository;
 
-//    @Autowired
-//    private AlarmsRepository alarmsRepository;
+    @Autowired
+    private AlarmRepository alarmsRepository;
 
     @Autowired
     private MongoClient autowiredMongoClient;
@@ -71,24 +73,24 @@ public class ReportServiceImpl implements ReportService {
             3
         */
         QLog qLog = new QLog("logs");
-//        QAlarm qAlarm = new QAlarm("alarms");
+        QAlarm qAlarm = new QAlarm("alarms");
 
         BooleanExpression logDateExpression;
-        BooleanExpression alarmDateExpression;
+        BooleanExpression alarmDateExpression = null;
 
         if (timeReference.equals("before")) {
             logDateExpression = qLog.date.before(dateTime1);
-//            alarmDateExpression = qAlarm.date.before(dateTime1);
+            alarmDateExpression = qAlarm.dateTime.before(dateTime1);
             System.out.println("BEFORE");
         }
         else if (timeReference.equals("after")) {
             logDateExpression = qLog.date.after(dateTime1);
-//            alarmDateExpression = qAlarm.date.after(dateTime1);
+            alarmDateExpression = qAlarm.dateTime.after(dateTime1);
             System.out.println("AFTER");
         }
         else if (timeReference.equals("between")) {
             logDateExpression = qLog.date.between(dateTime1, dateTime2);
-//            alarmDateExpression = qAlarm.date.between(dateTime1, dateTime2);
+            alarmDateExpression = qAlarm.dateTime.between(dateTime1, dateTime2);
             System.out.println("BETWEEN");
         }
         else {
@@ -141,18 +143,19 @@ public class ReportServiceImpl implements ReportService {
 
         com.mongodb.DBCollection alarmCollection = db.getCollection("alarm");
         List alarmServicesList = alarmCollection.distinct("service");
-        List alarmMachinesList = alarmCollection.distinct("MACAddress");
+        List alarmMachinesList = alarmCollection.distinct("macAddress");
 
         Long alarmsCount = 0L;
 
         List<AlarmServiceReportItem> alarmServiceReportItems = new ArrayList<>();
         List<AlarmMachineReportItem> alarmMachineReportItems = new ArrayList<>();
 
+        System.out.println("\n alarma po servisu");
         // koliko alarma po servisu
         for (Object service : alarmServicesList) {
-//            BooleanExpression serviceExpression = qAlarm.service.eq(service.toString());
-//            alarmsCount = alarmsRepository.count(alarmDateExpression.and(serviceExpression));
-//            alarmServiceReportItems.add(new AlarmServiceReportItem(service.toString(), alarmsCount));
+            BooleanExpression serviceExpression = qAlarm.service.eq(service.toString());
+            alarmsCount = alarmsRepository.count(alarmDateExpression.and(serviceExpression));
+            alarmServiceReportItems.add(new AlarmServiceReportItem(service.toString(), alarmsCount));
             System.out.println(service);
         }
 
@@ -160,11 +163,12 @@ public class ReportServiceImpl implements ReportService {
             System.out.println(asri);
         }
 
+        System.out.println("\n alarma po MAC adresi");
         // koliko alarma po masini (MAC adresi)
         for(Object machine : alarmMachinesList) {
-//            BooleanExpression machineExpression = qAlarm.service.eq(machine.toString());
-//            alarmsCount = alarmsRepository.count(alarmDateExpression.and(machineExpression));
-//            alarmMachineReportItems.add(new AlarmMachineReportItem(machine.toString(), alarmsCount));
+            BooleanExpression machineExpression = qAlarm.macAddress.eq(machine.toString());
+            alarmsCount = alarmsRepository.count(alarmDateExpression.and(machineExpression));
+            alarmMachineReportItems.add(new AlarmMachineReportItem(machine.toString(), alarmsCount));
             System.out.println(machine);
         }
 

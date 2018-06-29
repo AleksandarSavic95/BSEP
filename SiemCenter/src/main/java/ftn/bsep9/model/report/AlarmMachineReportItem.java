@@ -26,4 +26,9 @@ public class AlarmMachineReportItem {
     public void setCount(Long count) {
         this.count = count;
     }
+
+    @Override
+    public String toString() {
+        return "AMRI: " + this.MACAddress + "; count: " + this.count;
+    }
 }
