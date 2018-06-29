@@ -19,7 +19,7 @@ declare fiveOrMoreSameUsernameWarningsEvent
 end
 
 function String getUsername(String text) {
-    return text.substring(text.indexOf("User") + 5).split(" ", 2)[0];
+    return text.substring(text.toLowerCase().indexOf("user") + 5).split(" ", 2)[0];
 }
 
 rule "5+ same-username warnings in 5 minutes"

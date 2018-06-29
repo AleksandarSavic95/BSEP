@@ -2,6 +2,9 @@ package drools.spring.rules
 
 import ftn.bsep9.model.Log;
 import java.util.Date;
+import ftn.bsep9.service.AlarmService;
+
+global AlarmService alarmService;
 
 declare MultipleSameWarningsEvent
     @role(event)
@@ -11,7 +14,7 @@ declare MultipleSameWarningsEvent
     occuredAt: Date
 end
 
-rule "3 same warnings in 5 minutes"
+rule "3 SAME warnings in 5 minutes"
     when
         // $log1: Log( $severity: severityType, $trackedMacAddress: MACAddress )
         $log1: Log(severityType.equals("WARNING"), $trackedMacAddress: MACAddress)
@@ -31,5 +34,5 @@ rule "3 same warnings in 5 minutes"
          )
     then
         insert(new MultipleSameWarningsEvent($trackedMacAddress, new Date()));
-        System.out.println("3 warnings on machine: " + $trackedMacAddress);
+        alarmService.fireAlarm("warning", $trackedMacAddress, null, "3 same warnings on machine: " + $trackedMacAddress);
 end
