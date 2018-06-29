@@ -33,6 +33,9 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private LogsRepository logsRepository;
 
+//    @Autowired
+//    private AlarmsRepository alarmsRepository;
+
     @Autowired
     private MongoClient autowiredMongoClient;
 
@@ -104,14 +107,11 @@ public class ReportServiceImpl implements ReportService {
         //call distinct method and store the result in list l1
         List logServicesList = logCollection.distinct("service");
         List logMachinesList = logCollection.distinct("MACAddress");
-        List logSeverityTypesList = logCollection.distinct("severityType");
 
         Long logsCount = 0L;
 
         List<LogServiceReportItem> logServiceReportItems = new ArrayList<>();
         List<LogMachineReportItem> logMachineReportItems = new ArrayList<>();
-        List<AlarmServiceReportItem> alarmServiceReportItems = new ArrayList<>();
-        List<AlarmMachineReportItem> alarmMachineReportItems = new ArrayList<>();
 
         // koliko logova po servisu
         for (Object service : logServicesList) {
@@ -130,59 +130,48 @@ public class ReportServiceImpl implements ReportService {
             System.out.println(machine);
             BooleanExpression machineExpression = qLog.MACAddress.eq(machine.toString());
             logsCount = logsRepository.count(logDateExpression.and(machineExpression));
-            logServiceReportItems.add(new LogServiceReportItem(machine.toString(), logsCount));
+            logMachineReportItems.add(new LogMachineReportItem(machine.toString(), logsCount));
         }
 
         for (LogMachineReportItem lmri : logMachineReportItems ) {
             System.out.println(lmri);
         }
 
-//        // koliko logova po severityType-u
-//        for(Object severityType : logSeverityTypesList) {
-//            System.out.println(severityType);
-//        }
-
         System.out.println("\n ALARMS");
 
         com.mongodb.DBCollection alarmCollection = db.getCollection("alarm");
         List alarmServicesList = alarmCollection.distinct("service");
         List alarmMachinesList = alarmCollection.distinct("MACAddress");
-        List alarmSeverityTypesList = alarmCollection.distinct("severityType");
+
+        Long alarmsCount = 0L;
+
+        List<AlarmServiceReportItem> alarmServiceReportItems = new ArrayList<>();
+        List<AlarmMachineReportItem> alarmMachineReportItems = new ArrayList<>();
 
         // koliko alarma po servisu
         for (Object service : alarmServicesList) {
 //            BooleanExpression serviceExpression = qAlarm.service.eq(service.toString());
-//            logsCount = logsRepository.count(logDateExpression.and(serviceExpression));
-//            logServiceReportItems.add(new LogServiceReportItem(service.toString(), logsCount));
+//            alarmsCount = alarmsRepository.count(alarmDateExpression.and(serviceExpression));
+//            alarmServiceReportItems.add(new AlarmServiceReportItem(service.toString(), alarmsCount));
             System.out.println(service);
+        }
+
+        for (AlarmServiceReportItem asri : alarmServiceReportItems) {
+            System.out.println(asri);
         }
 
         // koliko alarma po masini (MAC adresi)
         for(Object machine : alarmMachinesList) {
+//            BooleanExpression machineExpression = qAlarm.service.eq(machine.toString());
+//            alarmsCount = alarmsRepository.count(alarmDateExpression.and(machineExpression));
+//            alarmMachineReportItems.add(new AlarmMachineReportItem(machine.toString(), alarmsCount));
             System.out.println(machine);
         }
 
-        // koliko alarma po severityType-u
-        for(Object severityType : alarmSeverityTypesList) {
-            System.out.println(severityType);
+        for (AlarmMachineReportItem amri : alarmMachineReportItems) {
+            System.out.println(amri);
         }
 
-
-    // koji sve servisi postoje
-    //   za svaki od njih naci broj LOGOVA u vremenskom periodu
-    //   za svaki od njih naci broj ALARMA u vremenskom periodu
-    // koje sve MAC Adrese postoje
-    //   za svaku od njih naci broj LOGOVA u vremenskom periodu
-    //   za svaku od njih naci broj ALARMA u vremenskom periodu
-
-    // koji sve servisi postoje
-    //   za svaki od njih naci broj LOGOVA u vremenskom periodu
-    //   za svaki od njih naci broj ALARMA u vremenskom periodu
-    // koje sve MAC Adrese postoje
-    //   za svaku od njih naci broj LOGOVA u vremenskom periodu
-    //   za svaku od njih naci broj ALARMA u vremenskom periodu
-
-
-        return null;
+        return new Report(logServiceReportItems, logMachineReportItems, alarmServiceReportItems, alarmMachineReportItems);
     }
 }

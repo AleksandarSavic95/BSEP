@@ -6,6 +6,11 @@ public class AlarmServiceReportItem {
     private String service;
     private Long count;
 
+    public AlarmServiceReportItem(String service, Long count) {
+        this.service = service;
+        this.count = count;
+    }
+
     public String getService() {
         return service;
     }

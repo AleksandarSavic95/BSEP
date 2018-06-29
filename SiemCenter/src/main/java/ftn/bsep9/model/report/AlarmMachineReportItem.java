@@ -6,6 +6,11 @@ public class AlarmMachineReportItem {
     private String MACAddress;
     private Long count;
 
+    public AlarmMachineReportItem(String MACAddress, Long count) {
+        this.MACAddress = MACAddress;
+        this.count = count;
+    }
+
     public String getMACAddress() {
         return MACAddress;
     }

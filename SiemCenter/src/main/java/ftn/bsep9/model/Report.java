@@ -9,58 +9,41 @@ import ftn.bsep9.model.report.LogServiceReportItem;
 import java.util.List;
 
 public class Report {
-    private String date1;
-    private String date2;
-    private String timeReference;
-    private List<LogServiceReportItem> servicesList;
-    private List<LogMachineReportItem> logsPerService;
+    private List<LogServiceReportItem> logsPerService;
+    private List<LogMachineReportItem> logsPerMachine;
     private List<AlarmServiceReportItem> alarmsPerService;
-    private List<AlarmMachineReportItem> machinesList;
+    private List<AlarmMachineReportItem> alarmsPerMachine;
 
-    public Report(String date1, String date2, String timeReference) {
-        this.date1 = date1;
-        this.date2 = date2;
-        this.timeReference = timeReference;
+    public Report(List<LogServiceReportItem> logServiceReportItems, List<LogMachineReportItem> logMachineReportItems,
+            List<AlarmServiceReportItem> alarmServiceReportItems, List<AlarmMachineReportItem> alarmMachineReportItems) {
+        this.logsPerService = logServiceReportItems;
+        this.logsPerMachine = logMachineReportItems;
+        this.alarmsPerService = alarmServiceReportItems;
+        this.alarmsPerMachine = alarmMachineReportItems;
     }
 
-    public String getDate1() {
-        return date1;
-    }
-
-    public void setDate1(String date1) {
-        this.date1 = date1;
-    }
-
-    public String getDate2() {
-        return date2;
-    }
-
-    public void setDate2(String date2) {
-        this.date2 = date2;
-    }
-
-    public String getTimeReference() {
-        return timeReference;
-    }
-
-    public void setTimeReference(String timeReference) {
-        this.timeReference = timeReference;
-    }
-
-    public List<LogServiceReportItem> getServicesList() {
-        return servicesList;
-    }
-
-    public void setServicesList(List<LogServiceReportItem> servicesList) {
-        this.servicesList = servicesList;
-    }
-
-    public List<LogMachineReportItem> getLogsPerService() {
+    public List<LogServiceReportItem> getLogsPerService() {
         return logsPerService;
     }
 
-    public void setLogsPerService(List<LogMachineReportItem> logsPerService) {
+    public void setLogsPerService(List<LogServiceReportItem> logsPerService) {
         this.logsPerService = logsPerService;
+    }
+
+    public List<LogMachineReportItem> getLogsPerMachine() {
+        return logsPerMachine;
+    }
+
+    public void setLogsPerMachine(List<LogMachineReportItem> logsPerMachine) {
+        this.logsPerMachine = logsPerMachine;
+    }
+
+    public List<AlarmMachineReportItem> getAlarmsPerMachine() {
+        return alarmsPerMachine;
+    }
+
+    public void setAlarmsPerMachine(List<AlarmMachineReportItem> alarmsPerMachine) {
+        this.alarmsPerMachine = alarmsPerMachine;
     }
 
     public List<AlarmServiceReportItem> getAlarmsPerService() {
@@ -69,13 +52,5 @@ public class Report {
 
     public void setAlarmsPerService(List<AlarmServiceReportItem> alarmsPerService) {
         this.alarmsPerService = alarmsPerService;
-    }
-
-    public List<AlarmMachineReportItem> getMachinesList() {
-        return machinesList;
-    }
-
-    public void setMachinesList(List<AlarmMachineReportItem> machinesList) {
-        this.machinesList = machinesList;
     }
 }
