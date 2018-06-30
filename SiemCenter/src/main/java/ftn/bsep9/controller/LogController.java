@@ -28,7 +28,7 @@ public class LogController {
     //    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseBody
     @GetMapping("/all")
-    @PreAuthorize("hasAuthority('READ_LOGS')")
+//    @PreAuthorize("hasAuthority('READ_LOGS')")
     public ResponseEntity<Page<Log>> getAll(@RequestParam Integer page,
                                             @RequestParam Integer size) {
         Page<Log> logs = logsService.findAllWithPages(page, size, Sort.Direction.ASC, "date");
@@ -40,7 +40,7 @@ public class LogController {
 
     @ResponseBody
     @GetMapping("/search-by-text")
-    @PreAuthorize("hasAuthority('READ_LOGS')")
+//    @PreAuthorize("hasAuthority('READ_LOGS')")
     public ResponseEntity<Object> getByText(@RequestParam String searchCriteria,
                                             @RequestParam int page,
                                             @RequestParam int size) {

@@ -1,50 +1,56 @@
 package ftn.bsep9.model;
 
-import java.util.ArrayList;
-import java.util.Date;
+
+import ftn.bsep9.model.report.AlarmMachineReportItem;
+import ftn.bsep9.model.report.AlarmServiceReportItem;
+import ftn.bsep9.model.report.LogMachineReportItem;
+import ftn.bsep9.model.report.LogServiceReportItem;
+
+import java.util.List;
 
 public class Report {
-    private String location;
-    private ArrayList<String> logs;
-    private Date timestamp;
+    private List<LogServiceReportItem> logsPerService;
+    private List<LogMachineReportItem> logsPerMachine;
+    private List<AlarmServiceReportItem> alarmsPerService;
+    private List<AlarmMachineReportItem> alarmsPerMachine;
 
-    public Report() {
-        this.logs = new ArrayList<>();
+    public Report(List<LogServiceReportItem> logServiceReportItems, List<LogMachineReportItem> logMachineReportItems,
+            List<AlarmServiceReportItem> alarmServiceReportItems, List<AlarmMachineReportItem> alarmMachineReportItems) {
+        this.logsPerService = logServiceReportItems;
+        this.logsPerMachine = logMachineReportItems;
+        this.alarmsPerService = alarmServiceReportItems;
+        this.alarmsPerMachine = alarmMachineReportItems;
     }
 
-    public Report(String location, Date timestamp) {
-        this.location = location;
-        this.logs = new ArrayList<>();
-        this.timestamp = timestamp;
+    public List<LogServiceReportItem> getLogsPerService() {
+        return logsPerService;
     }
 
-    public Report(String location, ArrayList<String> logs, Date timestamp) {
-        this.location = location;
-        this.logs = logs;
-        this.timestamp = timestamp;
+    public void setLogsPerService(List<LogServiceReportItem> logsPerService) {
+        this.logsPerService = logsPerService;
     }
 
-    public String getLocation() {
-        return location;
+    public List<LogMachineReportItem> getLogsPerMachine() {
+        return logsPerMachine;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLogsPerMachine(List<LogMachineReportItem> logsPerMachine) {
+        this.logsPerMachine = logsPerMachine;
     }
 
-    public ArrayList<String> getLogs() {
-        return logs;
+    public List<AlarmMachineReportItem> getAlarmsPerMachine() {
+        return alarmsPerMachine;
     }
 
-    public void setLogs(ArrayList<String> logs) {
-        this.logs = logs;
+    public void setAlarmsPerMachine(List<AlarmMachineReportItem> alarmsPerMachine) {
+        this.alarmsPerMachine = alarmsPerMachine;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public List<AlarmServiceReportItem> getAlarmsPerService() {
+        return alarmsPerService;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setAlarmsPerService(List<AlarmServiceReportItem> alarmsPerService) {
+        this.alarmsPerService = alarmsPerService;
     }
 }

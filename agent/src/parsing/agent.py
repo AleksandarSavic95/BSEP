@@ -1,7 +1,7 @@
 from threading import Thread
 
-from src.parsing import application_logs
-from src.parsing import windows_logs
+import application_logs
+import windows_logs
 
 if __name__ == '__main__':
     thread1 = Thread(target=windows_logs.main)
