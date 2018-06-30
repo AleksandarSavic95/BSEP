@@ -65,9 +65,14 @@ public class AlarmFileServiceImpl implements AlarmFileService {
         if (! sortDirection.equals("asc")) { // ascending is default
             Collections.reverse(fileNames);
         }
+        List<String> returnFileNames;
+        if (page * size + size > fileNames.size())
+            returnFileNames = fileNames.subList(page * size, fileNames.size());
+        else
+            returnFileNames = fileNames.subList(page * size, page * size + size);
 
         Pageable pageable = PageRequest.of(page, size);
 
-        return new PageImpl<>(fileNames, pageable, fileNames.size());
+        return new PageImpl<>(returnFileNames, pageable, fileNames.size());
     }
 }
