@@ -4,7 +4,7 @@ import time
 from os import listdir, environ
 from os.path import join, isfile, abspath
 
-from src.parsing.requests_util import send_log, open_session
+from requests_util import send_log, open_session
 
 
 def read_config(config_path):

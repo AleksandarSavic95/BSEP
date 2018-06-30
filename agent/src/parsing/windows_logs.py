@@ -7,7 +7,7 @@ import win32evtlog
 import win32con
 import win32evtlogutil
 
-from src.parsing.requests_util import open_session, send_log
+from requests_util import open_session, send_log
 
 ip = socket.gethostbyname(socket.gethostname())
 event_types = {win32con.EVENTLOG_AUDIT_FAILURE: 'ERROR',
@@ -33,15 +33,15 @@ def get_mac_address():
 
 
 def send_event_logs(log_type="Application", severities=[], start_from=-1, session=None):
-    read_flags = win32evtlog.EVENTLOG_SEEK_READ | win32evtlog.EVENTLOG_FORWARDS_READ
+    read_flags = win32evtlog.EVENTLOG_SEQUENTIAL_READ | win32evtlog.EVENTLOG_FORWARDS_READ
 
     handle = win32evtlog.OpenEventLog(None, log_type)
     total = win32evtlog.GetNumberOfEventLogRecords(handle)
 
     if start_from < 0:
-        start_from = total
+        start_from = total-1
     last = start_from
-
+    print(start_from)
     events = win32evtlog.ReadEventLog(handle, read_flags, start_from)
     for event in events:
         if not event_types[event.EventType] in severities:
