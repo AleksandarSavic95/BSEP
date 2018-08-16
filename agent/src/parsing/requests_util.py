@@ -11,7 +11,7 @@ def read_config(config_path):
     return conf["SIEM"]
 
 
-configuration = read_config("config.json")
+configuration = read_config("linux_config.json")
 
 HTTP_PROTOCOL = configuration["protocol"]
 SERVER_ADDRESS = configuration["host_name"]

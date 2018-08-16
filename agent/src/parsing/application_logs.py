@@ -45,7 +45,7 @@ def follow(file):
 
 def main():
     print("Agent started")
-    config = read_config('config.json')
+    config = read_config('linux_config.json')
 
     session = open_session()
 

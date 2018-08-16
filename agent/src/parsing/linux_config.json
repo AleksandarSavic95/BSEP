@@ -6,15 +6,15 @@
     "property": "value"
   },
   "OS": {
-    "name": "Windows",
-    "version": "10",
-    "log_types": [
+    "name": "Linux",
+    "version": "Ubuntu 14.04",
+    "log_files": [
       {
-        "name": "Application",
-        "severities": ["WARNING", "ERROR"]
+        "path": "/var/log/auth.log",
+        "severities": ["INFO", "WARNING", "ERROR"]
       },
       {
-        "name": "Security",
+        "path": "/var/log/syslog",
         "severities": ["WARNING", "ERROR"]
       }
     ]
