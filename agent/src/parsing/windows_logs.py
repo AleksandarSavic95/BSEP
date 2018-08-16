@@ -66,7 +66,7 @@ def send_event_logs(log_type="Application", severities=[], start_from=-1, sessio
 
 
 def main():
-    configuration = read_config("config.json")
+    configuration = read_config("windows_config.json")
 
     session = open_session()
 

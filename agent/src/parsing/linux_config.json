@@ -19,9 +19,6 @@
       }
     ]
   },
-  "Firewall": {
-    "firewall prop 1": "value of firewall prop 1"
-  },
   "Directories": [
     {
       "path": "../generating/logs",

@@ -109,7 +109,7 @@ def process_line(line):
 
 
 def main():
-    configuration = read_config("config.json")
+    configuration = read_config("linux_config.json")
     
     session = open_session()
     
