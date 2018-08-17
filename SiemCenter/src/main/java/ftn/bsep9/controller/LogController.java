@@ -1,13 +1,11 @@
 package ftn.bsep9.controller;
 
 import ftn.bsep9.model.Log;
-import ftn.bsep9.repository.LogsRepository;
 import ftn.bsep9.service.LogsService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

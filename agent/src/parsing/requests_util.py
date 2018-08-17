@@ -11,7 +11,7 @@ def read_config(config_path):
     return conf["SIEM"]
 
 
-configuration = read_config("linux_config.json")
+configuration = read_config("config.json")
 
 HTTP_PROTOCOL = configuration["protocol"]
 SERVER_ADDRESS = configuration["host_name"]
@@ -42,12 +42,13 @@ def open_session():
 
 def send_log(session, log_line):
     data = {'log': log_line}
+    print("SENDING LOG -----> ", log_line)
     try:
         response = session.post(url, json=data, verify=ROOT_CERT_PATH)
         print('status and text of response: ', response.status_code, response.text)
-    except:
-
-        print("ConnectionError")
+    except Exception as e:
+        print("Exception", e)
+    print("sending log finished...\n")
 
 
 if __name__ == '__main__':

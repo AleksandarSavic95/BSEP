@@ -3,9 +3,8 @@
 
 import json
 import os
-
-from datetime import datetime
 import time
+from datetime import datetime
 
 from requests_util import open_session, send_log
 
@@ -126,7 +125,7 @@ def format_to_syslog(line, severities):
 
 
 def main():
-    config = read_config("linux_config.json")
+    config = read_config("config.json")
     auth_config = config['log_files'][0]
     session = open_session()
     

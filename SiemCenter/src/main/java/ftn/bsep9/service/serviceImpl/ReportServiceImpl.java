@@ -1,11 +1,8 @@
 package ftn.bsep9.service.serviceImpl;
 
 
-import com.mongodb.*;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.MongoClient;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import ftn.bsep9.model.Log;
 import ftn.bsep9.model.QAlarm;
 import ftn.bsep9.model.QLog;
 import ftn.bsep9.model.Report;
@@ -15,13 +12,8 @@ import ftn.bsep9.model.report.LogMachineReportItem;
 import ftn.bsep9.model.report.LogServiceReportItem;
 import ftn.bsep9.repository.AlarmRepository;
 import ftn.bsep9.repository.LogsRepository;
-import ftn.bsep9.service.AlarmService;
 import ftn.bsep9.service.ReportService;
-import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

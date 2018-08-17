@@ -2,11 +2,10 @@ import json
 import os
 import socket
 import sys
-import win32evtlog
 
 import win32con
+import win32evtlog
 import win32evtlogutil
-
 from requests_util import open_session, send_log
 
 ip = socket.gethostbyname(socket.gethostname())
@@ -66,7 +65,7 @@ def send_event_logs(log_type="Application", severities=[], start_from=-1, sessio
 
 
 def main():
-    configuration = read_config("windows_config.json")
+    configuration = read_config("config.json")
 
     session = open_session()
 
