@@ -72,7 +72,7 @@ public class SearchParser {
                         }
                         break;
 
-                    case "date":  // date between 17.05.2018. 20:30 & 18.05.2018. 16:20:40
+                    case "date":  // date between 17.05.2018. 20:30 and 18.05.2018. 16:20:40
                         System.out.println("\n D A T E");
                         wordNumber++;
                         switch (wordsList[wordNumber]) {
@@ -94,8 +94,8 @@ public class SearchParser {
                                 break;
                             case "between":
                                 wordNumber++;
-                                if ( ! (wordsList[wordNumber + 2].equals("&")) )
-                                    throw new DateTimeParseException("Date separator is not &", wordsList[wordNumber + 2], 1);
+                                if ( ! (wordsList[wordNumber + 2].equals("and")) )
+                                    throw new DateTimeParseException("Date separator is not 'and'", wordsList[wordNumber + 2], 1);
                                 filter = qLog.date.between(
                                         LocalDateTime.parse(wordsList[wordNumber] + " " + wordsList[wordNumber + 1],
                                                 DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss")),
@@ -200,7 +200,7 @@ public class SearchParser {
 
             } while (wordNumber < wordsList.length);
 
-//          text = vrijednost and date between 17.05.2018T20:30&18.5.2018T16:20:40 or MACAddress = C9:45:15:6A:93:17
+//          text = vrijednost and date between 17.05.2018T20:30 and 18.5.2018T16:20:40 or MACAddress = C9:45:15:6A:93:17
             int i = 0;
             BooleanExpression finalBooleanExpression = booleanExpressionsList.get(i);
             for (String logicalOperator : logicalOperatorsList) {
