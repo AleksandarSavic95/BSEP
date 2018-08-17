@@ -1,0 +1,14 @@
+{
+  "ADMIN": [
+    "READ_ALARM",
+    "WRITE_ALARM",
+    "READ_LOGS",
+    "WRITE_LOGS",
+    "CHANGE_PASSWORD"
+  ],
+  "OPERATOR": [
+    "READ_ALARM",
+    "READ_LOGS",
+    "CHANGE_PASSWORD"
+  ]
+}
