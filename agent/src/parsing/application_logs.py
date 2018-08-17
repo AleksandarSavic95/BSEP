@@ -1,7 +1,7 @@
 import json
 import re
 import time
-from os import listdir, environ
+from os import listdir
 from os.path import join, isfile, abspath
 
 from requests_util import send_log, open_session
@@ -45,7 +45,7 @@ def follow(file):
 
 def main():
     print("Agent started")
-    config = read_config('linux_config.json')
+    config = read_config('config.json')
 
     session = open_session()
 

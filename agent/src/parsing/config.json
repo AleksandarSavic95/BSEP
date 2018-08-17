@@ -1,7 +1,7 @@
 {
   "SIEM": {
     "protocol": "https",
-    "host_name": "192.168.1.10",
+    "host_name": "192.168.1.50",
     "port": "8765",
     "property": "value"
   },

@@ -22,7 +22,7 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final String PERMISSIONS_FILE = "src/main/resources/security/roles-permissions.json";
+    private final String PERMISSIONS_FILE = "SiemCenter/src/main/resources/security/roles-permissions.json";
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
