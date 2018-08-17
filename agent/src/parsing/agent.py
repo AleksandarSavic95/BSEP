@@ -1,13 +1,13 @@
+import json
 import re
 import time
-import json
 from os import listdir, environ
 from os.path import join, isfile, abspath
 
 from requests import Session
 from requests_pkcs12 import Pkcs12Adapter
 
-SERVER_ADDRESS = 'localhost'
+SERVER_ADDRESS = '192.168.1.10'
 SERVER_PORT = 8765
 API_PATH = '/api/reports'
 
