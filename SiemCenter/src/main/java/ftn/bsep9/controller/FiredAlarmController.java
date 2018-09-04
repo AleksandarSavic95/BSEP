@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +19,7 @@ public class FiredAlarmController {
     private AlarmService alarmService;
 
     @GetMapping
-//    @PreAuthorize("hasAuthority('READ_ALARM')")
+    @PreAuthorize("hasAuthority('READ_ALARM')")
     public ResponseEntity<Page<Alarm>> getAll(@RequestParam(defaultValue = "0") Integer page,
                                               @RequestParam(defaultValue = "10") Integer size,
                                               @RequestParam(defaultValue = "asc") String sort) {

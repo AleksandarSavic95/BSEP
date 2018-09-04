@@ -5,6 +5,7 @@ import ftn.bsep9.model.User;
 import ftn.bsep9.repository.UserRepository;
 import ftn.bsep9.security.SecurityUtils;
 import ftn.bsep9.service.UserService;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +23,7 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final String PERMISSIONS_FILE = "SiemCenter/src/main/resources/security/roles-permissions.json";
+    private final String PERMISSIONS_FILE = "src/main/resources/security/roles-permissions.json";
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -43,8 +44,6 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             return false;
         }
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
 
         if (!(params.get("new-password").equals(params.get("repeat-password")))) {
             return false;
@@ -71,12 +70,12 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setPassword(passwordEncoder.encode(params.get("new-password")));
-        System.out.println(user.getPassword());
         userRepository.save(user);
         return true;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user == null) {
@@ -88,7 +87,11 @@ public class UserServiceImpl implements UserService {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
-            HashMap<String, List<String>> permissions = mapper.readValue(new File(PERMISSIONS_FILE), HashMap.class);
+            HashMap<String, List<String>> permissions = mapper.readValue(
+                    new File(PERMISSIONS_FILE),
+                    HashMap.class
+            );
+
             for (String permission : permissions.get(user.getRole().name())) {
                 grantedAuthorities.add(new SimpleGrantedAuthority(permission));
                 System.out.println(permission);
