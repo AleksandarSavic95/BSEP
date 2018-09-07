@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +24,9 @@ public class LogController {
         this.logsService = logsService;
     }
 
-    //    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseBody
     @GetMapping("/all")
-//    @PreAuthorize("hasAuthority('READ_LOGS')")
+    @PreAuthorize("hasAuthority('READ_LOGS')")
     public ResponseEntity<Page<Log>> getAll(@RequestParam Integer page,
                                             @RequestParam Integer size) {
         Page<Log> logs = logsService.findAllWithPages(page, size, Sort.Direction.ASC, "date");
@@ -38,7 +38,7 @@ public class LogController {
 
     @ResponseBody
     @GetMapping("/search-by-text")
-//    @PreAuthorize("hasAuthority('READ_LOGS')")
+    @PreAuthorize("hasAuthority('READ_LOGS')")
     public ResponseEntity<Object> getByText(@RequestParam String searchCriteria,
                                             @RequestParam int page,
                                             @RequestParam int size) {
