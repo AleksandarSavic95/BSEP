@@ -1,0 +1,70 @@
+:: ROOT CA
+:: ONE COMMAND AT A TIME !
+
+openssl genrsa -des3 -out rootCA.key 2048
+:: ONE COMMAND AT A TIME !
+
+openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024  -out rootCA.pem -subj "/C=RS/ST=./L=Novi Sad/O=FTN NS/OU=FDA BSEP/CN=RootCA" -passout env:FDA_SIEM_CERT_SERVER_KEY_PASS
+:: ONE COMMAND AT A TIME !
+
+:: SERVER
+:: ONE COMMAND AT A TIME !
+openssl req -new -nodes -out server.csr -newkey rsa:2048 -keyout server.key -subj "/C=RS/ST=./L=Novi Sad/O=FTN NS/OU=FDA BSEP/CN=localhost" -passout env:FDA_SIEM_CERT_SERVER_KEY_PASS
+
+:: ONE COMMAND AT A TIME !
+openssl x509 -req -in server.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out server.crt -days 500 -sha256 -extfile server-ip.ext
+:: :: :: OLD NAME WAS v3.ext :: :: ::
+
+:: ONE COMMAND AT A TIME !
+openssl pkcs12 -inkey server.key -in server.crt -export -out server.pfx
+
+:: CLIENT
+:: ONE COMMAND AT A TIME !
+openssl req -new -nodes -out client.csr -newkey rsa:2048 -keyout client.key -subj "/C=RS/ST=./L=Novi Sad/O=FTN NS/OU=FDA BSEP/CN=Client" -passout env:FDA_SIEM_CERT_SERVER_KEY_PASS
+
+:: ONE COMMAND AT A TIME !
+openssl x509 -req -in client.csr -CA rootCA.pem -CAkey rootCA.key -CAserial rootCA.srl -out client.crt -days 500 -sha256  -extfile client-dns.ext
+:: :: :: OLD NAME WAS v3-client.ext :: :: ::
+
+
+
+::|| copied from "adapted commands - medium - LHost.txt" ||::
+
+::====== AGENT SETUP ======::
+
+:: * create agent's CSR *
+openssl req -new -nodes -out agent.csr -newkey rsa:2048 -keyout agent.key -subj "/C=RS/ST=./L=Novi Sad/O=FTN SIIT/OU=AGENT/CN=agent1" -passout env:FDA_SIEM_CERT_SERVER_KEY_PASS
+
+:: * sign agent's cert *
+openssl x509 -req -in agent.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out agent.crt -days 500 -sha256
+
+:: * export agent's key and certificate to a keystore *
+openssl pkcs12 -export -out agentKeyStore.p12 -inkey agent.key -in agent.crt -passout env:FDA_SIEM_CERT_SERVER_KEY_PASS
+
+====== AGENT SETUP END ======
+
+::::++++++++++++++++++++++++++++++++++++++++++++++++:::::::
+:: * export server's key and certificate to a keystore * ::
+openssl pkcs12 -export -out serverKeyStore.p12 -inkey server.key -in server.crt -passout env:FDA_SIEM_CERT_SERVER_KEY_PASS
+
+
+
+::  T R U S T S T O R E  ::
+:: SERVER to TrustStore  --  (RootCA, Server or both !?!?)
+
+keytool -import -storetype PKCS12 -noprompt -trustcacerts -alias rootCACert -file rootCA.pem -keystore serverTrustStore.p12 -storepass bsep-siit
+
+:: -file server.pem  of code10  =  our  rootCA.pem
+keytool -import -storetype PKCS12 -noprompt -trustcacerts -alias serverCert -file server.crt -keystore serverTrustStore.p12 -storepass bsep-siit
+
+:: AGENT to TrustStore
+:: WATCH FOR location of the  agent.crt  file!
+keytool -import -storetype PKCS12 -noprompt -trustcacerts -alias agentCert -file agent.crt -keystore serverTrustStore.p12 -storepass bsep-siit
+
+:: CLIENT to TrustStore
+keytool -import -storetype PKCS12 -noprompt -trustcacerts -alias clientCert -file client.crt -keystore serverTrustStore.p12 -storepass bsep-siit
+
+
+
+:: PASS:  bsep-siit
+|| copied from "adapted commands - medium - LHost.txt" ||
