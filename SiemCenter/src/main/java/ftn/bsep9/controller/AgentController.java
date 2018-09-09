@@ -24,7 +24,7 @@ public class AgentController {
     @PostMapping("/reports")
     public ResponseEntity<String> receiveAgentReport(@RequestBody AgentReport report) {
         Log log = new Log(report.getLog());
-        // System.out.println(log);
+//        System.out.println(log);
         logsService.saveLog(log);
         logsRepository.insert(log);  // CRYPTO goes here
         return new ResponseEntity<>(HttpStatus.OK);

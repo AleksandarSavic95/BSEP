@@ -5,7 +5,6 @@ import ftn.bsep9.model.User;
 import ftn.bsep9.repository.UserRepository;
 import ftn.bsep9.security.SecurityUtils;
 import ftn.bsep9.service.UserService;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +22,7 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final String PERMISSIONS_FILE = "src/main/resources/security/roles-permissions.json";
+    private final String PERMISSIONS_FILE = "SiemCenter/src/main/resources/security/roles-permissions.json";
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 

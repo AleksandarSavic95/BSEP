@@ -2,14 +2,24 @@ package drools.spring.rules;
 dialect  "mvel"
 
 import ftn.bsep9.model.Log;
+import ftn.bsep9.service.AlarmService;
+
+global AlarmService alarmService;
 
 import java.util.List;
 import java.util.Date;
 
 declare MyDate
         @role(event)
-        @expires(1m)
+        @expires(1m) // this must match with before[X]
         date: Date
+end
+
+declare CleanUpEvent
+        @role(event)
+        @expires(30m)
+        date: Date
+        numberOfDeletedLogs: Integer
 end
 
 rule "insert new date every 1 minute"
@@ -38,4 +48,16 @@ rule "clean up old logs 1"
         for (int i = 0; i < $oldLogsSize; i++) {
             delete($oldLogs.get(i));
         }
+        insert(new CleanUpEvent(new Date(), $oldLogsSize))
+end
+
+rule "count deleted logs"
+when
+    Number(intValue > 1000) from accumulate (
+        CleanUpEvent($num: numberOfDeletedLogs),
+        sum($num)
+    )
+then
+    System.out.println("\n1000 logs cleaned!\n");
+    alarmService.fireAlarm("success", null, null, "1000 logs removed from wokring memory!");
 end

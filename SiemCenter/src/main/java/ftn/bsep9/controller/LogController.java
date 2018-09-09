@@ -29,7 +29,7 @@ public class LogController {
     @PreAuthorize("hasAuthority('READ_LOGS')")
     public ResponseEntity<Page<Log>> getAll(@RequestParam Integer page,
                                             @RequestParam Integer size) {
-        Page<Log> logs = logsService.findAllWithPages(page, size, Sort.Direction.ASC, "date");
+        Page<Log> logs = logsService.findAllWithPages(page, size, Sort.Direction.DESC, "date");
         if (logs != null)
             return new ResponseEntity<>(logs, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
