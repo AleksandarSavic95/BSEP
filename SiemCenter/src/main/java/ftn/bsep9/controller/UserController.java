@@ -6,15 +6,13 @@ import ftn.bsep9.service.UserSecurityService;
 import ftn.bsep9.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -29,7 +27,8 @@ public class UserController {
     private UserSecurityService userSecurityService;
 
 
-    public UserController(AuthenticationManager authenticationManager, UserService userService, TokenUtils tokenUtils, UserSecurityService userSecurityService) {
+    public UserController(AuthenticationManager authenticationManager, UserService userService, TokenUtils tokenUtils,
+                          UserSecurityService userSecurityService) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.tokenUtils = tokenUtils;
@@ -68,7 +67,7 @@ public class UserController {
 
 
     @PostMapping(value = "/password")
-//    @PreAuthorize("hasAnyAuthority('CHANGE_PASSWORD')")
+    @PreAuthorize("hasAuthority('CHANGE_PASSWORD')")
     public ResponseEntity<String> changePassword(@RequestBody Map<String, String> params) {
         if (userService.changePassword(params)) {
             return new ResponseEntity<>("Your have changed your password", HttpStatus.OK);
