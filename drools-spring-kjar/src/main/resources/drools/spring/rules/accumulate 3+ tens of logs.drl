@@ -8,29 +8,29 @@ import ftn.bsep9.service.AlarmService;
 
 global AlarmService alarmService;
 
-declare ThreeOrMoreTensOfLogsEvent
-    @role(event)
-    @timestamp(date)
-    @expires(15m)
-    logCount: int
-    date: Date
-end
-
-rule "accumulate 3+ tens of logs"
-    when
-        Log()
-        $logCount: Number(intValue() >= 30) from accumulate(
-            $LOG: Log(),
-            count($LOG)
-        )
-        not (
-            ThreeOrMoreTensOfLogsEvent(logCount == $logCount.intValue())
-            over window:time(15m)
-        )
-    then
-        // System.out.println("\nLOGS: " + $logCount);
-        if ($logCount.intValue() % 10 == 0) {
-            insert(new ThreeOrMoreTensOfLogsEvent($logCount.intValue(), new Date()));
-            alarmService.fireAlarm("success", null, null, $logCount.toString() + " logs in memory!");
-        }
-end
+//declare ThreeOrMoreTensOfLogsEvent
+//    @role(event)
+//    @timestamp(date)
+//    @expires(15m)
+//    logCount: int
+//    date: Date
+//end
+//
+//rule "accumulate 3+ tens of logs"
+//    when
+//        Log()
+//        $logCount: Number(intValue() >= 30) from accumulate(
+//            $LOG: Log(),
+//            count($LOG)
+//        )
+//        not (
+//            ThreeOrMoreTensOfLogsEvent(logCount == $logCount.intValue())
+//            over window:time(15m)
+//        )
+//    then
+//        // System.out.println("\nLOGS: " + $logCount);
+//        if ($logCount.intValue() % 10 == 0) {
+//            insert(new ThreeOrMoreTensOfLogsEvent($logCount.intValue(), new Date()));
+//            System.out.println($logCount.intValue() + " LOGS!");
+//        }
+//end

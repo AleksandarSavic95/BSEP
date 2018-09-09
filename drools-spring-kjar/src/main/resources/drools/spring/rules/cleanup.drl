@@ -1,0 +1,41 @@
+package drools.spring.rules;
+dialect  "mvel"
+
+import ftn.bsep9.model.Log;
+
+import java.util.List;
+import java.util.Date;
+
+declare MyDate
+        @role(event)
+        @expires(1m)
+        date: Date
+end
+
+rule "insert new date every 1 minute"
+when
+    not ( MyDate() )
+then
+    insert(new MyDate(new Date()))
+end
+
+rule "test MyDate existance"
+when
+    $md: MyDate()
+then
+    System.out.println("MyDate exists: " + $md.getDate());
+end
+
+
+rule "clean up old logs 1"
+    when
+        MyDate($date: getDate())
+        $oldLogs: List($oldLogsSize: size, size > 10) from collect (
+            Log(getDateTimeMilliseconds() before[1m] $date) // match [] with @expires() !
+        )
+    then
+        System.out.printf("\nDeleting %d old logs...\n", $oldLogsSize);
+        for (int i = 0; i < $oldLogsSize; i++) {
+            delete($oldLogs.get(i));
+        }
+end

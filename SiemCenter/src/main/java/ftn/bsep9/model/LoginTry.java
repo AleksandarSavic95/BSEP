@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Role(Role.Type.EVENT) // Role.Type.FACT ???
 @Timestamp("dateTime")
-@Expires("1h") // TODO: IMPORTANT: Check if 1 hour is ok !!!!
+@Expires("5m") // TODO: IMPORTANT: Check if 5 minutes is ok !!!!
 public class LoginTry {
     private String username;
     private String ipAddress;

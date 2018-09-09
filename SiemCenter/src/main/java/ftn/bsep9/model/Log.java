@@ -18,7 +18,7 @@ import java.util.HashMap;
 @Document
 @Role(Role.Type.EVENT)
 @Timestamp("getDateTimeMilliseconds()")
-@Expires("30m")
+@Expires("5m") // no rule needs logs older than 5 minutes
 public class Log {
 
     @Id
@@ -145,7 +145,8 @@ public class Log {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         LocalDateTime parsedDate = LocalDateTime.parse(dateTimeString, formatter);
-        System.out.println(parsedDate.format(formatter));
+
+        // System.out.println(parsedDate.format(formatter));
 
         map.put("date", parsedDate);
         map.put("MACAddress", MACAddress);

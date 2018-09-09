@@ -11,7 +11,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -66,7 +69,7 @@ public class UserController {
 
     @PostMapping(value = "/password")
 //    @PreAuthorize("hasAnyAuthority('CHANGE_PASSWORD')")
-    public ResponseEntity<String> changePassword(@RequestParam Map<String, String> params) {
+    public ResponseEntity<String> changePassword(@RequestBody Map<String, String> params) {
         if (userService.changePassword(params)) {
             return new ResponseEntity<>("Your have changed your password", HttpStatus.OK);
         }

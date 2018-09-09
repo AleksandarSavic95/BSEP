@@ -24,7 +24,7 @@ agenda-group "USER-SECURITY"
         $list: List(size >= 10) from collect(LoginTry(ipAddress == $trackedIp) over window:time(5m))
         not (
             TenSameIpLoginsEvent(ipAddress == $trackedIp)
-            over window:time(15m) // time MUST be equal to @expire time of the event!!!
+            over window:time(15m) // TODO: should time(Xm) be equal to @expire time of the event?!?!????`
         )
     then
       System.out.println("\nCollected " + $list.size() + " tries for IP: " + $trackedIp);

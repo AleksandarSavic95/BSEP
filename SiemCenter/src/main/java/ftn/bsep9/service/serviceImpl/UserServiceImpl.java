@@ -46,6 +46,11 @@ public class UserServiceImpl implements UserService {
         System.out.println(user.getUsername());
         System.out.println(user.getPassword());
 
+        System.out.println(params);
+        System.out.println(params.get("new-password"));
+        System.out.println(params.get("repeat-password"));
+        System.out.println(params.get("old-password"));
+
         if (!(params.get("new-password").equals(params.get("repeat-password")))) {
             return false;
         }
